@@ -1,0 +1,162 @@
+<table cTable>
+    <thead>
+    <tr>
+    <th scope="col">#</th>
+    <th scope="col">Class</th>
+    <th scope="col">Heading</th>
+    <th scope="col">Heading</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+    <th scope="row">1</th>
+    <td>Mark</td>
+    <td>Otto</td>
+    <td>@mdo</td>
+    </tr>
+    <tr>
+    <th scope="row">2</th>
+    <td>Jacob</td>
+    <td>Thornton</td>
+    <td>@fat</td>
+    </tr>
+    <tr>
+    <th scope="row">3</th>
+    <td colSpan="2">Larry the Bird</td>
+    <td>@twitter</td>
+    </tr>
+    </tbody>
+    </table>
+
+
+    <div class="list row">
+        <div class="col-md-8">
+          <div class="input-group mb-3">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Search by title"
+              [(ngModel)]="title"
+            />
+            <div class="input-group-append">
+              <button
+                class="btn btn-outline-secondary"
+            
+              >
+                Search
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <h4>Tutorials List</h4>
+          <ul class="list-group">
+            <li
+              class="list-group-item"
+              *ngFor="let user of users; let i = index"
+              [class.active]="i == currentIndex"
+         
+            >
+              {{ user.id }}
+              {{ user.username }}
+              {{ user.email }}
+            </li>
+          </ul>
+      
+         
+        </div>
+        <div class="col-md-6">
+    
+        </div>
+      </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <c-row>
+        <c-col xs>
+          <c-card class="mb-4">
+            <c-card-header>Users</c-card-header>
+            <c-card-body>
+              <table
+               
+                align="middle"
+                cTable
+                class="mb-0 border"
+              >
+                <thead cTableColor="light">
+                  <tr>
+                    <th class="text-center">
+                      <svg cIcon name="cilPeople"></svg>
+                    </th>
+                    <th>User</th>
+                    <th class="text-center">Country</th>
+                    <th>Usage</th>
+                    <th class="text-center">Payment Method</th>
+                    <th>Activity</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let user of users; index as i">
+                    <td class="text-center">
+                      <c-avatar
+                        size="md"
+             
+                      ></c-avatar>
+                    </td>
+                    <td>
+                      <div>name</div>
+                      <div class="small text-medium-emphasis text-nowrap">
+                        <span>
+                        statusssss | Registered: dateeeeee
+                        </span>
+                      </div>
+                    </td>
+                    <td class="text-center">
+                      <svg
+                   hhhhhhhhhhhhhhhh
+                      ></svg>
+                    </td>
+                    <td>
+                      <div class="d-flex justify-content-between">
+                        <div class="float-start">
+                          <strong>ssssssssssssssssssssss%</strong>
+                        </div>
+                        <div class="float-end ms-1 text-nowrap">
+                          <small class="text-medium-emphasis">
+                    gggggggggggggggggggggg
+                          </small>
+                        </div>
+                      </div>
+                      <c-progress thin>
+                        <c-progress-bar
+                     fffffffffffffffffff
+                        ></c-progress-bar>
+                      </c-progress>
+                    </td>
+                    <td class="text-center">
+                hhhhhhhhhhhhhhhhhhhhhhhh
+                    </td>
+                    <td>
+                      <div class="small text-medium-emphasis">Last login</div>
+                      <div class="fw-semibold text-nowrap">hhhhhhhhhhhhhhhhhhhhhhhhh</div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </c-card-body>
+          </c-card>
+        </c-col>
+      </c-row>
