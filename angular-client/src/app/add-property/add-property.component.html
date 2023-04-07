@@ -1,12 +1,15 @@
 <!--<app-widgets-dropdown></app-widgets-dropdown>  -->
-<form cForm class="row g-3">
+<form cForm class="row g-3"
+name="form"
+(ngSubmit)="f.form.valid && onSubmit()"
+#f="ngForm">
   <c-col [xs]="12">
     <label cLabel for="inputAddress">Property Title*</label>
-    <input cFormControl id=""  />
+    <input cFormControl  [(ngModel)]="property.name" name="name"  id="name"/>
   </c-col>
   <div class="mb-3">
     <label cLabel for="exampleFormControlTextarea1">Property description*</label>
-    <textarea cFormControl id="exampleFormControlTextarea1" rows="3"></textarea>
+    <textarea cFormControl id="exampleFormControlTextarea1" rows="3" [(ngModel)]="form.description"></textarea>
   </div>
   <c-col [md]="6">
     <label cLabel for="inputEmail4">Type</label>
@@ -26,34 +29,33 @@
   </c-col>
   <c-col [md]="6">
     <label cLabel for="inputPassword4">Bedrooms</label>
-    <input cFormControl id="inputPassword4" type="password" />
+    <input cFormControl id="inputPassword4" type="number" [(ngModel)]="form.Bedrooms" />
   </c-col>
   <c-col [xs]="6">
     <label cLabel for="inputAddress">Bathrooms</label>
-    <input cFormControl id="inputAddress" placeholder="1234 Main St" />
+    <input cFormControl id="inputAddress" placeholder="1234 Main St" [(ngModel)]="form.Bathrooms" />
   </c-col>
   <c-col [xs]="6">
     <label cLabel for="inputAddress2">Size</label>
-    <input cFormControl id="inputAddress2" placeholder="Apartment, studio, or floor" />
+    <input cFormControl id="inputAddress2" placeholder="Apartment, studio, or floor" [(ngModel)]="form.size" />
   </c-col>
   <c-col [xs]="6">
     <label cLabel for="inputAddress2">Sale or Rent Price</label>
-    <input cFormControl id="inputAddress2" placeholder="Apartment, studio, or floor" />
+    <input cFormControl id="inputAddress2" placeholder="Apartment, studio, or floor" [(ngModel)]="form.Price" />
   </c-col>
   <c-col [md]="6">
-    <label cLabel for="inputCity">City</label>
-    <input cFormControl id="inputCity" />
-  </c-col>
-  <c-col [md]="4">
     <label cLabel for="inputState">State</label>
     <select cSelect id="inputState">
       <option>Choose...</option>
       <option>...</option>
     </select>
   </c-col>
-  <c-col [md]="2">
-    <label cLabel for="inputZip">Zip</label>
-    <input cFormControl id="inputZip" />
+  <c-col [md]="6">
+    <label cLabel for="inputState">City</label>
+    <select cSelect id="inputState">
+      <option>Choose...</option>
+      <option>...</option>
+    </select>
   </c-col>
   <c-col [xs]="12">
     <c-form-check>
@@ -61,8 +63,11 @@
       <label cFormCheckLabel for="gridCheck">Check me out</label>
     </c-form-check>
   </c-col>
+  <label for="photo-upload">Upload up to 6 photos:</label>
+<input type="file" id="photo-upload" name="photos[]" accept="image/*" multiple max="6">
+
   <c-col [xs]="12">
-    <button cButton type="submit">Sign in</button>
+    <button cButton type="submit">Submit</button>
   </c-col>
 </form>
 <c-card class="mb-4">

@@ -37,6 +37,13 @@ public class Property {
 		this.size = size;
 		this.price = price;
 	}
+
+
+	public Property(String name2, String description2, String status2, int bedrooms2, int bathrooms2, int size2,
+			float price2) {
+		// TODO Auto-generated constructor stub
+	}
+
 	public Long getId() {
 		return id;
 	}

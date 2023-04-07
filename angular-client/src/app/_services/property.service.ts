@@ -22,4 +22,17 @@ export class PropertyService {
      return this.http.get<Property[]>(`${AUTH_API}property`);
   }
 
+  createProperty(property: Object): Observable<any> {
+    return this.http.post(
+      AUTH_API + 'createProperty',property );
+  }
+
+
+
+
+
+
+
+
+
 }

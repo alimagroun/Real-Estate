@@ -27,16 +27,51 @@ interface IUser {
   styleUrls: ['./add-property.component.scss']
 })
 export class AddPropertyComponent implements OnInit {
+
+  form: any = {
+    bathrooms: null,
+    bedrooms: null,
+    description: null,
+    name: null,
+    size: null,
+    status: null,
+    price: null
+  };
+
+
+property : Property = new Property();
+
+
   users1?: User[];
   currentTutorial: User = {};
   currentIndex = -1;
   title = '';
   properties?: Property[];
 
+  isSuccessful = false;
+  isSignUpFailed = false;
+  errorMessage = '';
+
   constructor(private chartsData: DashboardChartsData, private authService: AuthService, private propertyService: PropertyService) {
   }
 
+ 
+  onSubmit(): void {
+    const { name, description, status,bedrooms,bathrooms,size,price} = this.form;
 
+    this.propertyService.createProperty(this.property).subscribe({
+      next: data => {
+        console.log(data);
+        this.isSuccessful = true;
+        this.isSignUpFailed = false;
+      },
+      error: err => {
+        this.errorMessage = err.error.message;
+        this.isSignUpFailed = true;
+      }
+    });
+    this.property = new Property();
+  }
 
   public users: IUser[] = [
     {

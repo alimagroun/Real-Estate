@@ -4,6 +4,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { AddPropertyRoutingModule } from './add-property-routing.module';
 
+import { FormsModule } from '@angular/forms';
+
 import {
   AvatarModule,
   ButtonGroupModule,
@@ -47,7 +49,8 @@ import { WidgetsModule } from '../views/widgets/widgets.module';
     ChartjsModule,
     AvatarModule,
     TableModule,
-    WidgetsModule
+    WidgetsModule,
+    FormsModule
   ]
 })
 export class AddPropertyModule { }

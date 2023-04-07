@@ -39,6 +39,8 @@ import com.magroun.realestate.security.services.UserDetailsImpl;
 
 import jakarta.validation.Valid;
 
+import com.magroun.realestate.model.Property;
+
 // @CrossOrigin(origins = "*", maxAge = 3600)
 @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
 @RestController
@@ -165,6 +167,65 @@ public class AuthController {
     return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
   }
 
+  
+  
+  
+  
+  
+  
+  
+  @PostMapping("/createProperty")
+  public ResponseEntity<?> createProperty(@Valid @RequestBody Property property) {
+
+	  
+	  System.out.print("hello1"+property.getName());
+	//  Property p = new Property(property.getName(), property.getDescription(), property.getStatus(), property.getBedrooms(), property.getBathrooms(), property.getSize(), property.getPrice());
+	  
+	//  System.out.print("hello2"+property.getName());
+	  
+	  
+    // Create new user's account
+/*    Property p = new Property(property.getName(),
+                              property.getDescription(),
+                              property.getStatus(),
+                              property.getBedrooms(),
+                              property.getBathrooms(),
+                              property.getSize(),
+                              property.getPrice()); */
+                   
+
+ 
+
+ 
+    propertyRepository.save(property);
+
+    return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+  }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   @PostMapping("/signout")
   public ResponseEntity<?> logoutUser() {
     ResponseCookie cookie = jwtUtils.getCleanJwtCookie();
