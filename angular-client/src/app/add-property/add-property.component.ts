@@ -57,7 +57,7 @@ property : Property = new Property();
 
  
   onSubmit(): void {
-    const { name, description, status,bedrooms,bathrooms,size,price} = this.form;
+   // const { name, description, status,bedrooms,bathrooms,size,price} = this.form;
 
     this.propertyService.createProperty(this.property).subscribe({
       next: data => {

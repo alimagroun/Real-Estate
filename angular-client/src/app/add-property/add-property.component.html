@@ -9,11 +9,11 @@ name="form"
   </c-col>
   <div class="mb-3">
     <label cLabel for="exampleFormControlTextarea1">Property description*</label>
-    <textarea cFormControl id="exampleFormControlTextarea1" rows="3" [(ngModel)]="form.description"></textarea>
+    <textarea cFormControl id="exampleFormControlTextarea1" rows="3" [(ngModel)]="property.description" name="description"></textarea>
   </div>
   <c-col [md]="6">
     <label cLabel for="inputEmail4">Type</label>
-    <select aria-label="Default select example" cSelect>
+    <select aria-label="Default select example" cSelect >
       <option>Select Property Type</option>
       <option value="1">One</option>
       <option value="2">Two</option>
@@ -22,26 +22,26 @@ name="form"
   </c-col>
   <c-col [md]="6">
     <label cLabel for="inputPassword4">Status</label>
-    <select aria-label="Default select example" cSelect>
+    <select aria-label="Default select example" cSelect [(ngModel)]="property.status" name="status">
       <option>Sale</option>
       <option value="1">Rent</option>
     </select>
   </c-col>
   <c-col [md]="6">
     <label cLabel for="inputPassword4">Bedrooms</label>
-    <input cFormControl id="inputPassword4" type="number" [(ngModel)]="form.Bedrooms" />
+    <input cFormControl id="inputPassword4" type="number" min="0" [(ngModel)]="property.bedrooms" name="bedrooms" />
   </c-col>
   <c-col [xs]="6">
     <label cLabel for="inputAddress">Bathrooms</label>
-    <input cFormControl id="inputAddress" placeholder="1234 Main St" [(ngModel)]="form.Bathrooms" />
+    <input cFormControl id="inputAddress" type="number" min="0" [(ngModel)]="property.bathrooms" name="bathrooms" />
   </c-col>
   <c-col [xs]="6">
     <label cLabel for="inputAddress2">Size</label>
-    <input cFormControl id="inputAddress2" placeholder="Apartment, studio, or floor" [(ngModel)]="form.size" />
+    <input cFormControl id="inputAddress2" placeholder="Apartment, studio, or floor" [(ngModel)]="property.size" name="size"/>
   </c-col>
   <c-col [xs]="6">
     <label cLabel for="inputAddress2">Sale or Rent Price</label>
-    <input cFormControl id="inputAddress2" placeholder="Apartment, studio, or floor" [(ngModel)]="form.Price" />
+    <input cFormControl id="inputAddress2" placeholder="Apartment, studio, or floor" [(ngModel)]="property.price" name="price" />
   </c-col>
   <c-col [md]="6">
     <label cLabel for="inputState">State</label>

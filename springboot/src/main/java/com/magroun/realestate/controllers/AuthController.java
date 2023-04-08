@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.magroun.realestate.model.ERole;
 import com.magroun.realestate.model.Property;
 import com.magroun.realestate.model.Role;
+import com.magroun.realestate.model.State;
 import com.magroun.realestate.model.User;
 import com.magroun.realestate.payload.request.LoginRequest;
 import com.magroun.realestate.payload.request.SignupRequest;
@@ -33,6 +34,7 @@ import com.magroun.realestate.payload.response.MessageResponse;
 import com.magroun.realestate.payload.response.UserInfoResponse;
 import com.magroun.realestate.repository.PropertyRepository;
 import com.magroun.realestate.repository.RoleRepository;
+import com.magroun.realestate.repository.StateRepository;
 import com.magroun.realestate.repository.UserRepository;
 import com.magroun.realestate.security.jwt.JwtUtils;
 import com.magroun.realestate.security.services.UserDetailsImpl;
@@ -60,6 +62,9 @@ public class AuthController {
   
   @Autowired
   PropertyRepository propertyRepository;
+  
+  @Autowired
+  private StateRepository stateRepository;
 
   @Autowired
   JwtUtils jwtUtils;
@@ -82,14 +87,24 @@ public class AuthController {
   try {
 	  List<Property> propertyl = new ArrayList<Property>();
 	  propertyRepository.findAll().forEach(propertyl::add);
-	  return new ResponseEntity<>(propertyl, HttpStatus.OK);
-	  
+	  return new ResponseEntity<>(propertyl, HttpStatus.OK);  
 	   }
   catch (Exception e) {
  return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 }
   }
   
+  @GetMapping("/states")
+  public ResponseEntity<List<State>> getAllStates(){
+  try {
+	  List<State> states = new ArrayList<State>();
+	  stateRepository.findAll().forEach(states::add);
+	  return new ResponseEntity<>(states, HttpStatus.OK);  
+	   }
+  catch (Exception e) {
+ return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+}
+  }
   
   
 
@@ -168,50 +183,15 @@ public class AuthController {
   }
 
   
-  
-  
-  
-  
-  
-  
   @PostMapping("/createProperty")
   public ResponseEntity<?> createProperty(@Valid @RequestBody Property property) {
 
-	  
-	  System.out.print("hello1"+property.getName());
-	//  Property p = new Property(property.getName(), property.getDescription(), property.getStatus(), property.getBedrooms(), property.getBathrooms(), property.getSize(), property.getPrice());
-	  
-	//  System.out.print("hello2"+property.getName());
-	  
-	  
-    // Create new user's account
-/*    Property p = new Property(property.getName(),
-                              property.getDescription(),
-                              property.getStatus(),
-                              property.getBedrooms(),
-                              property.getBathrooms(),
-                              property.getSize(),
-                              property.getPrice()); */
-                   
 
- 
-
- 
+            
     propertyRepository.save(property);
 
     return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
   }
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
   
   
   
