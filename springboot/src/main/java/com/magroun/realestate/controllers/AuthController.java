@@ -1,6 +1,7 @@
 package com.magroun.realestate.controllers;
 
 import java.util.ArrayList;
+import org.springframework.web.bind.annotation.RequestParam;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -65,9 +66,12 @@ public class AuthController {
   
   @Autowired
   private StateRepository stateRepository;
+  
+ 
 
   @Autowired
   JwtUtils jwtUtils;
+  
   
   @GetMapping("/users")
   public ResponseEntity<List<User>> getAllUsers(){
@@ -184,12 +188,16 @@ public class AuthController {
 
   
   @PostMapping("/createProperty")
-  public ResponseEntity<?> createProperty(@Valid @RequestBody Property property) {
+  public ResponseEntity<?> createProperty( @RequestBody Property property,@RequestParam("stateId") Long stateId) {
 
-
+	State state = new State();
+	   state = stateRepository.getStateById(stateId);
+	    property.setState(state);
             
     propertyRepository.save(property);
 
+    
+    System.out.print(property.getState().getName());
     return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
   }
   

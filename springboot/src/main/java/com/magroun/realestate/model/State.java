@@ -1,9 +1,12 @@
 package com.magroun.realestate.model;
 
+import java.util.List;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -15,6 +18,12 @@ public class State {
 	  @GeneratedValue(strategy = GenerationType.IDENTITY)
 	  private Long id;
 	  private String name;
+	  
+	    // One-to-Many relationship with Property entity
+	    @OneToMany(mappedBy = "state")
+	    private List<Property> properties;
+	  
+	  
 	  
 	public State() {
 		super();

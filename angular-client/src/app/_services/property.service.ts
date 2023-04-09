@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import {Property} from '../_models/property';
 
@@ -22,9 +22,16 @@ export class PropertyService {
      return this.http.get<Property[]>(`${AUTH_API}property`);
   }
 
-  createProperty(property: Object): Observable<any> {
+  createProperty(property: Property): Observable<any> {
+
+    const stateId = property.stateId; // Access the stateId from the property object
+
+    // Check if stateId is not undefined before converting to string and setting as query parameter
+    const params = new HttpParams().set('stateId', stateId !== undefined ? stateId.toString() : '');
+
+
     return this.http.post(
-      AUTH_API + 'createProperty',property );
+      AUTH_API + 'createProperty',property, { params: params } );
   }
 
 

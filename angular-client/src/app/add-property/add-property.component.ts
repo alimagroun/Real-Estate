@@ -5,8 +5,12 @@ import { DashboardChartsData, IChartProps } from './dashboard-charts-data';
 
 import {AuthService} from '../_services/auth.service';
 import {PropertyService} from '../_services/property.service';
+import {StateService} from '../_services/state.service';
 import {User} from '../_models/user';
 import {Property} from '../_models/property';
+import {State} from '../_models/state';
+
+import { Observable } from 'rxjs';
 interface IUser {
   name: string;
   state: string;
@@ -37,7 +41,7 @@ export class AddPropertyComponent implements OnInit {
     status: null,
     price: null
   };
-
+  states?: State[];
 
 property : Property = new Property();
 
@@ -52,7 +56,7 @@ property : Property = new Property();
   isSignUpFailed = false;
   errorMessage = '';
 
-  constructor(private chartsData: DashboardChartsData, private authService: AuthService, private propertyService: PropertyService) {
+  constructor(private chartsData: DashboardChartsData, private authService: AuthService, private propertyService: PropertyService,private stateService : StateService) {
   }
 
  
@@ -163,6 +167,20 @@ property : Property = new Property();
     this.initCharts();
     this.retrieveUsers();
     this.retrieveProperties();
+
+    this.stateService.getStates().subscribe(
+      (states: State[]) => {
+        this.states = states; // Store the emitted states in the local variable
+      },
+      (error: any) => {
+        console.error(error); // Handle error if necessary
+      }
+    );
+
+
+
+
+
   }
   retrieveUsers():void{
     this.authService.getAll()

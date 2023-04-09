@@ -45,9 +45,9 @@ name="form"
   </c-col>
   <c-col [md]="6">
     <label cLabel for="inputState">State</label>
-    <select cSelect id="inputState">
-      <option>Choose...</option>
-      <option>...</option>
+    <select cSelect id="inputState" [(ngModel)]="property.stateId"  name="stateId">
+      <option></option>
+      <option *ngFor="let state of states" [value]="state.id">{{state.name}}</option>
     </select>
   </c-col>
   <c-col [md]="6">
