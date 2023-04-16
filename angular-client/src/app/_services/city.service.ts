@@ -1,25 +1,28 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { State } from '../_models/state';
+import { City } from '../_models/city';
 
 const AUTH_API = 'http://localhost:8080/api/auth/';
+
 
 @Injectable({
   providedIn: 'root'
 })
-export class StateService {
+export class CityService {
 
- 
+  
 
   private baseUrl = 'http://localhost:8080/api/auth/'; 
 
   constructor(private http: HttpClient) { }
 
-  // Retrieve list of states
-  getStates(): Observable<State[]> {
-    return this.http.get<State[]>(`${this.baseUrl}states`);
+  getCitiesByState(stateId: number): Observable<City[]> {
+    return this.http.get<City[]>(`${this.baseUrl}/cities?stateId=${stateId}`);
   }
+  
+
+
 
 
 

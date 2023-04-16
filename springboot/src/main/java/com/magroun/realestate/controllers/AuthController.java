@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.magroun.realestate.model.City;
 import com.magroun.realestate.model.ERole;
 import com.magroun.realestate.model.Property;
 import com.magroun.realestate.model.Role;
@@ -36,6 +37,7 @@ import com.magroun.realestate.payload.response.UserInfoResponse;
 import com.magroun.realestate.repository.PropertyRepository;
 import com.magroun.realestate.repository.RoleRepository;
 import com.magroun.realestate.repository.StateRepository;
+import com.magroun.realestate.repository.CityRepository;
 import com.magroun.realestate.repository.UserRepository;
 import com.magroun.realestate.security.jwt.JwtUtils;
 import com.magroun.realestate.security.services.UserDetailsImpl;
@@ -67,10 +69,24 @@ public class AuthController {
   @Autowired
   private StateRepository stateRepository;
   
+  @Autowired
+  private CityRepository cityRepository;
+  
  
 
   @Autowired
   JwtUtils jwtUtils;
+  
+  
+  @GetMapping
+  public ResponseEntity<List<City>> getCitiesByState(@RequestParam("stateId") int stateId) {
+      List<City> cities = cityRepository.findByStateId(stateId);
+      return new ResponseEntity<>(cities, HttpStatus.OK);
+  }
+  
+  
+  
+  
   
   
   @GetMapping("/users")
