@@ -7,6 +7,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "property")
@@ -16,20 +19,25 @@ public class Property {
 	  @GeneratedValue(strategy = GenerationType.IDENTITY)
 	  private Long id;
 	  
+	  @NotBlank
 	  private String name;
+	  @NotBlank
+	  @Size(min = 1, max = 1000)
 	  private String description;
+	  @NotBlank
 	  private String status;
 	  private int bedrooms;
 	  private int bathrooms;
 	  private int size;
+	  @NotNull
 	  private float price;
 	  
 
 	  
 	  
 	    @ManyToOne
-	    @JoinColumn(name = "state_id")
-	    private State state;
+	    @JoinColumn(name = "city_id")
+	    private City city;
 
 	    
 	    
@@ -40,7 +48,7 @@ public class Property {
 
 
 		public Property(Long id, String name, String description, String status, int bedrooms, int bathrooms, int size,
-				float price, State state) {
+				float price, City city) {
 			super();
 			this.id = id;
 			this.name = name;
@@ -50,7 +58,7 @@ public class Property {
 			this.bathrooms = bathrooms;
 			this.size = size;
 			this.price = price;
-			this.state = state;
+			this.city = city;
 		}
 
 
@@ -134,13 +142,13 @@ public class Property {
 		}
 
 
-		public State getState() {
-			return state;
+		public City getCity() {
+			return city;
 		}
 
 
-		public void setState(State state) {
-			this.state = state;
+		public void setCity(City city) {
+			this.city = city;
 		}
 	  
 	  

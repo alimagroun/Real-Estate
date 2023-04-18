@@ -18,7 +18,7 @@ export class CityService {
   constructor(private http: HttpClient) { }
 
   getCitiesByState(stateId: number): Observable<City[]> {
-    return this.http.get<City[]>(`${this.baseUrl}/cities?stateId=${stateId}`);
+    return this.http.get<City[]>(`${this.baseUrl}getCitiesByState?stateId=${stateId}`);
   }
   
 

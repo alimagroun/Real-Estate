@@ -11,5 +11,8 @@ import com.magroun.realestate.model.City;
 public interface CityRepository extends JpaRepository<City, Long> {
 	
 	List<City> findByStateId(long stateId);
+	
+	
+	City getCityById(Long cityId);
  
 }

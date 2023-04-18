@@ -24,10 +24,10 @@ export class PropertyService {
 
   createProperty(property: Property): Observable<any> {
 
-    const stateId = property.stateId; // Access the stateId from the property object
+    const cityId = property.cityId; // Access the stateId from the property object
 
     // Check if stateId is not undefined before converting to string and setting as query parameter
-    const params = new HttpParams().set('stateId', stateId !== undefined ? stateId.toString() : '');
+    const params = new HttpParams().set('cityId', cityId !== undefined ? cityId.toString() : '');
 
 
     return this.http.post(

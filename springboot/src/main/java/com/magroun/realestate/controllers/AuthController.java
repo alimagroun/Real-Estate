@@ -77,16 +77,17 @@ public class AuthController {
   @Autowired
   JwtUtils jwtUtils;
   
-  
-  @GetMapping
+  @GetMapping("/getCitiesByState")
   public ResponseEntity<List<City>> getCitiesByState(@RequestParam("stateId") int stateId) {
+      // Get cities from cityRepository based on stateId
       List<City> cities = cityRepository.findByStateId(stateId);
+
+      // Log the received stateId
+      System.out.println("Received stateId: " + stateId);
+
+      // Return the cities as response with HTTP status OK
       return new ResponseEntity<>(cities, HttpStatus.OK);
   }
-  
-  
-  
-  
   
   
   @GetMapping("/users")
@@ -204,16 +205,19 @@ public class AuthController {
 
   
   @PostMapping("/createProperty")
-  public ResponseEntity<?> createProperty( @RequestBody Property property,@RequestParam("stateId") Long stateId) {
+  public ResponseEntity<?> createProperty( @RequestBody Property property,@RequestParam("cityId") Long cityId) {
 
-	State state = new State();
-	   state = stateRepository.getStateById(stateId);
-	    property.setState(state);
+	  
+	  System.out.print(cityId);
+	  
+	City city = new City();
+	   city = cityRepository.getCityById(cityId);
+	    property.setCity(city);
             
     propertyRepository.save(property);
 
     
-    System.out.print(property.getState().getName());
+  System.out.print(property.getCity().getName());
     return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
   }
   

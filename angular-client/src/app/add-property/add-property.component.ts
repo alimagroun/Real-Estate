@@ -6,9 +6,11 @@ import { DashboardChartsData, IChartProps } from './dashboard-charts-data';
 import {AuthService} from '../_services/auth.service';
 import {PropertyService} from '../_services/property.service';
 import {StateService} from '../_services/state.service';
+import {CityService} from '../_services/city.service';
 import {User} from '../_models/user';
 import {Property} from '../_models/property';
 import {State} from '../_models/state';
+import {City} from '../_models/city';
 
 import { Observable } from 'rxjs';
 interface IUser {
@@ -42,7 +44,7 @@ export class AddPropertyComponent implements OnInit {
     price: null
   };
   states?: State[];
-
+  cities?: City[];
 property : Property = new Property();
 
 
@@ -56,12 +58,32 @@ property : Property = new Property();
   isSignUpFailed = false;
   errorMessage = '';
 
-  constructor(private chartsData: DashboardChartsData, private authService: AuthService, private propertyService: PropertyService,private stateService : StateService) {
+
+
+  constructor(private chartsData: DashboardChartsData, private authService: AuthService, private propertyService: PropertyService,private stateService : StateService,private cityService :CityService) {
+  }
+
+
+
+  onStateChange(event: any) {
+    // Retrieve selected state
+   
+    const selectedStateId = event.target.value;
+
+      // Check if selectedStateId is not undefined
+  if (selectedStateId !== undefined) {
+  
+    // Call the getCitiesByState() method from your CityService to get cities based on stateId
+    this.cityService.getCitiesByState(selectedStateId)
+      .subscribe(cities => {
+        this.cities = cities; // Update the cities array with retrieved cities
+      });
+  }
   }
 
  
   onSubmit(): void {
-   // const { name, description, status,bedrooms,bathrooms,size,price} = this.form;
+ 
 
     this.propertyService.createProperty(this.property).subscribe({
       next: data => {

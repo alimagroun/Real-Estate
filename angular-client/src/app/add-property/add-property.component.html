@@ -9,7 +9,7 @@ name="form"
   </c-col>
   <div class="mb-3">
     <label cLabel for="exampleFormControlTextarea1">Property description*</label>
-    <textarea cFormControl id="exampleFormControlTextarea1" rows="3" [(ngModel)]="property.description" name="description"></textarea>
+    <textarea cFormControl id="exampleFormControlTextarea1" rows="3" maxlength="1000" [(ngModel)]="property.description" name="description"></textarea>
   </div>
   <c-col [md]="6">
     <label cLabel for="inputEmail4">Type</label>
@@ -45,16 +45,16 @@ name="form"
   </c-col>
   <c-col [md]="6">
     <label cLabel for="inputState">State</label>
-    <select cSelect id="inputState" [(ngModel)]="property.stateId"  name="stateId">
+    <select cSelect id="inputState"   name="stateId" (change)="onStateChange($event)">
       <option></option>
       <option *ngFor="let state of states" [value]="state.id">{{state.name}}</option>
     </select>
   </c-col>
   <c-col [md]="6">
-    <label cLabel for="inputState">City</label>
-    <select cSelect id="inputState">
+    <label cLabel for="inputState">City</label  >
+    <select cSelect id="inputState" [(ngModel)]="property.cityId" name="cityId">
       <option>Choose...</option>
-      <option>...</option>
+      <option *ngFor="let city of cities" [value]="city.id">{{city.name}}</option>
     </select>
   </c-col>
   <c-col [xs]="12">

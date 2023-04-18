@@ -7,5 +7,5 @@ export class Property {
     bathrooms:any;
     size:any;
     price:any;
-    stateId?: number;
+    cityId?: number;
 }
