@@ -1,6 +1,10 @@
 package com.magroun.realestate.controllers;
 
 import java.util.ArrayList;
+
+
+import java.util.Date;
+
 import org.springframework.web.bind.annotation.RequestParam;
 import java.util.HashSet;
 import java.util.List;
@@ -23,6 +27,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.magroun.realestate.model.City;
 import com.magroun.realestate.model.ERole;
@@ -30,6 +35,7 @@ import com.magroun.realestate.model.Property;
 import com.magroun.realestate.model.Role;
 import com.magroun.realestate.model.State;
 import com.magroun.realestate.model.User;
+import com.magroun.realestate.model.Photo;
 import com.magroun.realestate.payload.request.LoginRequest;
 import com.magroun.realestate.payload.request.SignupRequest;
 import com.magroun.realestate.payload.response.MessageResponse;
@@ -38,13 +44,37 @@ import com.magroun.realestate.repository.PropertyRepository;
 import com.magroun.realestate.repository.RoleRepository;
 import com.magroun.realestate.repository.StateRepository;
 import com.magroun.realestate.repository.CityRepository;
+import com.magroun.realestate.repository.PhotoRepository;
 import com.magroun.realestate.repository.UserRepository;
 import com.magroun.realestate.security.jwt.JwtUtils;
 import com.magroun.realestate.security.services.UserDetailsImpl;
+import com.magroun.realestate.util.FileUploadUtil;
 
 import jakarta.validation.Valid;
 
 import com.magroun.realestate.model.Property;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.List;
+
+
+
+import org.springframework.util.StringUtils;
+
+import java.util.Random;
+
+import org.springframework.http.MediaType;
+
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 
 // @CrossOrigin(origins = "*", maxAge = 3600)
 @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
@@ -71,11 +101,51 @@ public class AuthController {
   
   @Autowired
   private CityRepository cityRepository;
+ 
   
+  @Autowired
+  private PhotoRepository photoRepository;
  
 
   @Autowired
   JwtUtils jwtUtils;
+  
+
+  @PostMapping("/properties")
+  public Property createProperty(@ModelAttribute Property property,
+                                  @RequestParam("files") MultipartFile[] files) throws IOException {
+      // Save the property to the database
+      Property savedProperty = propertyRepository.save(property);
+
+      // Upload the photos
+      for (MultipartFile file : files) {
+          // Create a new unique filename using current time and property ID
+          String originalFilename = StringUtils.cleanPath(file.getOriginalFilename());
+          String extension = StringUtils.getFilenameExtension(originalFilename);
+          String newFilename = System.currentTimeMillis() + "-" + savedProperty.getId() + "." + extension;
+          
+          String uploadDir = "C:/photos/";
+          FileUploadUtil.saveFile(uploadDir, newFilename, file);
+          
+          // Save photo information to database
+          Photo photo = new Photo();
+          photo.setFilename(newFilename);
+          photo.setFilepath(uploadDir + "/" + newFilename);
+          photo.setProperty(savedProperty);
+          photoRepository.save(photo);
+      }
+
+      return savedProperty;
+  }
+
+
+
+
+
+
+
+
+
   
   @GetMapping("/getCitiesByState")
   public ResponseEntity<List<City>> getCitiesByState(@RequestParam("stateId") int stateId) {
@@ -204,35 +274,7 @@ public class AuthController {
   }
 
   
-  @PostMapping("/createProperty")
-  public ResponseEntity<?> createProperty( @RequestBody Property property,@RequestParam("cityId") Long cityId) {
 
-	  
-	  System.out.print(cityId);
-	  
-	City city = new City();
-	   city = cityRepository.getCityById(cityId);
-	    property.setCity(city);
-            
-    propertyRepository.save(property);
-
-    
-  System.out.print(property.getCity().getName());
-    return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
-  }
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
   
   @PostMapping("/signout")
   public ResponseEntity<?> logoutUser() {
