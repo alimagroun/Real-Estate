@@ -1,38 +1,46 @@
 import { Component } from '@angular/core';
 
-import { NgForm } from '@angular/forms';
-
 import {Property} from '../_models/property';
+import {State} from '../_models/state';
 
 import {PropertyService} from '../_services/property.service';
+import { StateService } from '../_services/state.service';
 
-// import { Event } from '@angular/core';
 
 
 
 @Component({
   selector: 'app-add-property',
   templateUrl: './add-property.component.html',
-  styleUrls: ['./add-property.component.css']
+  styleUrls: ['./add-property.component.scss']
 })
+
 export class AddPropertyComponent {
-  property: Property = new Property();
-  files: FileList | null = null;
+  newProperty: Property = new Property();
+  files: any[] = [];
+  states: State[] = [];
 
-  constructor(private propertyService: PropertyService) {}
+  constructor(private propertyService: PropertyService,private stateService: StateService) {}
 
-  onSubmit(propertyForm: NgForm) {
-    if (propertyForm.valid) {
-      this.propertyService.createProperty(this.property, this.files).subscribe(
-        data => console.log(data),
-        error => console.log(error)
-      );
-      propertyForm.resetForm();
-    }
-  }
-
-  onFileChange(event: Event) {
-    this.files = (event.target as HTMLInputElement).files;
+  ngOnInit() {
+    this.stateService.getStates().subscribe((data: State[]) => {
+      this.states = data;
+    });
   }
   
+  onSubmit() {
+    this.propertyService.createProperty(this.newProperty, this.files)
+      .subscribe(
+        (data) => {
+          console.log('Property created successfully!', data);
+        },
+        (error) => {
+          console.error('Error creating property', error);
+        }
+      );
+  }
+
+  onFileChange(event: any) {
+    this.files = event.target.files;
+  }
 }

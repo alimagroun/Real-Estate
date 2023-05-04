@@ -1,11 +1,14 @@
 export class Property {
-    id:any;
-    name?:string;
-    description?:string;
-    status?:string;
-    bedrooms:any;
-    bathrooms:any;
-    size:any;
-    price:any;
-    cityId?: number;
-}
+    id!: number;
+    name!: string;
+    description!: string;
+    status!: string;
+    bedrooms!: number;
+    bathrooms!: number;
+    size!: number;
+    price!: number;
+    cityId!: number;
+  
+  
+  }
+  

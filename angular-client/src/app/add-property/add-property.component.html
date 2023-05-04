@@ -1,40 +1,32 @@
-<form #propertyForm="ngForm" (ngSubmit)="onSubmit(propertyForm)">
+<form (ngSubmit)="onSubmit()" #propertyForm="ngForm" enctype="multipart/form-data">
   <div class="form-group">
-    <label for="name">Name:</label>
-    <input type="text" name="name" [(ngModel)]="property.name" class="form-control" required>
+    <label>Name</label>
+    <input type="text" class="form-control" name="name" [(ngModel)]="newProperty.name" required>
   </div>
   <div class="form-group">
-    <label for="description">Description:</label>
-    <textarea name="description" [(ngModel)]="property.description" class="form-control" required></textarea>
+    <label>Description</label>
+    <textarea class="form-control" name="description" [(ngModel)]="newProperty.description" required></textarea>
   </div>
   <div class="form-group">
-    <label for="status">Status:</label>
-    <input type="text" name="status" [(ngModel)]="property.status" class="form-control" required>
+    <label>Bedrooms</label>
+    <input type="number" class="form-control" name="bedrooms" [(ngModel)]="newProperty.bedrooms" required>
   </div>
   <div class="form-group">
-    <label for="bedrooms">Bedrooms:</label>
-    <input type="number" name="bedrooms" [(ngModel)]="property.bedrooms" class="form-control" required>
+    <label>Bathrooms</label>
+    <input type="number" class="form-control" name="bathrooms" [(ngModel)]="newProperty.bathrooms" required>
   </div>
   <div class="form-group">
-    <label for="bathrooms">Bathrooms:</label>
-    <input type="number" name="bathrooms" [(ngModel)]="property.bathrooms" class="form-control" required>
+    <label>Size</label>
+    <input type="number" class="form-control" name="size" [(ngModel)]="newProperty.size" required>
   </div>
   <div class="form-group">
-    <label for="size">Size:</label>
-    <input type="number" name="size" [(ngModel)]="property.size" class="form-control" required>
+    <label>Price</label>
+    <input type="number" class="form-control" name="price" [(ngModel)]="newProperty.price" required>
   </div>
-  <div class="form-group">
-    <label for="price">Price:</label>
-    <input type="number" name="price" [(ngModel)]="property.price" class="form-control" required>
-  </div>
-  <div class="form-group">
-    <label for="cityId">City ID:</label>
-    <input type="number" name="cityId" [(ngModel)]="property.cityId" class="form-control" required>
-  </div>
-  <div class="form-group">
-    <label for="files">Photos:</label>
-    <input type="file" name="files" [(ngModel)]="files"    class="form-control-file" multiple>
-  </div>
-  <button type="submit" class="btn btn-primary">Submit</button>
-</form>
 
+  <div class="form-group">
+    <label>Photos</label>
+    <input type="file" class="form-control" name="files" (change)="onFileChange($event)" multiple>
+  </div>
+  <button type="submit" class="btn btn-primary" [disabled]="!propertyForm.valid">Add Property</button>
+</form>
