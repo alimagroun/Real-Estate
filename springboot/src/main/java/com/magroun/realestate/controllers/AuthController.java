@@ -112,10 +112,12 @@ public class AuthController {
   
 
   @PostMapping("/properties")
-  public Property createProperty(@ModelAttribute Property property,
+  public Property createProperty(@ModelAttribute Property property,@RequestParam("city_id") Long city_id,
                                   @RequestParam("files") MultipartFile[] files) throws IOException {
       // Save the property to the database
-      Property savedProperty = propertyRepository.save(property);
+	  City city = cityRepository.getCityById(city_id);
+	  property.setCity(city);
+	  Property savedProperty = propertyRepository.save(property);
 
       // Upload the photos
       for (MultipartFile file : files) {
@@ -137,13 +139,6 @@ public class AuthController {
 
       return savedProperty;
   }
-
-
-
-
-
-
-
 
 
   

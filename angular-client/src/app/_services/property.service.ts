@@ -24,6 +24,7 @@ export class PropertyService {
     formData.append('bathrooms', property.bathrooms.toString());
     formData.append('size', property.size.toString());
     formData.append('price', property.price.toString());
+    formData.append('city_id', property.cityId.toString());
     for (let i = 0; i < files.length; i++) {
       formData.append('files', files[i]);
     }

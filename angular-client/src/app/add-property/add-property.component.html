@@ -1,32 +1,53 @@
 <form (ngSubmit)="onSubmit()" #propertyForm="ngForm" enctype="multipart/form-data">
   <div class="form-group">
     <label>Name</label>
-    <input type="text" class="form-control" name="name" [(ngModel)]="newProperty.name" required>
+    <input type="text" class="form-control" name="name" [(ngModel)]="newProperty.name" required maxlength="50">
   </div>
   <div class="form-group">
     <label>Description</label>
-    <textarea class="form-control" name="description" [(ngModel)]="newProperty.description" required></textarea>
+    <textarea class="form-control" name="description" [(ngModel)]="newProperty.description" required maxlength="1000"></textarea>
   </div>
   <div class="form-group">
+    <label for="state">State</label>
+  <select name="state" cSelect name="status" [(ngModel)]="newProperty.status" required>
+    <option value="sale">For Sale</option>
+    <option value="rent">For Rent</option>
+  </select>
+    </div>
+  <div class="form-group">
     <label>Bedrooms</label>
-    <input type="number" class="form-control" name="bedrooms" [(ngModel)]="newProperty.bedrooms" required>
+    <input type="number" class="form-control" name="bedrooms" [(ngModel)]="newProperty.bedrooms" required min="0" max="20">
   </div>
   <div class="form-group">
     <label>Bathrooms</label>
-    <input type="number" class="form-control" name="bathrooms" [(ngModel)]="newProperty.bathrooms" required>
+    <input type="number" class="form-control" name="bathrooms" [(ngModel)]="newProperty.bathrooms" required min="0" max="10">
   </div>
+  <div class="form-group">
+  <label for="state">State</label>
+ 
+<select name="state" cSelect name="stateId" (change)="onStateChange($event)">
+  <option disabled selected></option>
+  <option *ngFor="let state of states" [value]="state.id">{{ state.name }}</option>
+</select>
+  </div>
+  <div class="form-group">
+    <label>City</label>
+  <select cSelect id="inputState" [(ngModel)]="newProperty.cityId" name="cityId" [disabled]="!stateSelected">
+    <option *ngFor="let city of cities" [value]="city.id">{{ city.name }}</option>
+  </select>
+    </div>
   <div class="form-group">
     <label>Size</label>
     <input type="number" class="form-control" name="size" [(ngModel)]="newProperty.size" required>
   </div>
   <div class="form-group">
-    <label>Price</label>
+    <label>Sale or Rent Price</label>
     <input type="number" class="form-control" name="price" [(ngModel)]="newProperty.price" required>
   </div>
 
   <div class="form-group">
     <label>Photos</label>
-    <input type="file" class="form-control" name="files" (change)="onFileChange($event)" multiple>
+    <input type="file" class="form-control" name="files" (change)="onFileChange($event)" multiple >
   </div>
   <button type="submit" class="btn btn-primary" [disabled]="!propertyForm.valid">Add Property</button>
 </form>
