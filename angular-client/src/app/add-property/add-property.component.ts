@@ -23,6 +23,7 @@ export class AddPropertyComponent {
   states: State[] = [];
   cities: City[] = [];
   stateSelected = false;
+  errorMessage: string = '';
 
   constructor(private propertyService: PropertyService,private stateService: StateService,private cityService: CityService) {}
 
@@ -51,10 +52,10 @@ export class AddPropertyComponent {
   onSubmit() {
     
    
-      if (!this.files || this.files.length === 0) {
-        alert('Please upload at least one photo.');
-        return;
-      }
+    if (!this.files || this.files.length === 0) {
+      this.errorMessage = 'Please upload at least one photo';
+      return;
+    }
 
 
     this.propertyService.createProperty(this.newProperty, this.files)

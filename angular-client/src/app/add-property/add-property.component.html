@@ -8,7 +8,7 @@
     <textarea class="form-control" name="description" [(ngModel)]="newProperty.description" required maxlength="1000"></textarea>
   </div>
   <div class="form-group">
-    <label for="state">State</label>
+    <label for="state">Status</label>
   <select name="state" cSelect name="status" [(ngModel)]="newProperty.status" required>
     <option value="sale">For Sale</option>
     <option value="rent">For Rent</option>
@@ -42,12 +42,13 @@
   </div>
   <div class="form-group">
     <label>Sale or Rent Price</label>
-    <input type="number" class="form-control" name="price" [(ngModel)]="newProperty.price" required>
+    <input type="number" class="form-control" name="price" [(ngModel)]="newProperty.price" required max="9999999">
   </div>
 
   <div class="form-group">
     <label>Photos</label>
-    <input type="file" class="form-control" name="files" (change)="onFileChange($event)" multiple >
+    <input type="file" class="form-control" name="files" (change)="onFileChange($event)" multiple accept="image/jpeg,image/png">
+    <div *ngIf="errorMessage" class="text-danger">{{ errorMessage }}</div>
   </div>
   <button type="submit" class="btn btn-primary" [disabled]="!propertyForm.valid">Add Property</button>
 </form>
