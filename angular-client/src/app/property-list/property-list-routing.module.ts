@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import {AddPropertyComponent} from './add-property.component'
+import { PropertyListComponent } from './property-list.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: AddPropertyComponent,
+    component: PropertyListComponent,
     data: {
       title: $localize`Dashboard`
     }
@@ -16,4 +16,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class AddPropertyRoutingModule { }
+export class PropertyListRoutingModule { }

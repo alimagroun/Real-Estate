@@ -1,0 +1,26 @@
+<table datatable [dtOptions]="dtOptions" class="table table-striped" id="dataTable">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Status</th>
+      <th>Bedrooms</th>
+      <th>Bathrooms</th>
+      <th>Size</th>
+      <th>Price</th>
+      <th>City</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let property of properties">
+      <td>{{ property.name }}</td>
+      <td>{{ property.description }}</td>
+      <td>{{ property.status }}</td>
+      <td>{{ property.bedrooms }}</td>
+      <td>{{ property.bathrooms }}</td>
+      <td>{{ property.size }}</td>
+      <td>{{ property.price }}</td>
+      <td>{{ property.cityId }}</td>
+    </tr>
+  </tbody>
+</table>

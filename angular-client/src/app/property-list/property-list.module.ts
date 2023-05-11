@@ -3,8 +3,10 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 
-import { AddPropertyRoutingModule } from './add-property-routing.module';
+import { PropertyListRoutingModule } from './property-list-routing.module';
+import { PropertyListComponent } from './property-list.component';
 
+import { DataTablesModule } from 'angular-datatables';
 
 import {
   AvatarModule,
@@ -20,20 +22,16 @@ import {
 } from '@coreui/angular';
 import { IconModule } from '@coreui/icons-angular';
 import { ChartjsModule } from '@coreui/angular-chartjs';
-
-// import { DashboardRoutingModule } from './dashboard-routing.module';
-// import { DashboardComponent } from './dashboard.component';
-
-import {AddPropertyComponent} from './add-property.component';
-
 import { WidgetsModule } from '../views/widgets/widgets.module';
 
 
 @NgModule({
-  declarations: [AddPropertyComponent],
+  declarations: [
+    PropertyListComponent
+  ],
   imports: [
     CommonModule,
-    AddPropertyRoutingModule,
+    PropertyListRoutingModule,
     CardModule,
     NavModule,
     IconModule,
@@ -50,7 +48,9 @@ import { WidgetsModule } from '../views/widgets/widgets.module';
     AvatarModule,
     TableModule,
     WidgetsModule,
-    FormsModule
+    FormsModule,
+    DataTablesModule
+    
   ]
 })
-export class AddPropertyModule { }
+export class PropertyListModule { }

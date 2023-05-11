@@ -8,6 +8,7 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import {UsersListComponent} from './users-list/users-list.component';
 import {AddPropertyComponent} from './add-property/add-property.component';
+import {PropertyListComponent} from './property-list/property-list.component';
 
 const routes: Routes = [
   {
@@ -31,6 +32,11 @@ const routes: Routes = [
         path: 'addproperty',
         loadChildren: () =>
           import('./add-property/add-property.module').then((m) => m.AddPropertyModule)
+      },
+      {
+        path: 'propertylist',
+        loadChildren: () =>
+          import('./property-list/property-list.module').then((m) => m.PropertyListModule)
       },
       {
         path: 'theme',
@@ -121,6 +127,14 @@ const routes: Routes = [
       title: 'add property'
     }
   },
+  {
+    path: 'propertylist',
+    component: PropertyListComponent,
+    data: {
+      title: 'property list'
+    }
+  },
+  { path: 'property-list', loadChildren: () => import('./property-list/property-list.module').then(m => m.PropertyListModule) },
   {path: '**', redirectTo: 'dashboard'}
 ];
 
