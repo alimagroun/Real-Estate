@@ -24,6 +24,12 @@ import { IconModule } from '@coreui/icons-angular';
 import { ChartjsModule } from '@coreui/angular-chartjs';
 import { WidgetsModule } from '../views/widgets/widgets.module';
 
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+
 
 @NgModule({
   declarations: [
@@ -49,7 +55,12 @@ import { WidgetsModule } from '../views/widgets/widgets.module';
     TableModule,
     WidgetsModule,
     FormsModule,
-    DataTablesModule
+    DataTablesModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatFormFieldModule,
+    MatInputModule
     
   ]
 })

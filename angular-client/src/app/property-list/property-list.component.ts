@@ -3,10 +3,9 @@ import {PropertyService} from '../_services/property.service';
 
 import {Property} from '../_models/property';
 
-import { DataTablesModule } from 'angular-datatables';
-
-declare var DataTables: any;
-
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 
 
 @Component({
@@ -16,9 +15,8 @@ declare var DataTables: any;
 })
 
 export class PropertyListComponent implements OnInit {
-  dtOptions: DataTables.Settings = {};
-  properties: Property[] = [];
-  dtColumns: string[] = [
+  pageSizeOptions: number[] = [5, 10, 25, 100];
+  displayedColumns: string[] = [
     'name',
     'description',
     'status',
@@ -28,21 +26,26 @@ export class PropertyListComponent implements OnInit {
     'price',
     'cityId'
   ];
+  dataSource = new MatTableDataSource<Property>();
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
 
   constructor(private propertyService: PropertyService) {}
 
   ngOnInit() {
-    this.dtOptions = {
-      pagingType: 'full_numbers',
-      pageLength: 10,
-      processing: true
-    };
+
     this.propertyService.getAll().subscribe((data) => {
-      this.properties = data;
-      console.log(this.properties.length);
+      this.dataSource.data = data;
+   //   this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
     });
   }
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+  }
 }
-
-
 
