@@ -141,7 +141,7 @@ export class DashboardComponent implements OnInit {
   }
 
   retrieveProperties():void{
-    this.propertyService.getAll()
+    this.propertyService.getAll1()
     .subscribe({
       next:(data) =>{
         this.properties=data;

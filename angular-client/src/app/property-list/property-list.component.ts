@@ -2,7 +2,7 @@ import { Component,OnInit , ViewChild, AfterViewInit} from '@angular/core';
 import {PropertyService} from '../_services/property.service';
 
 import {Property} from '../_models/property';
-
+import {Page} from '../_models/page';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -14,8 +14,7 @@ import { MatSort } from '@angular/material/sort';
   styleUrls: ['./property-list.component.scss']
 })
 
-export class PropertyListComponent implements OnInit {
-  pageSizeOptions: number[] = [5, 10, 25, 100];
+export class PropertyListComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = [
     'name',
     'description',
@@ -32,20 +31,33 @@ export class PropertyListComponent implements OnInit {
 
   constructor(private propertyService: PropertyService) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
+    this.loadPage(0, 10);
+  }
 
-    this.propertyService.getAll().subscribe((data) => {
-      this.dataSource.data = data;
-   //   this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
+  ngAfterViewInit(): void {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
+
+  loadPage(pageIndex: number, pageSize: number): void {
+    this.propertyService.getAll(pageIndex, pageSize).subscribe((page: Page<Property>) => {
+      this.dataSource.data = page.content;
+      if (this.dataSource.paginator) {
+        this.dataSource.paginator.length = page.totalElements;
+        console.log(`Total elements: ${page.totalElements}`);
+      }
     });
   }
-  applyFilter(event: Event) {
+
+  onPageChanged(event: any): void {
+    const pageIndex = event.pageIndex;
+    const pageSize = event.pageSize;
+    this.loadPage(pageIndex, pageSize);
+  }
+
+  applyFilter(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-  }
 }
-

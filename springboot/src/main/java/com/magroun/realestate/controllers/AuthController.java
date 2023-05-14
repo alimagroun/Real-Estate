@@ -12,6 +12,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
@@ -169,15 +171,13 @@ public class AuthController {
   }
   
   @GetMapping("/property")
-  public ResponseEntity<List<Property>> getAllProperty(){
-  try {
-	  List<Property> propertyl = new ArrayList<Property>();
-	  propertyRepository.findAll().forEach(propertyl::add);
-	  return new ResponseEntity<>(propertyl, HttpStatus.OK);  
-	   }
-  catch (Exception e) {
- return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-}
+  public ResponseEntity<Page<Property>> getAllProperty(Pageable pageable){
+      try {
+          Page<Property> page = propertyRepository.findAll(pageable);
+          return new ResponseEntity<>(page, HttpStatus.OK);
+       } catch (Exception e) {
+          return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+       }
   }
   
   @GetMapping("/states")

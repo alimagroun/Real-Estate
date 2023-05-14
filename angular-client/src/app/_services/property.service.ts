@@ -2,6 +2,11 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import {Property} from '../_models/property';
+import { Page } from '../_models/page';
+import { HttpParams } from '@angular/common/http';
+
+
+
 @Injectable({
   providedIn: 'root'
 })
@@ -43,7 +48,14 @@ export class PropertyService {
     return this.http.get<Property[]>(this.baseUrl);
   }
 
-  getAll(): Observable<Property[]> {
+  getAll1(): Observable<Property[]> {
     return this.http.get<Property[]>(`${this.baseUrl}property`);
  }
+ getAll(pageIndex: number, pageSize: number): Observable<Page<Property>> {
+  const params = new HttpParams()
+    .set('page', pageIndex.toString())
+    .set('size', pageSize.toString());
+  return this.http.get<Page<Property>>(`${this.baseUrl}property`, {params});
+}
+
 }
