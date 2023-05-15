@@ -26,8 +26,10 @@ export class PropertyListComponent implements OnInit, AfterViewInit {
     'cityId'
   ];
   dataSource = new MatTableDataSource<Property>();
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+
+  totalElements: number = 0;
+  filterText: string = '114';
 
   constructor(private propertyService: PropertyService) {}
 
@@ -36,17 +38,15 @@ export class PropertyListComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
 
   loadPage(pageIndex: number, pageSize: number): void {
-    this.propertyService.getAll(pageIndex, pageSize).subscribe((page: Page<Property>) => {
+    this.propertyService.getAll(pageIndex, pageSize, this.filterText).subscribe((page: Page<Property>) => {
       this.dataSource.data = page.content;
-      if (this.dataSource.paginator) {
-        this.dataSource.paginator.length = page.totalElements;
+        this.totalElements = page.totalElements;
         console.log(`Total elements: ${page.totalElements}`);
-      }
+      
     });
   }
 
@@ -55,9 +55,9 @@ export class PropertyListComponent implements OnInit, AfterViewInit {
     const pageSize = event.pageSize;
     this.loadPage(pageIndex, pageSize);
   }
-
   applyFilter(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
+
 }

@@ -51,11 +51,16 @@ export class PropertyService {
   getAll1(): Observable<Property[]> {
     return this.http.get<Property[]>(`${this.baseUrl}property`);
  }
- getAll(pageIndex: number, pageSize: number): Observable<Page<Property>> {
-  const params = new HttpParams()
+ getAll(pageIndex: number, pageSize: number, filter?: string): Observable<Page<Property>> {
+  let params = new HttpParams()
     .set('page', pageIndex.toString())
     .set('size', pageSize.toString());
-  return this.http.get<Page<Property>>(`${this.baseUrl}property`, {params});
+  
+  if (filter) {
+    params = params.set('filter', filter);
+  }
+  
+  return this.http.get<Page<Property>>(`${this.baseUrl}property`, { params });
 }
 
 }

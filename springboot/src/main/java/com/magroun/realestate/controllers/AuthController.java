@@ -77,6 +77,9 @@ import org.springframework.http.MediaType;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import jakarta.persistence.criteria.Predicate;
+
+
 
 // @CrossOrigin(origins = "*", maxAge = 3600)
 @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
@@ -171,14 +174,43 @@ public class AuthController {
   }
   
   @GetMapping("/property")
-  public ResponseEntity<Page<Property>> getAllProperty(Pageable pageable){
+  public ResponseEntity<Page<Property>> getAllProperty(Pageable pageable,
+          @RequestParam(value = "filter", required = false) String filter) {
       try {
-          Page<Property> page = propertyRepository.findAll(pageable);
+          Page<Property> page;
+          if (filter != null && !filter.isEmpty()) {
+              page = propertyRepository.findAll((root, query, builder) -> {
+                  List<Predicate> predicates = new ArrayList<>();
+                  String filterPattern = "%" + filter.toLowerCase() + "%";
+
+                  // Apply filtering on different columns of Property entity
+                  predicates.add(builder.like(builder.lower(root.get("name")), filterPattern));
+                  predicates.add(builder.like(builder.lower(root.get("description")), filterPattern));
+                  predicates.add(builder.like(builder.lower(root.get("status")), filterPattern));
+                  predicates.add(builder.equal(root.get("bedrooms"), Integer.parseInt(filter)));
+                  predicates.add(builder.equal(root.get("bathrooms"), Integer.parseInt(filter)));
+                  predicates.add(builder.equal(root.get("size"), Integer.parseInt(filter)));
+                  predicates.add(builder.equal(root.get("price"), Float.parseFloat(filter)));
+                  predicates.add(builder.like(builder.lower(root.get("city").get("name")), filterPattern));
+                  // Add more predicates for additional columns if needed
+
+                  return builder.or(predicates.toArray(new Predicate[0]));
+              }, pageable);
+          } else {
+              page = propertyRepository.findAll(pageable);
+          }
+
+          System.out.println("Row IDs:");
+          for (Property property : page.getContent()) {
+              System.out.println(property.getId());
+          }
+
           return new ResponseEntity<>(page, HttpStatus.OK);
-       } catch (Exception e) {
+      } catch (Exception e) {
           return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-       }
+      }
   }
+
   
   @GetMapping("/states")
   public ResponseEntity<List<State>> getAllStates(){
