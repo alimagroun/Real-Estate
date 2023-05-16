@@ -179,23 +179,7 @@ public class AuthController {
       try {
           Page<Property> page;
           if (filter != null && !filter.isEmpty()) {
-              page = propertyRepository.findAll((root, query, builder) -> {
-                  List<Predicate> predicates = new ArrayList<>();
-                  String filterPattern = "%" + filter.toLowerCase() + "%";
-
-                  // Apply filtering on different columns of Property entity
-                  predicates.add(builder.like(builder.lower(root.get("name")), filterPattern));
-                  predicates.add(builder.like(builder.lower(root.get("description")), filterPattern));
-                  predicates.add(builder.like(builder.lower(root.get("status")), filterPattern));
-                  predicates.add(builder.equal(root.get("bedrooms"), Integer.parseInt(filter)));
-                  predicates.add(builder.equal(root.get("bathrooms"), Integer.parseInt(filter)));
-                  predicates.add(builder.equal(root.get("size"), Integer.parseInt(filter)));
-                  predicates.add(builder.equal(root.get("price"), Float.parseFloat(filter)));
-                  predicates.add(builder.like(builder.lower(root.get("city").get("name")), filterPattern));
-                  // Add more predicates for additional columns if needed
-
-                  return builder.or(predicates.toArray(new Predicate[0]));
-              }, pageable);
+              page = propertyRepository.findByFilter(filter, pageable);
           } else {
               page = propertyRepository.findAll(pageable);
           }

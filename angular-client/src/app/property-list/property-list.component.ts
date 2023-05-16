@@ -17,30 +17,28 @@ import { MatSort } from '@angular/material/sort';
 export class PropertyListComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = [
     'name',
-    'description',
     'status',
     'bedrooms',
     'bathrooms',
     'size',
     'price',
-    'cityId'
+    'cityId',
+    'actions'
   ];
   dataSource = new MatTableDataSource<Property>();
   @ViewChild(MatSort) sort!: MatSort;
 
   totalElements: number = 0;
-  filterText: string = '114';
+  filterText: string = '';
 
   constructor(private propertyService: PropertyService) {}
 
   ngOnInit(): void {
     this.loadPage(0, 10);
   }
-
   ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;
   }
-
   loadPage(pageIndex: number, pageSize: number): void {
     this.propertyService.getAll(pageIndex, pageSize, this.filterText).subscribe((page: Page<Property>) => {
       this.dataSource.data = page.content;
@@ -49,15 +47,13 @@ export class PropertyListComponent implements OnInit, AfterViewInit {
       
     });
   }
-
   onPageChanged(event: any): void {
     const pageIndex = event.pageIndex;
     const pageSize = event.pageSize;
     this.loadPage(pageIndex, pageSize);
   }
-  applyFilter(event: Event): void {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+  applyFilter(): void {
+    this.loadPage(0, 10);
   }
 
 }

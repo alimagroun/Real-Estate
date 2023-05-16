@@ -17,10 +17,12 @@
   <div class="form-group">
     <label>Bedrooms</label>
     <input type="number" class="form-control" name="bedrooms" [(ngModel)]="newProperty.bedrooms" required min="0" max="20">
+    <div *ngIf="newProperty.bedrooms > 20" class="text-danger">Please enter a valid number of bedrooms (maximum: 20).</div>
   </div>
   <div class="form-group">
     <label>Bathrooms</label>
     <input type="number" class="form-control" name="bathrooms" [(ngModel)]="newProperty.bathrooms" required min="0" max="10">
+    <div *ngIf="newProperty.bathrooms > 10" class="text-danger">Please enter a valid number of bedrooms (maximum: 10).</div>
   </div>
   <div class="form-group">
   <label for="state">State</label>
