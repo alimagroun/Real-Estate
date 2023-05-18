@@ -60,6 +60,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { UsersListComponent } from './users-list/users-list.component';
 import { AddPropertyComponent } from './add-property/add-property.component';
 import { PropertyListComponent } from './property-list/property-list.component';
+import { PropertyDetailsComponent } from './property-details/property-details.component';
+import { PropertyDetailsModule } from './property-details/property-details.module';
 
 
 
@@ -103,7 +105,7 @@ const APP_CONTAINERS = [
     ListGroupModule,
     CardModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
   ],
   providers: [
     {

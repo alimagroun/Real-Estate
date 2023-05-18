@@ -9,8 +9,15 @@ import { RegisterComponent } from './register/register.component';
 import {UsersListComponent} from './users-list/users-list.component';
 import {AddPropertyComponent} from './add-property/add-property.component';
 import {PropertyListComponent} from './property-list/property-list.component';
+import { PropertyDetailsComponent} from './property-details/property-details.component';
+
+import { DefaultHeaderComponent } from './containers/default-layout/default-header/default-header.component';
 
 const routes: Routes = [
+ // {
+  //  path: 'header',
+   // component: DefaultHeaderComponent,
+ // },
   {
     path: '',
     redirectTo: 'dashboard',
@@ -33,11 +40,11 @@ const routes: Routes = [
         loadChildren: () =>
           import('./add-property/add-property.module').then((m) => m.AddPropertyModule)
       },
-      {
-        path: 'propertylist',
-        loadChildren: () =>
-          import('./property-list/property-list.module').then((m) => m.PropertyListModule)
-      },
+   //   {
+    //  path: 'property',
+    //   loadChildren: () =>
+     //   import('./property-details/property-details.module').then((m) => m.PropertyDetailsModule)
+   //  },
       {
         path: 'theme',
         loadChildren: () =>
@@ -133,6 +140,22 @@ const routes: Routes = [
     data: {
       title: 'property list'
     }
+    
+  },
+  {
+    path: 'property',
+    component: PropertyDetailsComponent,
+    children: [
+      {
+        path: 'header',
+        component: DefaultHeaderComponent,
+        outlet: 'header'
+      }
+    ],
+    data: {
+      title: 'property'
+    }
+  
   },
   { path: 'property-list', loadChildren: () => import('./property-list/property-list.module').then(m => m.PropertyListModule) },
   {path: '**', redirectTo: 'dashboard'}
