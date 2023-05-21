@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import {Property} from '../_models/property';
 import { Page } from '../_models/page';
 import { HttpParams } from '@angular/common/http';
+import{Photo} from "../_models/photo";
 
 
 
@@ -13,11 +14,14 @@ import { HttpParams } from '@angular/common/http';
 export class PropertyService {
 
   private baseUrl = 'http://localhost:8080/api/auth/';
-
+  private baseUrl1 = 'http://localhost:8080/api/properties';
   constructor(private http: HttpClient) { }
 
   getProperty(id: number): Observable<Property> {
-    return this.http.get<Property>(`${this.baseUrl}/${id}`);
+    return this.http.get<Property>(`${this.baseUrl1}/${id}`);
+  }
+  getPhotos(propertyId: number): Observable<Photo[]> {
+    return this.http.get<Photo[]>(`${this.baseUrl1}/${propertyId}/photos`);
   }
 
   createProperty(property: Property, files: any[]): Observable<any> {

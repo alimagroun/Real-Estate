@@ -14,10 +14,6 @@ import { PropertyDetailsComponent} from './property-details/property-details.com
 import { DefaultHeaderComponent } from './containers/default-layout/default-header/default-header.component';
 
 const routes: Routes = [
- // {
-  //  path: 'header',
-   // component: DefaultHeaderComponent,
- // },
   {
     path: '',
     redirectTo: 'dashboard',
@@ -31,6 +27,14 @@ const routes: Routes = [
     },
     children: [
       {
+        path: 'property/:propertyId',
+        loadChildren: () =>
+          import('./property-details/property-details.module').then((m) => m.PropertyDetailsModule),
+          data: {
+            sidebar: false
+          }
+      },
+      {
         path: 'dashboard',
         loadChildren: () =>
           import('./views/dashboard/dashboard.module').then((m) => m.DashboardModule)
@@ -40,11 +44,11 @@ const routes: Routes = [
         loadChildren: () =>
           import('./add-property/add-property.module').then((m) => m.AddPropertyModule)
       },
-   //   {
-    //  path: 'property',
-    //   loadChildren: () =>
-     //   import('./property-details/property-details.module').then((m) => m.PropertyDetailsModule)
-   //  },
+      {
+      path: 'propertylist',
+      loadChildren: () =>
+        import('./property-list/property-list.module').then((m) => m.PropertyListModule)
+    },
       {
         path: 'theme',
         loadChildren: () =>
@@ -157,7 +161,8 @@ const routes: Routes = [
     }
   
   },
-  { path: 'property-list', loadChildren: () => import('./property-list/property-list.module').then(m => m.PropertyListModule) },
+//  { path: 'property-list', loadChildren: () =>
+ //  import('./property-list/property-list.module').then(m => m.PropertyListModule) },
   {path: '**', redirectTo: 'dashboard'}
 ];
 

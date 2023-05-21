@@ -4,8 +4,8 @@ import {PropertyService} from '../_services/property.service';
 import {Property} from '../_models/property';
 import {Page} from '../_models/page';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -31,7 +31,7 @@ export class PropertyListComponent implements OnInit, AfterViewInit {
   totalElements: number = 0;
   filterText: string = '';
 
-  constructor(private propertyService: PropertyService) {}
+  constructor(private propertyService: PropertyService, private router: Router) {}
 
   ngOnInit(): void {
     this.loadPage(0, 10);
@@ -55,5 +55,8 @@ export class PropertyListComponent implements OnInit, AfterViewInit {
   applyFilter(): void {
     this.loadPage(0, 10);
   }
-
+  viewPropertyDetails(propertyId: number): void {
+    this.router.navigate(['/property', propertyId]);
+  }
+  
 }

@@ -1,8 +1,23 @@
 
 <p>property-details works!</p>
-
-
-<h1>Property Details Component</h1>
-<router-outlet name="header"></router-outlet>
-
-<app-default-header></app-default-header>
+<div class="property-details">
+    <h2>Property Details</h2>
+    <p>Property ID: {{ propertyId }}</p>
+    <div *ngIf="property">
+      <p>Price: {{ property.price }}</p>
+      <p>Bedrooms: {{ property.bedrooms }}</p>
+      <p>Bathrooms: {{ property.bathrooms }}</p>
+      <p>Size: {{ property.size }} &#13217;</p>
+      <p>Status: For {{ property.status }}</p>
+      <p>Name: {{ property.name }}</p>
+      <p>Description: {{ property.description }}</p>
+      <p>City: {{ property.city.name }}</p>
+    </div>
+  </div>
+  <h3>Photos</h3>
+  <div class="photo-gallery">
+    <div class="photo-item" *ngFor="let photo of photos">
+      <p>{{photo.filename}}</p>
+      <img [src]="photo.filepath" [alt]="photo.filename">
+    </div>
+  </div>
