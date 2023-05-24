@@ -1,0 +1,38 @@
+.photo-gallery {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .primary-photo {
+    text-align: center;
+  }
+  
+  .primary-photo img {
+    max-width: 500px; /* Adjust the width as per your needs */
+    max-height: 500px;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .thumbnail-photos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 10px;
+  }
+  
+  .thumbnail-photos .thumbnail-item {
+    width: 100px; /* Adjust the width as per your needs */
+    height: 100px; /* Adjust the height as per your needs */
+    margin: 5px;
+    cursor: pointer;
+  }
+  
+  .thumbnail-photos .thumbnail-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  

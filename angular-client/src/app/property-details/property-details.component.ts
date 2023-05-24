@@ -33,9 +33,15 @@ export class PropertyDetailsComponent implements OnInit {
       this.property = property;
       this.propertyService.getPhotos(propertyId).subscribe(photos => {
         if (this.property) {
-          this.property.photos = photos;
+          this.photos = photos;
         }
       });
     });
+  }
+  setPrimaryPhoto(index: number): void {
+    // Swap the first photo with the clicked photo
+    const temp = this.photos[0];
+    this.photos[0] = this.photos[index];
+    this.photos[index] = temp;
   }
 }

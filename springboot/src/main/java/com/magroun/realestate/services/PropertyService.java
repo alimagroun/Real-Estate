@@ -18,7 +18,8 @@ public class PropertyService {
 	 @Autowired
 	 private PhotoRepository photoRepository;
 
-    private final PropertyRepository propertyRepository;
+	 @Autowired
+	 private PropertyRepository propertyRepository;
 
     public PropertyService(PropertyRepository propertyRepository) {
         this.propertyRepository = propertyRepository;

@@ -131,13 +131,13 @@ public class AuthController {
           String extension = StringUtils.getFilenameExtension(originalFilename);
           String newFilename = System.currentTimeMillis() + "-" + savedProperty.getId() + "." + extension;
           
-          String uploadDir = "C:/photos/";
+          String uploadDir = "C:/Real-estate/angular-client/src/assets/photos";
           FileUploadUtil.saveFile(uploadDir, newFilename, file);
           
           // Save photo information to database
           Photo photo = new Photo();
           photo.setFilename(newFilename);
-          photo.setFilepath(uploadDir + "/" + newFilename);
+          photo.setFilepath("assets/photos" + "/" + newFilename);
           photo.setProperty(savedProperty);
           photoRepository.save(photo);
       }

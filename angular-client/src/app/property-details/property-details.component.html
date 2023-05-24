@@ -16,8 +16,12 @@
   </div>
   <h3>Photos</h3>
   <div class="photo-gallery">
-    <div class="photo-item" *ngFor="let photo of photos">
-      <p>{{photo.filename}}</p>
-      <img [src]="photo.filepath" [alt]="photo.filename">
+    <div class="primary-photo">
+      <img [src]="photos[0].filepath" [alt]="photos[0].filename">
+    </div>
+    <div class="thumbnail-photos">
+      <div class="thumbnail-item" *ngFor="let photo of photos; let i = index" (click)="setPrimaryPhoto(i)">
+        <img [src]="photo.filepath" [alt]="photo.filename">
+      </div>
     </div>
   </div>
