@@ -10,6 +10,7 @@ import {UsersListComponent} from './users-list/users-list.component';
 import {AddPropertyComponent} from './add-property/add-property.component';
 import {PropertyListComponent} from './property-list/property-list.component';
 import { PropertyDetailsComponent} from './property-details/property-details.component';
+import {UpdatePropertyComponent} from './update-property/update-property.component';
 
 import { DefaultHeaderComponent } from './containers/default-layout/default-header/default-header.component';
 
@@ -33,6 +34,13 @@ const routes: Routes = [
           data: {
             sidebar: false
           }
+      },
+      {
+        path: 'updateproperty/:propertyId',
+        component: UpdatePropertyComponent,
+        data: {
+          title: 'Update Property'
+        }
       },
       {
         path: 'dashboard',

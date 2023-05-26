@@ -8,9 +8,6 @@ import {PropertyService} from '../_services/property.service';
 import { StateService } from '../_services/state.service';
 import { CityService } from '../_services/city.service';
 
-
-
-
 @Component({
   selector: 'app-add-property',
   templateUrl: './add-property.component.html',
@@ -33,11 +30,8 @@ export class AddPropertyComponent {
     });
   }
   onStateChange(event: any) {
-    // Retrieve selected state
    
     const selectedStateId = event.target.value;
-
-      // Check if selectedStateId is not undefined
   if (selectedStateId !== undefined) {
   
     // Call the getCitiesByState() method from your CityService to get cities based on stateId

@@ -47,6 +47,9 @@
         <button mat-icon-button color="primary" (click)="viewPropertyDetails(property.id)">
           <mat-icon>visibility</mat-icon>
         </button>
+        <button mat-icon-button color="primary" (click)="updateProperty(property.id)">
+          <mat-icon>edit</mat-icon>
+        </button>
       </td>
     </ng-container>
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

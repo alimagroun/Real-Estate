@@ -3,8 +3,6 @@ package com.magroun.realestate.controllers;
 import java.util.ArrayList;
 
 
-import java.util.Date;
-
 import org.springframework.web.bind.annotation.RequestParam;
 import java.util.HashSet;
 import java.util.List;

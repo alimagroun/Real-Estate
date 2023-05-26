@@ -13,6 +13,7 @@ export class PropertyDetailsComponent implements OnInit {
   property?: Property;
   propertyId?: number;
   photos: Photo[] = [];
+  primaryPhotoSrc?: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -24,6 +25,7 @@ export class PropertyDetailsComponent implements OnInit {
       this.propertyId = params['propertyId'];
       if (this.propertyId !== undefined) {
         this.getPropertyDetails(this.propertyId);
+        
       }
     });
   }
@@ -34,14 +36,12 @@ export class PropertyDetailsComponent implements OnInit {
       this.propertyService.getPhotos(propertyId).subscribe(photos => {
         if (this.property) {
           this.photos = photos;
+          this.primaryPhotoSrc = this.photos[0].filepath;
         }
       });
     });
   }
   setPrimaryPhoto(index: number): void {
-    // Swap the first photo with the clicked photo
-    const temp = this.photos[0];
-    this.photos[0] = this.photos[index];
-    this.photos[index] = temp;
+    this.primaryPhotoSrc = this.photos[index].filepath;
   }
 }

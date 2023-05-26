@@ -1,0 +1,55 @@
+  <div class="update-property">
+    <h2>Update Property</h2>
+    <form (ngSubmit)="updateProperty()" #propertyForm="ngForm">
+      <div class="form-group">
+        <label>Name</label>
+        <input type="text" class="form-control" name="name" [(ngModel)]="property.name" required maxlength="50">
+      </div>
+      <div class="form-group">
+        <label>Description</label>
+        <textarea class="form-control" name="description" [(ngModel)]="property.description" required maxlength="1000"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="state">Status</label>
+        <select name="state" cSelect name="status" [(ngModel)]="property.status" required>
+          <option value="sale">For Sale</option>
+          <option value="rent">For Rent</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Bedrooms</label>
+        <input type="number" class="form-control" name="bedrooms" [(ngModel)]="property.bedrooms" required min="0" max="20">
+        <div *ngIf="property.bedrooms > 20" class="text-danger">Please enter a valid number of bedrooms (maximum: 20).</div>
+      </div>
+      <div class="form-group">
+        <label>Bathrooms</label>
+        <input type="number" class="form-control" name="bathrooms" [(ngModel)]="property.bathrooms" required min="0" max="10">
+        <div *ngIf="property.bathrooms > 10" class="text-danger">Please enter a valid number of bedrooms (maximum: 10).</div>
+      </div>
+     <div class="form-group">
+        <label for="state">State</label>
+        <select name="state" cSelect name="stateId" [(ngModel)]="property.city.state.id" (change)="onStateChange($event)">
+          <option disabled selected></option>
+          <option *ngFor="let state of states" [value]="state.id">{{ state.name }}</option>
+        </select>
+    </div>  
+    <div class="form-group">
+      <label>City</label>
+      <select cSelect id="inputState" [(ngModel)]="property.cityId" name="cityId">
+        <option *ngFor="let city of cities" [value]="city.id" [selected]="city.id === property.city.id">{{ city.name }}</option>
+      </select>
+    </div> 
+    <div class="form-group">
+      <label>Size</label>
+      <input type="number" class="form-control" name="size" [(ngModel)]="property.size" required min="1" max="9999999">
+      <div *ngIf="property.size > 9999999" class="text-danger">Size cannot exceed 9999999 &#13217;</div>
+    </div>
+    <div class="form-group">
+      <label>Sale or Rent Price</label>
+      <input type="number" class="form-control" name="price" [(ngModel)]="property.price" required min="0" max="9999999.99">
+      <div *ngIf="property.price > 9999999.99" class="text-danger">Price cannot exceed 9999999.99 TND</div>
+    </div>
+
+    <button type="submit" class="btn btn-primary" [disabled]="!propertyForm.valid">Update Property</button>
+  </form>
+</div>

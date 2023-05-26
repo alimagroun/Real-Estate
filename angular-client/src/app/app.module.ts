@@ -62,6 +62,7 @@ import { AddPropertyComponent } from './add-property/add-property.component';
 import { PropertyListComponent } from './property-list/property-list.component';
 import { PropertyDetailsComponent } from './property-details/property-details.component';
 import { PropertyDetailsModule } from './property-details/property-details.module';
+import { UpdatePropertyComponent } from './update-property/update-property.component';
 
 
 
@@ -76,7 +77,7 @@ const APP_CONTAINERS = [
 ];
 
 @NgModule({
-  declarations: [AppComponent, ...APP_CONTAINERS, LoginComponent, RegisterComponent, HomeComponent, ProfileComponent, BoardAdminComponent, BoardModeratorComponent, BoardUserComponent, UsersListComponent],
+  declarations: [AppComponent, ...APP_CONTAINERS, LoginComponent, RegisterComponent, HomeComponent, ProfileComponent, BoardAdminComponent, BoardModeratorComponent, BoardUserComponent, UsersListComponent, UpdatePropertyComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
