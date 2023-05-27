@@ -27,10 +27,12 @@ export class UpdatePropertyComponent implements OnInit {
         this.getPropertyDetails(this.propertyId);
         
       }
+
     });
     this.stateService.getStates().subscribe((data: State[]) => {
       this.states = data;
     });
+
     
   }
   onStateChange(event: any) {
@@ -53,12 +55,29 @@ export class UpdatePropertyComponent implements OnInit {
   getPropertyDetails(propertyId: number): void {
     this.propertyService.getProperty(propertyId).subscribe(property => {
       this.property = property;
+      if (this.property.city.state.id !== undefined) {
+        const stateId = this.property.city.state.id; // Assign the value to a variable
+        console.log(stateId);
+  
+      this.cityService.getCitiesByState(this.property.city.state.id)
+      .subscribe(cities => {
+        this.cities = cities; // Update the cities array with retrieved cities
+                  // Set the flag to true when a state is selected
+                  this.stateSelected = true;
+      });}
     });
   }
 
-  updateProperty() {
-    // Update the property using a service or API call
-    // Example implementation assuming you have a property service
- //   this.propertyService.updateProperty(this.property);
-  }
+  updateProperty(id: number, property: Property): void {
+    this.propertyService.updateProperty(id, property).subscribe(
+      response => {
+        console.log('Property updated successfully:', response);
+        // Handle success scenario: show a success message, navigate to another page, etc.
+      },
+      error => {
+        console.log('Error updating property:', error);
+        // Handle error scenario: show an error message, handle specific error cases, etc.
+      }
+    );
+  }  
 }

@@ -1,6 +1,6 @@
   <div class="update-property">
     <h2>Update Property</h2>
-    <form (ngSubmit)="updateProperty()" #propertyForm="ngForm">
+    <form *ngIf="propertyId !== undefined" (ngSubmit)="updateProperty(propertyId, property)" #propertyForm="ngForm">
       <div class="form-group">
         <label>Name</label>
         <input type="text" class="form-control" name="name" [(ngModel)]="property.name" required maxlength="50">
@@ -33,10 +33,11 @@
           <option *ngFor="let state of states" [value]="state.id">{{ state.name }}</option>
         </select>
     </div>  
+    <input [(ngModel)]="property.city.state.id" name="state.id">
     <div class="form-group">
       <label>City</label>
-      <select cSelect id="inputState" [(ngModel)]="property.cityId" name="cityId">
-        <option *ngFor="let city of cities" [value]="city.id" [selected]="city.id === property.city.id">{{ city.name }}</option>
+      <select cSelect id="inputState" name="cityId"[(ngModel)]="property.city.id">
+        <option *ngFor="let city of cities" [value]="city.id">{{ city.name }}</option>
       </select>
     </div> 
     <div class="form-group">

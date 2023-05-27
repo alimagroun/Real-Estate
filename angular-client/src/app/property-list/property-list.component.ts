@@ -59,6 +59,6 @@ export class PropertyListComponent implements OnInit, AfterViewInit {
     this.router.navigate(['/property', propertyId]);
   }
   updateProperty(propertyId: number): void {
-    this.router.navigate(['/updateProperty', propertyId]);
+    this.router.navigate(['/updateproperty', propertyId]);
   }
 }
