@@ -63,3 +63,14 @@
   height: 100%;
   object-fit: cover;
 }
+.description {
+  .multiline {
+    word-break: break-word;
+    overflow-wrap: break-word;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3; // Set the desired number of lines to display
+    -webkit-box-orient: vertical;
+  }
+}
+

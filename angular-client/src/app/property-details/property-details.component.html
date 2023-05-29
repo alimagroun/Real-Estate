@@ -19,7 +19,10 @@
       <p>Size: {{ property.size }} &#13217;</p>
       <p>Status: For {{ property.status }}</p>
       <p>Name: {{ property.name }}</p>
-      <p>Description: {{ property.description }}</p>
+      <div class="description">
+        <p>Description:</p>
+        <p class="multiline">{{ property.description }}</p>
+      </div>
       <p>City: {{ property.city.name }}</p>
     </div>
   </div>

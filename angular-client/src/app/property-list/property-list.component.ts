@@ -6,6 +6,9 @@ import {Page} from '../_models/page';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { Router } from '@angular/router';
+import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 @Component({
@@ -31,7 +34,7 @@ export class PropertyListComponent implements OnInit, AfterViewInit {
   totalElements: number = 0;
   filterText: string = '';
 
-  constructor(private propertyService: PropertyService, private router: Router) {}
+  constructor(private propertyService: PropertyService, private router: Router,private dialog: MatDialog, private snackBar: MatSnackBar) {}
 
   ngOnInit(): void {
     this.loadPage(0, 10);
@@ -61,4 +64,28 @@ export class PropertyListComponent implements OnInit, AfterViewInit {
   updateProperty(propertyId: number): void {
     this.router.navigate(['/updateproperty', propertyId]);
   }
+  deleteProperty(id: number): void {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent);
+  
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === true) {
+        this.propertyService.deleteProperty(id).subscribe(
+          () => {
+            console.log('Property deleted successfully.');
+  
+            this.snackBar.open('Property deleted successfully.', 'Close', {
+              duration: 3000, // Duration in milliseconds
+              panelClass: ['success-snackbar'] // Apply custom styles to the snackbar
+            });
+            this.loadPage(0, 10);
+            
+          },
+          (error) => {
+            console.error('Error deleting property:', error);
+          }
+        );
+      }
+    });
+  }
+  
 }

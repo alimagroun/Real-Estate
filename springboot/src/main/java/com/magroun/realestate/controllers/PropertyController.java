@@ -45,6 +45,7 @@ public class PropertyController {
     public ResponseEntity<Property> updateProperty(@PathVariable Long id, @RequestBody Property property) {
         Property updatedProperty = propertyService.updateProperty(id, property);
         if (updatedProperty != null) {
+        	System.out.println("city code:"+property.getCity().getId());
             return ResponseEntity.ok(updatedProperty);
         } else {
             return ResponseEntity.notFound().build();

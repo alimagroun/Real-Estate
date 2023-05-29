@@ -44,12 +44,13 @@ public class PropertyService {
             Property existingProperty = optionalProperty.get();
             // Update the existing property with the new property details
             existingProperty.setName(property.getName());
+            existingProperty.setDescription(property.getDescription());
             existingProperty.setStatus(property.getStatus());
             existingProperty.setBedrooms(property.getBedrooms());
             existingProperty.setBathrooms(property.getBathrooms());
             existingProperty.setSize(property.getSize());
             existingProperty.setPrice(property.getPrice());
-  //          existingProperty.setCityId(property.getCityId());
+            existingProperty.setCity(property.getCity());
             // Save the updated property
             return propertyRepository.save(existingProperty);
         } else {

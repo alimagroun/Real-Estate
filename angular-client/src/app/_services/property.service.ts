@@ -41,11 +41,11 @@ export class PropertyService {
   }
 
   updateProperty(id: number, property: Property): Observable<any> {
-    return this.http.put(`${this.baseUrl}/${id}`, property);
+    return this.http.put(`${this.baseUrl1}/${id}`, property);
   }
 
   deleteProperty(id: number): Observable<any> {
-    return this.http.delete(`${this.baseUrl}/${id}`);
+    return this.http.delete(`${this.baseUrl1}/${id}`);
   }
 
   getProperties(): Observable<Property[]> {
