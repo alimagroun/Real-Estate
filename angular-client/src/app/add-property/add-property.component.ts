@@ -30,19 +30,16 @@ export class AddPropertyComponent {
     });
   }
   onStateChange(event: any) {
-   
     const selectedStateId = event.target.value;
   if (selectedStateId !== undefined) {
-  
-    // Call the getCitiesByState() method from your CityService to get cities based on stateId
     this.cityService.getCitiesByState(selectedStateId)
       .subscribe(cities => {
-        this.cities = cities; // Update the cities array with retrieved cities
-                  // Set the flag to true when a state is selected
+        this.cities = cities;
                   this.stateSelected = true;
       });
   }
   }
+  
   onSubmit() {
     
    

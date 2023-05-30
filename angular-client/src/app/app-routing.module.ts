@@ -11,6 +11,7 @@ import {AddPropertyComponent} from './add-property/add-property.component';
 import {PropertyListComponent} from './property-list/property-list.component';
 import { PropertyDetailsComponent} from './property-details/property-details.component';
 import {UpdatePropertyComponent} from './update-property/update-property.component';
+import {PropertySearchComponent} from './property-search/property-search.component'
 
 import { DefaultHeaderComponent } from './containers/default-layout/default-header/default-header.component';
 
@@ -42,6 +43,14 @@ const routes: Routes = [
           title: 'Update Property'
         }
       },
+      {
+      path: 'propertysearch',
+      component: PropertySearchComponent,
+      data: {
+        title: 'Search Property',
+        sidebar: false
+      }
+     },
       {
         path: 'dashboard',
         loadChildren: () =>
@@ -169,8 +178,6 @@ const routes: Routes = [
     }
   
   },
-//  { path: 'property-list', loadChildren: () =>
- //  import('./property-list/property-list.module').then(m => m.PropertyListModule) },
   {path: '**', redirectTo: 'dashboard'}
 ];
 

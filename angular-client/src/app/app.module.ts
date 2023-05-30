@@ -66,7 +66,12 @@ import { UpdatePropertyComponent } from './update-property/update-property.compo
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-
+import { PropertySearchComponent } from './property-search/property-search.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatSliderModule } from '@angular/material/slider';
+import { MatInputModule } from '@angular/material/input';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
@@ -79,7 +84,7 @@ const APP_CONTAINERS = [
 ];
 
 @NgModule({
-  declarations: [AppComponent, ...APP_CONTAINERS, LoginComponent, RegisterComponent, HomeComponent, ProfileComponent, BoardAdminComponent, BoardModeratorComponent, BoardUserComponent, UsersListComponent, UpdatePropertyComponent, ConfirmationDialogComponent],
+  declarations: [AppComponent, ...APP_CONTAINERS, LoginComponent, RegisterComponent, HomeComponent, ProfileComponent, BoardAdminComponent, BoardModeratorComponent, BoardUserComponent, UsersListComponent, UpdatePropertyComponent, ConfirmationDialogComponent, PropertySearchComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -110,7 +115,11 @@ const APP_CONTAINERS = [
     FormsModule,
     HttpClientModule,
     MatDialogModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatExpansionModule,
+    MatInputModule
   ],
   providers: [
     {

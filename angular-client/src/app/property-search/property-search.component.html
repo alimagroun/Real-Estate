@@ -1,0 +1,35 @@
+<div class="search-options">
+    <mat-form-field appearance="outline">
+      <mat-select [(value)]="selected">
+        <mat-option value="sale">For Sale</mat-option>
+        <mat-option value="rent">For Rent</mat-option>
+        <mat-option value="sold">Sold</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <span>&nbsp;&nbsp;&nbsp;</span> 
+    <mat-form-field appearance="outline">
+        <mat-label>States</mat-label>
+        <mat-select (selectionChange)="onStateChange($event)">
+          <mat-option *ngFor="let state of states" [value]="state.id">{{ state.name }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <span>&nbsp;&nbsp;&nbsp;</span> 
+      <mat-form-field appearance="outline">
+        <mat-label>City</mat-label>
+        <mat-select [disabled]="!stateSelected">
+          <mat-option *ngFor="let city of cities" [value]="city.id">{{ city.name }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <span>&nbsp;&nbsp;&nbsp;</span>   <label>Price</label>   <span>&nbsp;&nbsp;&nbsp;</span> 
+      <mat-form-field class="small-form-field">
+        <input matInput type="number" placeholder="Min">
+      </mat-form-field>
+      <span>&nbsp;&nbsp;&nbsp;</span> 
+      <mat-form-field >
+        <input matInput type="number" placeholder="Max">
+      </mat-form-field>
+      
+      
+      
+</div>
+  
