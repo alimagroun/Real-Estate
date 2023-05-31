@@ -13,12 +13,16 @@ import { CityService } from '../_services/city.service';
   styleUrls: ['./property-search.component.scss']
 })
 export class PropertySearchComponent {
-  selected ="sale"
   states: State[] = [];
   cities: City[] = [];
+  properties: Property[] = [];
   stateSelected = false;
+  min: number[] = [0, 50000, 100000, 150000, 200000, 250000, 300000, 350000];
+  max: number[] = [0, 90000, 180000, 250000, 350000, 450000, 500000, 600000];
+  status ="sale";
+  stateId?:number;
 
-  constructor(private stateService: StateService,private cityService: CityService){}
+  constructor(private propertyService: PropertyService,private stateService: StateService,private cityService: CityService){}
 
   ngOnInit() {
     this.stateService.getStates().subscribe((data: State[]) => {
@@ -34,15 +38,16 @@ export class PropertySearchComponent {
           this.stateSelected = true;
         });
     }
+    this.applyFilter();
   }
-  sliderValue: number = 300;
-
-  formatSliderValue(value: number): string {
-    return `Value: ${value}`;
-  }
-  
-  onSliderChange(event: any): void {
-    this.sliderValue = event.value;
+  applyFilter() {
+    const status = this.status;
+    if(status!==undefined){
+    this.propertyService.getPropertiesByFilter(status)
+      .subscribe(properties => {
+        this.properties = properties;
+      });
+    }
   }
   
 }

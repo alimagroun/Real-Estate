@@ -25,7 +25,7 @@ export class PropertyListComponent implements OnInit, AfterViewInit {
     'bathrooms',
     'size',
     'price',
-    'cityId',
+    'city',
     'actions'
   ];
   dataSource = new MatTableDataSource<Property>();

@@ -1,9 +1,8 @@
 <div class="search-options">
     <mat-form-field appearance="outline">
-      <mat-select [(value)]="selected">
+      <mat-select [(value)]="status" (selectionChange)="applyFilter()">
         <mat-option value="sale">For Sale</mat-option>
         <mat-option value="rent">For Rent</mat-option>
-        <mat-option value="sold">Sold</mat-option>
       </mat-select>
     </mat-form-field>
     <span>&nbsp;&nbsp;&nbsp;</span> 
@@ -21,15 +20,58 @@
         </mat-select>
       </mat-form-field>
       <span>&nbsp;&nbsp;&nbsp;</span>   <label>Price</label>   <span>&nbsp;&nbsp;&nbsp;</span> 
-      <mat-form-field class="small-form-field">
-        <input matInput type="number" placeholder="Min">
+      <mat-form-field class="price">
+        <input type="text" matInput placeholder="No Min" [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let value of min" [value]="value">
+            {{ value }}
+          </mat-option>
+        </mat-autocomplete>
       </mat-form-field>
-      <span>&nbsp;&nbsp;&nbsp;</span> 
-      <mat-form-field >
-        <input matInput type="number" placeholder="Max">
+      <span>&nbsp;-&nbsp;</span>
+      <mat-form-field class="price">
+        <input type="text" matInput placeholder="No Max" [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let value of max" [value]="value">
+            {{ value }}
+          </mat-option>
+        </mat-autocomplete>
       </mat-form-field>
-      
-      
-      
+      <span>&nbsp;&nbsp;&nbsp;</span>
+      <mat-form-field appearance="outline" class="short-select">
+        <mat-label>Bedrooms</mat-label>
+        <mat-select >
+          <mat-option value="1">1</mat-option>
+          <mat-option value="2">2</mat-option>
+          <mat-option value="3">3</mat-option>
+          <mat-option value="4">4</mat-option>
+          <mat-option value="5">5+</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <span>&nbsp;&nbsp;&nbsp;</span>
+      <mat-form-field appearance="outline" class="short-select">
+        <mat-label>Bathrooms</mat-label>
+        <mat-select >
+          <mat-option value="1">1</mat-option>
+          <mat-option value="2">2</mat-option>
+          <mat-option value="3">3</mat-option>
+          <mat-option value="4">4+</mat-option>
+        </mat-select>
+      </mat-form-field>   
+</div>
+<div *ngIf="properties.length > 0">
+  <h3>List of Properties:</h3>
+  <ul>
+    <li *ngFor="let property of properties">
+      <h4>{{ property.id }}</h4>
+      <p>Price: {{ property.price }}</p>
+      <p>Location: {{ property.name }}</p>
+      <p>Description: {{ property.description }}</p>
+      <!-- Add more property details as needed -->
+    </li>
+  </ul>
+</div>
+<div *ngIf="properties.length === 0">
+  <p>No properties found.</p>
 </div>
   

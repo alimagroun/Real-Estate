@@ -5,6 +5,7 @@ import {Property} from '../_models/property';
 import { Page } from '../_models/page';
 import { HttpParams } from '@angular/common/http';
 import{Photo} from "../_models/photo";
+import{PropertyFilter} from "../_models/propertyFilter";
 
 
 
@@ -16,6 +17,27 @@ export class PropertyService {
   private baseUrl = 'http://localhost:8080/api/auth/';
   private baseUrl1 = 'http://localhost:8080/api/properties';
   constructor(private http: HttpClient) { }
+
+  getPropertiesByFilter(filter: PropertyFilter): Observable<Property[]> {
+    let params = new HttpParams();
+    
+    // Set the filter properties as parameters
+    if (filter.status) {
+      params = params.set('status', filter.status);
+    }
+    if (filter.stateId) {
+      params = params.set('type', filter.stateId);
+    }
+    // Add more properties as needed
+    
+    return this.http.get<Property[]>(`${this.baseUrl1}/filter`, { params: params });
+  }
+
+  getPropertiesByFilter1(status: string,filter: PropertyFilter): Observable<Property[]> {
+    console.log('Status:', status);
+    return this.http.get<Property[]>(`${this.baseUrl1}/filter/${status}`);
+  }
+  
 
   getProperty(id: number): Observable<Property> {
     return this.http.get<Property>(`${this.baseUrl1}/${id}`);
