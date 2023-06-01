@@ -8,6 +8,8 @@ import com.magroun.realestate.model.Property;
 import com.magroun.realestate.services.PropertyService;
 
 import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
 @RestController
 @RequestMapping("/api/properties")
@@ -70,5 +72,18 @@ public class PropertyController {
             return ResponseEntity.notFound().build();
         }
     }
+    @GetMapping("/filter")
+    public Page<Property> getPropertiesByFilter(@RequestParam(required = false) String status,
+                                                @RequestParam(required = false) Long stateId,
+                                                @RequestParam(required = false) Float minPrice,
+                                                @RequestParam(required = false) Float maxPrice,
+                                                @RequestParam(defaultValue = "0") int bedrooms,
+                                                @RequestParam(defaultValue = "0") int bathrooms,
+                                                @RequestParam(required = false) Long cityId,
+                                                Pageable pageable) {
+        System.out.println("stateId: " + stateId);
+        return propertyService.getPropertiesByFilter(status, stateId, minPrice, maxPrice, bedrooms, bathrooms, cityId, pageable);
+    }
+
 }
 

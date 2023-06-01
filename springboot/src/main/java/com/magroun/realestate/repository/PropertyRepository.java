@@ -6,6 +6,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.magroun.realestate.model.Property;
+
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -26,5 +29,8 @@ public interface PropertyRepository extends JpaRepository<Property, Long> {
             "CAST(p.size AS STRING) LIKE %:filter% OR " +
             "CAST(p.price AS STRING) LIKE %:filter%)")
     Page<Property> findByFilter(String filter, Pageable pageable);
+    
+    List<Property> findByStatus(String status);
+    
 
 }

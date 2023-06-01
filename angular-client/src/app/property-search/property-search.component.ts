@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {Property} from '../_models/property';
 import {State} from '../_models/state';
 import {City} from '../_models/city';
+import{PropertyFilter} from '../_models/propertyFilter';
 
 import {PropertyService} from '../_services/property.service';
 import { StateService } from '../_services/state.service';
@@ -40,14 +41,24 @@ export class PropertySearchComponent {
     }
     this.applyFilter();
   }
+
+
   applyFilter() {
-    const status = this.status;
-    if(status!==undefined){
-    this.propertyService.getPropertiesByFilter(status)
+    const filter: PropertyFilter = {
+   //   status: this.selectedStatus,
+      stateId: this.stateId,
+   //   minPrice: this.minPrice,
+  //    maxPrice: this.maxPrice,
+   //   bedrooms: this.bedrooms,
+   //   bathrooms: this.bathrooms,
+   //   cityId: this.selectedCityId
+    };
+  
+    this.propertyService.getPropertiesByFilter(filter)
       .subscribe(properties => {
         this.properties = properties;
       });
-    }
   }
+  
   
 }

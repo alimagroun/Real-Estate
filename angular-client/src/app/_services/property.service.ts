@@ -20,18 +20,33 @@ export class PropertyService {
 
   getPropertiesByFilter(filter: PropertyFilter): Observable<Property[]> {
     let params = new HttpParams();
-    
+  
     // Set the filter properties as parameters
     if (filter.status) {
       params = params.set('status', filter.status);
     }
     if (filter.stateId) {
-      params = params.set('type', filter.stateId);
+      params = params.set('stateId', filter.stateId.toString());
     }
-    // Add more properties as needed
-    
+    if (filter.minPrice) {
+      params = params.set('minPrice', filter.minPrice.toString());
+    }
+    if (filter.maxPrice) {
+      params = params.set('maxPrice', filter.maxPrice.toString());
+    }
+    if (filter.bedrooms) {
+      params = params.set('bedrooms', filter.bedrooms.toString());
+    }
+    if (filter.bathrooms) {
+      params = params.set('bathrooms', filter.bathrooms.toString());
+    }
+    if (filter.cityId) {
+      params = params.set('cityId', filter.cityId);
+    }
+  
     return this.http.get<Property[]>(`${this.baseUrl1}/filter`, { params: params });
   }
+  
 
   getPropertiesByFilter1(status: string,filter: PropertyFilter): Observable<Property[]> {
     console.log('Status:', status);

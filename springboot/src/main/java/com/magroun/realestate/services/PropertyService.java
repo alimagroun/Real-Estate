@@ -1,14 +1,22 @@
 package com.magroun.realestate.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.magroun.realestate.model.Photo;
 import com.magroun.realestate.model.Property;
+import com.magroun.realestate.model.City;
+import com.magroun.realestate.model.State;
 import com.magroun.realestate.repository.PhotoRepository;
 import com.magroun.realestate.repository.PropertyRepository;
 import java.util.List;
 import java.util.Optional;
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.Root;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 
 
 
@@ -70,5 +78,48 @@ public class PropertyService {
     public List<Photo> getPhotosByPropertyId(Long propertyId) {
         return photoRepository.findByPropertyId(propertyId);
     }
+    public List<Property> getPropertiesByStatus(String status) {
+        return propertyRepository.findByStatus(status);
+    }
+
+    public Page<Property> getPropertiesByFilter(String status, Long stateId, Float minPrice, Float maxPrice, int bedrooms, int bathrooms, Long cityId, Pageable pageable) {
+        Specification<Property> spec = Specification.where(null);
+
+        if (status != null) {
+            spec = spec.and((root, query, builder) -> builder.equal(root.get("status"), status));
+        }
+
+        if (stateId != null) {
+            spec = spec.and((root, query, builder) -> {
+                Join<Property, City> cityJoin = root.join("city");
+                Join<City, State> stateJoin = cityJoin.join("state");
+                return builder.equal(stateJoin.get("id"), stateId);
+            });
+        }
+
+        if (minPrice != null) {
+            spec = spec.and((root, query, builder) -> builder.greaterThanOrEqualTo(root.get("price"), minPrice));
+        }
+
+        if (maxPrice != null) {
+            spec = spec.and((root, query, builder) -> builder.lessThanOrEqualTo(root.get("price"), maxPrice));
+        }
+
+        if (bedrooms != 0) {
+            spec = spec.and((root, query, builder) -> builder.equal(root.get("bedrooms"), bedrooms));
+        }
+
+        if (bathrooms != 0) {
+            spec = spec.and((root, query, builder) -> builder.equal(root.get("bathrooms"), bathrooms));
+        }
+
+        if (cityId != null) {
+            spec = spec.and((root, query, builder) -> builder.equal(root.join("city").get("id"), cityId));
+        }
+
+        return propertyRepository.findAll(spec, pageable);
+    }
+
+
 }
 
