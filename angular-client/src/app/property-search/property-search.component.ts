@@ -19,9 +19,14 @@ export class PropertySearchComponent {
   properties: Property[] = [];
   stateSelected = false;
   min: number[] = [0, 50000, 100000, 150000, 200000, 250000, 300000, 350000];
-  max: number[] = [0, 90000, 180000, 250000, 350000, 450000, 500000, 600000];
+  max: number[] = [90000, 180000, 250000, 350000, 450000, 500000, 600000];
   status ="sale";
-  stateId?:number;
+  stateId: number | undefined;
+  minPrice: number| undefined;
+  maxPrice: number| undefined;
+  bedrooms: number| undefined;
+  bathrooms: number| undefined;
+  cityId: number | undefined;
 
   constructor(private propertyService: PropertyService,private stateService: StateService,private cityService: CityService){}
 
@@ -31,33 +36,35 @@ export class PropertySearchComponent {
     });
   }
   onStateChange(event: any) {
-    const selectedStateId = event.value;
-    if (selectedStateId !== undefined) {
-      this.cityService.getCitiesByState(selectedStateId)
+    this.stateId = event.value;
+    if (this.stateId !== undefined) {
+      this.cityService.getCitiesByState(this.stateId)
         .subscribe(cities => {
           this.cities = cities;
           this.stateSelected = true;
         });
     }
+    this.cityId = undefined;
     this.applyFilter();
   }
 
-
   applyFilter() {
     const filter: PropertyFilter = {
-   //   status: this.selectedStatus,
+      status: this.status,
       stateId: this.stateId,
-   //   minPrice: this.minPrice,
-  //    maxPrice: this.maxPrice,
-   //   bedrooms: this.bedrooms,
-   //   bathrooms: this.bathrooms,
-   //   cityId: this.selectedCityId
+      minPrice: this.minPrice,
+      maxPrice: this.maxPrice,
+      bedrooms:this.bedrooms,
+      bathrooms:this.bathrooms,
+      cityId:this.cityId
     };
-  
+    console.log('State ID:'+filter.stateId+filter.minPrice+filter.maxPrice);
     this.propertyService.getPropertiesByFilter(filter)
-      .subscribe(properties => {
-        this.properties = properties;
-      });
+    .subscribe(page => {
+      this.properties = page.content;
+ 
+    });
+  
   }
   
   

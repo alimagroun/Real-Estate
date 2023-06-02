@@ -15,14 +15,14 @@
       <span>&nbsp;&nbsp;&nbsp;</span> 
       <mat-form-field appearance="outline">
         <mat-label>City</mat-label>
-        <mat-select [disabled]="!stateSelected">
+        <mat-select [disabled]="!stateSelected" [(ngModel)]="cityId" (selectionChange)="applyFilter()">
           <mat-option *ngFor="let city of cities" [value]="city.id">{{ city.name }}</mat-option>
         </mat-select>
       </mat-form-field>
       <span>&nbsp;&nbsp;&nbsp;</span>   <label>Price</label>   <span>&nbsp;&nbsp;&nbsp;</span> 
       <mat-form-field class="price">
-        <input type="text" matInput placeholder="No Min" [matAutocomplete]="auto">
-        <mat-autocomplete #auto="matAutocomplete">
+        <input type="text" matInput placeholder="No Min" [matAutocomplete]="auto1" [(ngModel)]="minPrice" (blur)="applyFilter()">
+        <mat-autocomplete #auto1="matAutocomplete" (optionSelected)="applyFilter()">
           <mat-option *ngFor="let value of min" [value]="value">
             {{ value }}
           </mat-option>
@@ -30,8 +30,8 @@
       </mat-form-field>
       <span>&nbsp;-&nbsp;</span>
       <mat-form-field class="price">
-        <input type="text" matInput placeholder="No Max" [matAutocomplete]="auto">
-        <mat-autocomplete #auto="matAutocomplete">
+        <input type="text" matInput placeholder="No Max" [matAutocomplete]="auto2" [(ngModel)]="maxPrice" (blur)="applyFilter()">
+        <mat-autocomplete #auto2="matAutocomplete" (optionSelected)="applyFilter()">
           <mat-option *ngFor="let value of max" [value]="value">
             {{ value }}
           </mat-option>
@@ -40,7 +40,7 @@
       <span>&nbsp;&nbsp;&nbsp;</span>
       <mat-form-field appearance="outline" class="short-select">
         <mat-label>Bedrooms</mat-label>
-        <mat-select >
+        <mat-select [(ngModel)]="bedrooms" (selectionChange)="applyFilter()">
           <mat-option value="1">1</mat-option>
           <mat-option value="2">2</mat-option>
           <mat-option value="3">3</mat-option>
@@ -51,7 +51,7 @@
       <span>&nbsp;&nbsp;&nbsp;</span>
       <mat-form-field appearance="outline" class="short-select">
         <mat-label>Bathrooms</mat-label>
-        <mat-select >
+        <mat-select [(ngModel)]="bathrooms" (selectionChange)="applyFilter()">
           <mat-option value="1">1</mat-option>
           <mat-option value="2">2</mat-option>
           <mat-option value="3">3</mat-option>
@@ -59,18 +59,23 @@
         </mat-select>
       </mat-form-field>   
 </div>
-<div *ngIf="properties.length > 0">
-  <h3>List of Properties:</h3>
-  <ul>
-    <li *ngFor="let property of properties">
-      <h4>{{ property.id }}</h4>
-      <p>Price: {{ property.price }}</p>
-      <p>Location: {{ property.name }}</p>
-      <p>Description: {{ property.description }}</p>
-      <!-- Add more property details as needed -->
-    </li>
-  </ul>
+<div class="property-list">
+  <mat-card *ngFor="let property of properties" class="property-card" class="custom-card">
+    <mat-card-header>
+      <div mat-card-avatar>
+      <!--  <img [src]="property.photoUrl" alt="Property Photo">  -->
+      </div>
+      <mat-card-title>{{ property.name }}</mat-card-title>
+      <mat-card-subtitle>{{ property.price }}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <p>{{ property.description }}</p>
+      <!-- Add other property details as needed -->
+      middle
+    </mat-card-content>
+  </mat-card>
 </div>
+
 <div *ngIf="properties.length === 0">
   <p>No properties found.</p>
 </div>

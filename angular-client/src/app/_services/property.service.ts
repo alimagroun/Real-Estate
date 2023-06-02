@@ -18,7 +18,11 @@ export class PropertyService {
   private baseUrl1 = 'http://localhost:8080/api/properties';
   constructor(private http: HttpClient) { }
 
-  getPropertiesByFilter(filter: PropertyFilter): Observable<Property[]> {
+  getFirstPhotoByPropertyId(propertyId: number): Observable<Photo> {
+    return this.http.get<Photo>(`${this.baseUrl1}/firstphoto/${propertyId}`);
+  }
+  
+  getPropertiesByFilter(filter: PropertyFilter): Observable<Page<Property>> {
     let params = new HttpParams();
   
     // Set the filter properties as parameters
@@ -26,13 +30,13 @@ export class PropertyService {
       params = params.set('status', filter.status);
     }
     if (filter.stateId) {
-      params = params.set('stateId', filter.stateId.toString());
+      params = params.set('stateId', filter.stateId);
     }
     if (filter.minPrice) {
-      params = params.set('minPrice', filter.minPrice.toString());
+      params = params.set('minPrice', filter.minPrice);
     }
     if (filter.maxPrice) {
-      params = params.set('maxPrice', filter.maxPrice.toString());
+      params = params.set('maxPrice', filter.maxPrice);
     }
     if (filter.bedrooms) {
       params = params.set('bedrooms', filter.bedrooms.toString());
@@ -41,10 +45,10 @@ export class PropertyService {
       params = params.set('bathrooms', filter.bathrooms.toString());
     }
     if (filter.cityId) {
-      params = params.set('cityId', filter.cityId);
+      params = params.set('cityId', filter.cityId.toString());
     }
   
-    return this.http.get<Property[]>(`${this.baseUrl1}/filter`, { params: params });
+    return this.http.get<Page<Property>>(`${this.baseUrl1}/filter`, { params: params });
   }
   
 

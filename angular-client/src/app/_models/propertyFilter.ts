@@ -5,5 +5,5 @@ export interface PropertyFilter {
   maxPrice?: number;
   bedrooms?: number;
   bathrooms?: number;
-  cityId?: string;
+  cityId?: number;
 }

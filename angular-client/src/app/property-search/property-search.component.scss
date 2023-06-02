@@ -7,3 +7,17 @@
   .price{
     width: 100px;
   }
+
+  .custom-card {
+    width: 345px;
+    height: 283px;
+    margin: 10px;
+  }
+  
+  @media (max-width: 767px) {
+    .custom-card {
+      width: 100%; /* Adjust the width as needed for smaller screens */
+      height: auto; /* Allow the height to adjust based on content */
+    }
+  }
+  

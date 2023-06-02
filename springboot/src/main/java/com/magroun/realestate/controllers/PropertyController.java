@@ -81,8 +81,18 @@ public class PropertyController {
                                                 @RequestParam(defaultValue = "0") int bathrooms,
                                                 @RequestParam(required = false) Long cityId,
                                                 Pageable pageable) {
-        System.out.println("stateId: " + stateId);
+        System.out.println("cityId: " + cityId);
         return propertyService.getPropertiesByFilter(status, stateId, minPrice, maxPrice, bedrooms, bathrooms, cityId, pageable);
+    }
+    
+    @GetMapping("/firstphoto/{propertyId}")
+    public ResponseEntity<Photo> getFirstPhotoByPropertyId(@PathVariable Long propertyId) {
+        Photo photo = propertyService.getFirstPhotoByPropertyId(propertyId);
+        if (photo != null) {
+            return ResponseEntity.ok(photo);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
 }

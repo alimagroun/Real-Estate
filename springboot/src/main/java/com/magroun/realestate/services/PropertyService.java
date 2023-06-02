@@ -119,7 +119,13 @@ public class PropertyService {
 
         return propertyRepository.findAll(spec, pageable);
     }
-
+    public Photo getFirstPhotoByPropertyId(Long propertyId) {
+        List<Photo> photos = photoRepository.findByPropertyId(propertyId);
+        if (!photos.isEmpty()) {
+            return photos.get(0);
+        }
+        return null;
+    }
 
 }
 
