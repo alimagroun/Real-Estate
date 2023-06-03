@@ -72,6 +72,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+
 
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
@@ -121,7 +123,8 @@ const APP_CONTAINERS = [
     MatSelectModule,
     MatInputModule,
     MatAutocompleteModule,
-    MatCardModule
+    MatCardModule,
+    MatIconModule
   ],
   providers: [
     {

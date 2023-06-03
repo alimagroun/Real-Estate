@@ -9,9 +9,10 @@ import { RegisterComponent } from './register/register.component';
 import {UsersListComponent} from './users-list/users-list.component';
 import {AddPropertyComponent} from './add-property/add-property.component';
 import {PropertyListComponent} from './property-list/property-list.component';
-import { PropertyDetailsComponent} from './property-details/property-details.component';
+import {PropertyDetailsComponent} from './property-details/property-details.component';
 import {UpdatePropertyComponent} from './update-property/update-property.component';
-import {PropertySearchComponent} from './property-search/property-search.component'
+import {PropertySearchComponent} from './property-search/property-search.component';
+import { HomeComponent } from './home/home.component';
 
 import { DefaultHeaderComponent } from './containers/default-layout/default-header/default-header.component';
 
@@ -28,6 +29,14 @@ const routes: Routes = [
       title: 'Home'
     },
     children: [
+      {
+        path: 'home',
+        component: HomeComponent,
+        data: {
+          title: 'Home',
+          sidebar: false
+        }
+       },
       {
         path: 'property/:propertyId',
         loadChildren: () =>

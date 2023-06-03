@@ -62,7 +62,10 @@ export class PropertySearchComponent {
     this.propertyService.getPropertiesByFilter(filter)
     .subscribe(page => {
       this.properties = page.content;
- 
+      this.properties.forEach(property => {
+        this.propertyService.getFirstPhotoByPropertyId(property.id)
+          .subscribe(photo => property.photos = [photo]);
+      });
     });
   
   }

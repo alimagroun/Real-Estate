@@ -42,9 +42,6 @@ public class Property {
 	    @JoinColumn(name = "city_id")
 	    private City city;
 
-	    @OneToMany(mappedBy = "property")
-	    private List<Photo> photos;
-	    
 
 		public Property() {
 			super();
@@ -160,13 +157,6 @@ public class Property {
 		public void setCity(City city) {
 			this.city = city;
 		}
-	//	public List<Photo> getPhotos() {
-	//	    return photos;
-	//	}
-
-		//public void setPhotos(List<Photo> photos) {
-		  //  this.photos = photos;
-		//}
 	  
 
 	  

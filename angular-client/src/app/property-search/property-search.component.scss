@@ -8,16 +8,28 @@
     width: 100px;
   }
 
-  .custom-card {
-    width: 345px;
-    height: 283px;
-    margin: 10px;
+
+  
+  .property-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, max-content));
+    grid-gap: 10px;
+
   }
   
-  @media (max-width: 767px) {
-    .custom-card {
-      width: 100%; /* Adjust the width as needed for smaller screens */
-      height: auto; /* Allow the height to adjust based on content */
-    }
+  
+  .mat-card {
+    max-width: 300px;
+    margin-bottom: 10px;
+    width: 100%;
   }
+  
+  .property-image {
+    width: 100%;
+    max-width: 300px;
+    height: 200px;
+    object-fit: cover; /* Adjust to your desired image display style */
+  }
+  
+  
   

@@ -41,6 +41,7 @@
       <mat-form-field appearance="outline" class="short-select">
         <mat-label>Bedrooms</mat-label>
         <mat-select [(ngModel)]="bedrooms" (selectionChange)="applyFilter()">
+          <mat-option value="0">Any</mat-option>
           <mat-option value="1">1</mat-option>
           <mat-option value="2">2</mat-option>
           <mat-option value="3">3</mat-option>
@@ -52,6 +53,7 @@
       <mat-form-field appearance="outline" class="short-select">
         <mat-label>Bathrooms</mat-label>
         <mat-select [(ngModel)]="bathrooms" (selectionChange)="applyFilter()">
+          <mat-option value="0">Any</mat-option>
           <mat-option value="1">1</mat-option>
           <mat-option value="2">2</mat-option>
           <mat-option value="3">3</mat-option>
@@ -60,21 +62,20 @@
       </mat-form-field>   
 </div>
 <div class="property-list">
-  <mat-card *ngFor="let property of properties" class="property-card" class="custom-card">
+  <mat-card *ngFor="let property of properties">
     <mat-card-header>
-      <div mat-card-avatar>
-      <!--  <img [src]="property.photoUrl" alt="Property Photo">  -->
-      </div>
-      <mat-card-title>{{ property.name }}</mat-card-title>
-      <mat-card-subtitle>{{ property.price }}</mat-card-subtitle>
+        <img mat-card-image [src]="property.photos[0].filepath" alt="Property Photo" class="property-image">
     </mat-card-header>
     <mat-card-content>
-      <p>{{ property.description }}</p>
-      <!-- Add other property details as needed -->
-      middle
+      <mat-card-title>{{ property.price }} DT</mat-card-title>
+      <mat-card-subtitle>{{ property.bedrooms }} bds | {{ property.bathrooms }} ba | {{property.size}} &#13217; | for {{property.status}}
+       <br> {{property.city.name}}, {{property.city.state.name}}
+      </mat-card-subtitle>
     </mat-card-content>
   </mat-card>
 </div>
+
+
 
 <div *ngIf="properties.length === 0">
   <p>No properties found.</p>
