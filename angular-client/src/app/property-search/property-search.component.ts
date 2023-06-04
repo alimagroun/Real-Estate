@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import {Property} from '../_models/property';
 import {State} from '../_models/state';
 import {City} from '../_models/city';
@@ -28,9 +29,23 @@ export class PropertySearchComponent {
   bathrooms: number| undefined;
   cityId: number | undefined;
 
-  constructor(private propertyService: PropertyService,private stateService: StateService,private cityService: CityService){}
+  constructor(private propertyService: PropertyService,private stateService: StateService,private cityService: CityService,private route: ActivatedRoute){}
 
   ngOnInit() {
+
+    this.route.queryParams.subscribe(params => {
+      this.stateId = +params['stateId'];
+      if (this.stateId !== undefined) 
+      {      this.cityService.getCitiesByState(this.stateId)
+        .subscribe(cities => {
+          this.cities = cities;
+          this.stateSelected = true;
+        });
+        this.stateSelected=true;}
+      this.status = params['status'];
+      this.cityId = +params['cityId'];
+      this.applyFilter(0,12);
+    });
     this.stateService.getStates().subscribe((data: State[]) => {
       this.states = data;
     });
@@ -45,10 +60,11 @@ export class PropertySearchComponent {
         });
     }
     this.cityId = undefined;
-    this.applyFilter();
+    this.applyFilter(0,12);
   }
+ 
 
-  applyFilter() {
+  applyFilter(pageIndex: number, pageSize: number) {
     const filter: PropertyFilter = {
       status: this.status,
       stateId: this.stateId,
@@ -59,8 +75,9 @@ export class PropertySearchComponent {
       cityId:this.cityId
     };
     console.log('State ID:'+filter.stateId+filter.minPrice+filter.maxPrice);
-    this.propertyService.getPropertiesByFilter(filter)
+    this.propertyService.getPropertiesByFilter(filter,pageIndex, pageSize)
     .subscribe(page => {
+      this.totalElements = page.totalElements;
       this.properties = page.content;
       this.properties.forEach(property => {
         this.propertyService.getFirstPhotoByPropertyId(property.id)
@@ -69,6 +86,14 @@ export class PropertySearchComponent {
     });
   
   }
-  
-  
+  currentPage = 1;
+  totalElements: number = 0;
+  pageSize = 12;
+  maxSize = 5;
+  pageChanged(event: any): void {
+    this.currentPage = event.page;
+    const pageIndex = this.currentPage - 1;
+    const pageSize = this.pageSize;
+    this.applyFilter(pageIndex, pageSize);
+  }
 }

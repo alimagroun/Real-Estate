@@ -22,10 +22,13 @@ export class PropertyService {
     return this.http.get<Photo>(`${this.baseUrl1}/firstphoto/${propertyId}`);
   }
   
-  getPropertiesByFilter(filter: PropertyFilter): Observable<Page<Property>> {
+  getPropertiesByFilter(filter: PropertyFilter,pageIndex: number, pageSize: number): Observable<Page<Property>> {
     let params = new HttpParams();
   
-    // Set the filter properties as parameters
+  
+    params = params.set('page', pageIndex.toString());
+    params = params.set('size', pageSize.toString());
+
     if (filter.status) {
       params = params.set('status', filter.status);
     }

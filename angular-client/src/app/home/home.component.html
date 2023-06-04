@@ -3,7 +3,7 @@
         Let’s find a home that’s perfect for you <br>
       <mat-form-field appearance="outline">
         <mat-label>Category</mat-label>
-        <mat-select>
+        <mat-select [(ngModel)]="status">
           <mat-option value="sale">For Sale</mat-option>
           <mat-option value="rent">For Rent</mat-option>
         </mat-select>
@@ -25,7 +25,7 @@
         </mat-form-field>
         <span>&nbsp;&nbsp;&nbsp;</span>
       </ng-container>
-      <button mat-raised-button color="primary">
+      <button mat-raised-button color="primary" (click)="applyFilter()">
         Search
       </button>
       
