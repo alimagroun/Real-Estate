@@ -94,6 +94,9 @@ public class PropertyController {
             return ResponseEntity.notFound().build();
         }
     }
-
+    @GetMapping("/last4")
+    public List<Property> getLast8Properties() {
+        return propertyService.getLast4Properties();
+    }
 }
 

@@ -31,4 +31,24 @@
       
     </div>
   </div>
+  <div class="spacer"></div>
+
+  <h4 class="black-heading">New Listings</h4>
+  <div class="property-grid mat-card-grid">
+    <mat-card class="property-card" *ngFor="let property of properties" (click)="viewPropertyDetails(property.id)">
+      <div class="property-image-container">
+        <img class="property-image" [src]="property.photos[0].filepath" alt="Property Image" />
+      </div>
+      <mat-card-content>
+        <mat-card-title>{{ property.price }} DT</mat-card-title>
+        <mat-card-subtitle>{{ property.bedrooms }} bds | {{ property.bathrooms }} ba | {{property.size}} &#13217; | for {{property.status}}
+         <br> {{property.city.name}}, {{property.city.state.name}}
+        </mat-card-subtitle>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  
+  
+  
+  
   

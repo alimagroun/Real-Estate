@@ -32,5 +32,6 @@ public interface PropertyRepository extends JpaRepository<Property, Long> {
     
     List<Property> findByStatus(String status);
     
-
+    @Query("SELECT p FROM Property p ORDER BY p.createdAt DESC LIMIT 4")
+    List<Property> findLast4Properties(); 
 }

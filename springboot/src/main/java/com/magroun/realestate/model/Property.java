@@ -1,7 +1,11 @@
 package com.magroun.realestate.model;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
+import org.hibernate.annotations.CreationTimestamp;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -34,7 +38,9 @@ public class Property {
 	  private int size;
 	  @NotNull
 	  private float price;
-	  
+	  @CreationTimestamp
+	  @Column(name = "created_at")
+	  private LocalDateTime createdAt;
 
 	  
 	  
@@ -157,7 +163,13 @@ public class Property {
 		public void setCity(City city) {
 			this.city = city;
 		}
-	  
+	    public LocalDateTime getCreatedAt() {
+	        return createdAt;
+	    }
+
+	    public void setCreatedAt(LocalDateTime createdAt) {
+	        this.createdAt = createdAt;
+	    }	  
 
 	  
 

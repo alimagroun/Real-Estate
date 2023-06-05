@@ -63,7 +63,7 @@
       </mat-form-field>   
 </div>
 <div class="property-list">
-  <mat-card *ngFor="let property of properties">
+  <mat-card *ngFor="let property of properties" (click)="viewPropertyDetails(property.id)">
     <mat-card-header>
         <img mat-card-image [src]="property.photos[0].filepath" alt="Property Photo" class="property-image">
     </mat-card-header>

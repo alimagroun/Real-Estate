@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute,Router } from '@angular/router';
 import {Property} from '../_models/property';
 import {State} from '../_models/state';
 import {City} from '../_models/city';
@@ -29,7 +29,7 @@ export class PropertySearchComponent {
   bathrooms: number| undefined;
   cityId: number | undefined;
 
-  constructor(private propertyService: PropertyService,private stateService: StateService,private cityService: CityService,private route: ActivatedRoute){}
+  constructor(private propertyService: PropertyService,private stateService: StateService,private cityService: CityService,private route: ActivatedRoute,private router: Router){}
 
   ngOnInit() {
 
@@ -95,5 +95,8 @@ export class PropertySearchComponent {
     const pageIndex = this.currentPage - 1;
     const pageSize = this.pageSize;
     this.applyFilter(pageIndex, pageSize);
+  }
+  viewPropertyDetails(propertyId: number): void {
+    this.router.navigate(['/property', propertyId]);
   }
 }

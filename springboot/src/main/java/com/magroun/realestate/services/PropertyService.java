@@ -126,6 +126,9 @@ public class PropertyService {
         }
         return null;
     }
+    public List<Property> getLast4Properties() {
+        return propertyRepository.findLast4Properties();
+    }
 
 }
 

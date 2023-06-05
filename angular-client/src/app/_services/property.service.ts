@@ -18,6 +18,10 @@ export class PropertyService {
   private baseUrl1 = 'http://localhost:8080/api/properties';
   constructor(private http: HttpClient) { }
 
+  getLast8Properties(): Observable<Property[]> {
+    return this.http.get<Property[]>(`${this.baseUrl1}/last4`);
+  }
+
   getFirstPhotoByPropertyId(propertyId: number): Observable<Photo> {
     return this.http.get<Photo>(`${this.baseUrl1}/firstphoto/${propertyId}`);
   }

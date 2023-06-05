@@ -17,6 +17,7 @@ import{PropertyFilter} from '../_models/propertyFilter';
 export class HomeComponent {
   states: State[] = [];
   cities: City[] = [];
+  properties: Property[] = [];
   stateSelected = false;
   status :string | undefined;
   stateId: number | undefined;
@@ -26,6 +27,7 @@ export class HomeComponent {
     this.stateService.getStates().subscribe((data: State[]) => {
       this.states = data;
     });
+    this.getLast4Properties();
   }
   onStateChange(event: any) {
     this.stateId = event.value;
@@ -38,6 +40,16 @@ export class HomeComponent {
     }
     this.cityId = undefined;
   }
+  getLast4Properties(): void {
+    this.propertyService.getLast8Properties()
+      .subscribe(properties => {
+        this.properties = properties;
+        this.properties.forEach(property => {
+          this.propertyService.getFirstPhotoByPropertyId(property.id)
+            .subscribe(photo => property.photos = [photo]);
+        });
+      });
+  }
   applyFilter() {
     const queryParams: Params = {
       status: this.status,
@@ -47,5 +59,7 @@ export class HomeComponent {
   
     this.router.navigate(['/propertysearch'], { queryParams });
   }
-  
+  viewPropertyDetails(propertyId: number): void {
+    this.router.navigate(['/property', propertyId]);
+  }
 }
