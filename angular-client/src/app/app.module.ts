@@ -74,7 +74,6 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatPaginatorModule } from '@angular/material/paginator';
-//import { PaginationModule } from '@coreui/angular';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 
 
