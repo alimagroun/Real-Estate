@@ -75,6 +75,11 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { PasswordRecoveryComponent } from './password-recovery/password-recovery.component';
+
+import {FormBuilder, Validators} from '@angular/forms';
+import {MatStepperModule} from '@angular/material/stepper';
+import {MatButtonModule} from '@angular/material/button';
 
 
 
@@ -89,7 +94,7 @@ const APP_CONTAINERS = [
 ];
 
 @NgModule({
-  declarations: [AppComponent, ...APP_CONTAINERS, LoginComponent, RegisterComponent, HomeComponent, ProfileComponent, BoardAdminComponent, BoardModeratorComponent, BoardUserComponent, UsersListComponent, UpdatePropertyComponent, ConfirmationDialogComponent, PropertySearchComponent],
+  declarations: [AppComponent, ...APP_CONTAINERS, LoginComponent, RegisterComponent, HomeComponent, ProfileComponent, BoardAdminComponent, BoardModeratorComponent, BoardUserComponent, UsersListComponent, UpdatePropertyComponent, ConfirmationDialogComponent, PropertySearchComponent, PasswordRecoveryComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -128,7 +133,9 @@ const APP_CONTAINERS = [
     MatCardModule,
     MatIconModule,
     MatPaginatorModule,
-    PaginationModule
+    PaginationModule,
+    MatButtonModule,
+    MatStepperModule,
   ],
   providers: [
     {

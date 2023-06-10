@@ -6,6 +6,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+
+import com.magroun.realestate.security.services.UserDetailsImpl;
+
+import java.util.HashMap;
+import java.util.Map;
+import org.springframework.security.core.Authentication;
+
 //@CrossOrigin(origins = "*", maxAge = 3600)
 @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
 @RestController
@@ -16,11 +23,36 @@ public class TestController {
     return "Public Content.";
   }
 
+	/*
+	 * @GetMapping("/user")
+	 * 
+	 * @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+	 * public String userAccess() { return "User Content."; }
+	 */
+
+
+
   @GetMapping("/user")
   @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-  public String userAccess() {
-    return "User Content.";
+  public Map<String, Object> userAccess(Authentication authentication) {
+      UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+      Long userId = userDetails.getId();
+
+      Map<String, Object> response = new HashMap<>();
+      response.put("userId", userId);
+      response.put("message", "User Content.");
+
+      return response;
   }
+
+
+  
+  
+  
+ 
+  
+  
+  
 
   @GetMapping("/mod")
   @PreAuthorize("hasRole('MODERATOR')")

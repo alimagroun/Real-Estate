@@ -15,6 +15,10 @@ const httpOptions = {
 export class AuthService {
   constructor(private http: HttpClient) {}
 
+  isLoggedIn(): Observable<boolean> {
+    return this.http.get<boolean>(`${AUTH_API}check-auth`);
+  }
+
   getAll(): Observable<User[]>{
     return this.http.get<User[]>(`${AUTH_API}users`);
   }

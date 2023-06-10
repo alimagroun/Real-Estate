@@ -22,7 +22,7 @@
       </mat-form-field>
       <span>&nbsp;&nbsp;&nbsp;</span>   <label>Price</label>   <span>&nbsp;&nbsp;&nbsp;</span> 
       <mat-form-field class="price">
-        <input type="text" matInput placeholder="No Min" [matAutocomplete]="auto1" [(ngModel)]="minPrice" (blur)="applyFilter(0,12)">
+        <input type="text" matInput placeholder="No Min" [matAutocomplete]="auto1" [(ngModel)]="minPrice" (input)="applyFilter(0,12)">
         <mat-autocomplete #auto1="matAutocomplete" (optionSelected)="applyFilter(0,12)">
           <mat-option *ngFor="let value of min" [value]="value">
             {{ value }}
@@ -31,7 +31,7 @@
       </mat-form-field>
       <span>&nbsp;-&nbsp;</span>
       <mat-form-field class="price">
-        <input type="text" matInput placeholder="No Max" [matAutocomplete]="auto2" [(ngModel)]="maxPrice" (blur)="applyFilter(0,12)">
+        <input type="text" matInput placeholder="No Max" [matAutocomplete]="auto2" [(ngModel)]="maxPrice" (input)="applyFilter(0,12)">
         <mat-autocomplete #auto2="matAutocomplete" (optionSelected)="applyFilter(0,12)">
           <mat-option *ngFor="let value of max" [value]="value">
             {{ value }}
@@ -81,5 +81,6 @@
 </div>
 <div  class="text-center">
   <p>Found {{totalElements}} matching properties</p>
+ <span *ngIf="totalElements==0"> <p>Edit or remove these filters for best results.</p></span>
 </div>
   

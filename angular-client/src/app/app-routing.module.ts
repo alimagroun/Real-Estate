@@ -13,6 +13,7 @@ import {PropertyDetailsComponent} from './property-details/property-details.comp
 import {UpdatePropertyComponent} from './update-property/update-property.component';
 import {PropertySearchComponent} from './property-search/property-search.component';
 import { HomeComponent } from './home/home.component';
+import { PasswordRecoveryComponent } from './password-recovery/password-recovery.component';
 
 import { DefaultHeaderComponent } from './containers/default-layout/default-header/default-header.component';
 
@@ -21,10 +22,12 @@ import { ProfileComponent } from './profile/profile.component';
 import { BoardUserComponent } from './board-user/board-user.component';
 import { BoardModeratorComponent } from './board-moderator/board-moderator.component';
 import { BoardAdminComponent } from './board-admin/board-admin.component';
+import { AuthGuard } from './_guards/auth.guard';
 const routes: Routes = [
-  { path: 'home', component: HomeComponent },
+ // { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
+  { path: 'PasswordRecovery', component: PasswordRecoveryComponent },
   { path: 'profile', component: ProfileComponent },
   { path: 'user', component: BoardUserComponent },
   { path: 'mod', component: BoardModeratorComponent },
@@ -80,7 +83,8 @@ const routes: Routes = [
       {
         path: 'addproperty',
         loadChildren: () =>
-          import('./add-property/add-property.module').then((m) => m.AddPropertyModule)
+          import('./add-property/add-property.module').then((m) => m.AddPropertyModule),
+          canActivate: [AuthGuard]
       },
       {
       path: 'propertylist',

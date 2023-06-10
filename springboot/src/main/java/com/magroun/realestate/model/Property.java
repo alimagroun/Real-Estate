@@ -1,7 +1,6 @@
 package com.magroun.realestate.model;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -12,7 +11,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -47,7 +45,9 @@ public class Property {
 	    @ManyToOne
 	    @JoinColumn(name = "city_id")
 	    private City city;
-
+	    @ManyToOne
+	    @JoinColumn(name = "user_id")
+	    private User user;
 
 		public Property() {
 			super();
@@ -55,7 +55,7 @@ public class Property {
 
 
 		public Property(Long id, String name, String description, String status, int bedrooms, int bathrooms, int size,
-				float price, City city) {
+				float price, City city, User user) {
 			super();
 			this.id = id;
 			this.name = name;
@@ -66,6 +66,7 @@ public class Property {
 			this.size = size;
 			this.price = price;
 			this.city = city;
+			this.user = user;
 		}
 
 
@@ -169,7 +170,17 @@ public class Property {
 
 	    public void setCreatedAt(LocalDateTime createdAt) {
 	        this.createdAt = createdAt;
-	    }	  
+	    }
+
+
+		public User getUser() {
+			return user;
+		}
+
+
+		public void setUser(User user) {
+			this.user = user;
+		}	  
 
 	  
 

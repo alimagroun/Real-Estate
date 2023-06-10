@@ -16,16 +16,17 @@ export class ProfileComponent implements OnInit {
     this.currentUser = this.storageService.getUser();
   }
   logout(): void {
-    this.storageService.clean();
     this.authService.logout().subscribe({
-      next: res => {
-        console.log(res);
-     
-      //  this.currentUser = null;
+      next: () => {
+        console.log("Logout successful.");
+        this.storageService.clean(); // Assuming this clears any stored user data
+  
+        window.location.reload(); // Refresh the page after logout
       },
-      error: err => {
-        console.log(err);
+      error: (err) => {
+        console.log("Logout error:", err);
       }
     });
-}
+  }
+  
 }

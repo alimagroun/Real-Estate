@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import org.springframework.web.bind.annotation.RequestParam;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -48,8 +49,11 @@ import com.magroun.realestate.repository.PhotoRepository;
 import com.magroun.realestate.repository.UserRepository;
 import com.magroun.realestate.security.jwt.JwtUtils;
 import com.magroun.realestate.security.services.UserDetailsImpl;
+import com.magroun.realestate.services.EmailService;
 import com.magroun.realestate.util.FileUploadUtil;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 
 import com.magroun.realestate.model.Property;
@@ -65,6 +69,7 @@ import java.io.IOException;
 
 
 import org.springframework.util.StringUtils;
+
 
 
 
@@ -104,18 +109,33 @@ public class AuthController {
   @Autowired
   JwtUtils jwtUtils;
   
+  @Autowired
+  private EmailService emailService;
+  
 
   @PostMapping("/properties")
-  public Property createProperty(@ModelAttribute Property property,@RequestParam("city_id") Long city_id,
-                                  @RequestParam("files") MultipartFile[] files) throws IOException {
+  public Property createProperty(@ModelAttribute Property property,
+                                 @RequestParam("city_id") Long city_id,
+                                 @RequestParam("files") MultipartFile[] files,
+                                 Authentication authentication) throws IOException {
+      // Retrieve the authenticated user
+      UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+      
+      // Get the user ID from the authenticated user
+      Long userId = userDetails.getId();
+      
+      // Retrieve the user from the database using the user ID
+      User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+
       // Save the property to the database
-	  City city = cityRepository.getCityById(city_id);
-	  property.setCity(city);
-	  Property savedProperty = propertyRepository.save(property);
+      City city = cityRepository.getCityById(city_id);
+      property.setCity(city);
+      property.setUser(user);
+      Property savedProperty = propertyRepository.save(property);
 
       // Upload the photos
       for (MultipartFile file : files) {
-          // Create a new unique filename using current time and property ID
+          // Create a new unique filename using the current time and property ID
           String originalFilename = StringUtils.cleanPath(file.getOriginalFilename());
           String extension = StringUtils.getFilenameExtension(originalFilename);
           String newFilename = System.currentTimeMillis() + "-" + savedProperty.getId() + "." + extension;
@@ -123,7 +143,7 @@ public class AuthController {
           String uploadDir = "C:/Real-estate/angular-client/src/assets/photos";
           FileUploadUtil.saveFile(uploadDir, newFilename, file);
           
-          // Save photo information to database
+          // Save photo information to the database
           Photo photo = new Photo();
           photo.setFilename(newFilename);
           photo.setFilepath("assets/photos" + "/" + newFilename);
@@ -132,10 +152,7 @@ public class AuthController {
       }
 
       return savedProperty;
-  }
-
-
-  
+  }  
   @GetMapping("/getCitiesByState")
   public ResponseEntity<List<City>> getCitiesByState(@RequestParam("stateId") int stateId) {
       // Get cities from cityRepository based on stateId
@@ -214,12 +231,11 @@ public class AuthController {
     List<String> roles = userDetails.getAuthorities().stream()
         .map(item -> item.getAuthority())
         .collect(Collectors.toList());
-
     return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
         .body(new UserInfoResponse(userDetails.getId(),
-                                   userDetails.getUsername(),
-                                   userDetails.getEmail(),
-                                   roles));
+                                     userDetails.getUsername(),
+                                     userDetails.getEmail(),
+                                     roles));
   }
 
   @PostMapping("/signup")
@@ -278,10 +294,41 @@ public class AuthController {
   
   @PostMapping("/signout")
   public ResponseEntity<?> logoutUser() {
-	  System.out.println("You've been signed out");
     ResponseCookie cookie = jwtUtils.getCleanJwtCookie();
     return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString())
         .body(new MessageResponse("You've been signed out!"));
+  }
+  
+  @GetMapping("/check-auth")
+  public ResponseEntity<Boolean> checkAuthentication(HttpServletRequest request) {
+      // Retrieve the HTTP-only cookie containing the authentication token
+      Cookie[] cookies = request.getCookies();
+      String jwtToken = null;
+      if (cookies != null) {
+          for (Cookie cookie : cookies) {
+        	  System.out.println("Cookie Name: " + cookie.getName());
+              if (cookie.getName().equals("cookie")) {
+                  jwtToken = cookie.getValue();
+                  break;
+              }
+          }
+      }
+
+      if (jwtToken != null && jwtUtils.validateJwtToken(jwtToken)) {
+          // Token is valid, user is authenticated
+          return ResponseEntity.ok(true);
+      } else {
+          // Token is invalid or not present, user is not authenticated
+          return ResponseEntity.ok(false);
+      }
+  }
+
+  @PostMapping("/send-reset-code")
+  public String sendResetCodeEmail() {
+      // Call the sendResetCodeEmail method from the EmailService
+      emailService.sendResetCodeEmail("mzahijar@gmail.com","152001");
+      System.out.println("Email sent successfully");
+      return "Email sent successfully";
   }
   
 
