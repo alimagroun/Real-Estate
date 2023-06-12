@@ -324,9 +324,8 @@ public class AuthController {
   }
 
   @PostMapping("/send-reset-code")
-  public String sendResetCodeEmail() {
-      // Call the sendResetCodeEmail method from the EmailService
-      emailService.sendResetCodeEmail("mzahijar@gmail.com","152001");
+  public String sendResetCodeEmail(@RequestParam("email") String email) {
+      emailService.sendResetCodeEmail("mzahijar@gmail.com","200152");
       System.out.println("Email sent successfully");
       return "Email sent successfully";
   }

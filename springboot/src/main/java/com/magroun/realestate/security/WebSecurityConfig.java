@@ -90,6 +90,7 @@ public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
       .authorizeRequests().requestMatchers("/api/auth/**").permitAll()
       .requestMatchers("/api/test/**").permitAll()
       .requestMatchers("/api/properties/**").permitAll()
+      .requestMatchers("/api/**").permitAll()
       .anyRequest().authenticated();
   
   http.authenticationProvider(authenticationProvider());
