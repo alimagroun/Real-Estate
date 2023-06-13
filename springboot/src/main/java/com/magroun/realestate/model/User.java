@@ -1,7 +1,11 @@
 package com.magroun.realestate.model;
 
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+
+import org.hibernate.annotations.CreationTimestamp;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -27,6 +31,12 @@ public class User {
   @Size(max = 50)
   @Email
   private String email;
+  
+  @Column(name = "reset_cote")
+  private Integer resetCode;
+  
+  @Column(name = "reset_cote_time")
+  private LocalDateTime resetCodeTime;
 
   @NotBlank
   @Size(max = 120)
@@ -86,4 +96,21 @@ public class User {
   public void setRoles(Set<Role> roles) {
     this.roles = roles;
   }
+
+public Integer getResetCode() {
+	return resetCode;
+}
+
+public void setResetCode(Integer resetCode) {
+	this.resetCode = resetCode;
+}
+
+public LocalDateTime getResetCodeTime() {
+	return resetCodeTime;
+}
+
+public void setResetCodeTime(LocalDateTime resetCodeTime) {
+	this.resetCodeTime = resetCodeTime;
+}
+  
 }

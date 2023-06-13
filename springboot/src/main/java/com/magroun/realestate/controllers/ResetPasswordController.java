@@ -1,9 +1,6 @@
 package com.magroun.realestate.controllers;
 
-import java.util.Random;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import redis.clients.jedis.Jedis;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,47 +8,41 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.magroun.realestate.model.User;
 import com.magroun.realestate.repository.UserRepository;
 import com.magroun.realestate.services.EmailService;
+import com.magroun.realestate.services.UserService;
 
 @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
 @RestController
 @RequestMapping("/api/")
 public class ResetPasswordController {
 
-    private final UserRepository userRepository;
-    private final EmailService emailService;
-    private Jedis jedis; // Removed final modifier
+	 @Autowired
+	 private UserService userService;
+    @Autowired
+    private EmailService emailService;
 
     @Autowired
-    public ResetPasswordController(UserRepository userRepository, EmailService emailService) {
-        this.userRepository = userRepository;
-        this.emailService = emailService;
-    }
-
-    @Autowired
-    public void setJedis(Jedis jedis) {
-        this.jedis = jedis;
-    }
+    private  UserRepository userRepository;
 
     @PostMapping("send-reset-code")
     public ResponseEntity<String> sendResetCodeEmail(@RequestParam("email") String email) {
-        boolean emailExists = userRepository.existsByEmail(email);
+        // Get the user by email
+        User user = userRepository.getUserByEmail(email);
 
-        if (emailExists) {
-            String resetCode = generateResetCode();
-            String otpKey = "otp:" + email;
-            jedis.setex(otpKey, 1200, resetCode);
+        if (user != null) {
+            // Generate reset code and save the user
+            userService.generateResetCodeAndSaveUser(user);
 
-            emailService.sendResetCodeEmail(email, resetCode);
+            // Send reset code email
+            emailService.sendResetCodeEmail(email, user.getResetCode());
+
+            // Return success response to Angular
             return ResponseEntity.ok("Email sent successfully");
         } else {
+            // Return error response to Angular
             return ResponseEntity.badRequest().body("Email does not exist");
         }
-    }
-
-    private String generateResetCode() {
-        int otp = new Random().nextInt(900000) + 100000;
-        return String.valueOf(otp);
     }
 }

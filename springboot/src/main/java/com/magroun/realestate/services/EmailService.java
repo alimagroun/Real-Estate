@@ -14,7 +14,7 @@ public class EmailService {
         this.mailSender = mailSender;
     }
 
-    public void sendResetCodeEmail(String recipientEmail, String resetCode) {
+    public void sendResetCodeEmail(String recipientEmail, int resetCode) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(recipientEmail);
         message.setSubject("Password Reset Code");
