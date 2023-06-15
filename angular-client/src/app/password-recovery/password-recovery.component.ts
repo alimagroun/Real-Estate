@@ -1,22 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit ,ViewChild, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../_services/auth.service';
+import { MatStepper } from '@angular/material/stepper';
 @Component({
   selector: 'app-password-recovery',
   templateUrl: './password-recovery.component.html',
   styleUrls: ['./password-recovery.component.scss']
 })
-export class PasswordRecoveryComponent implements OnInit {
+export class PasswordRecoveryComponent implements  OnInit  {
   isLinear = true;
-  emailFormGroup!: FormGroup;
-  addressFormGroup!: FormGroup;
-  firstFormGroup = this.formBuilder.group({
-    firstCtrl: ['', Validators.required],
-  });
-  secondFormGroup = this.formBuilder.group({
-    secondCtrl: ['', Validators.required],
-  });
+  firstFormGroup!: FormGroup;
+  secondFormGroup!: FormGroup;
+  emailFound: boolean = false;
+  email: string = '';
+  step1Complete = false;
+  step2Complete = false;
+  errorMessage!: string;
+
+  @ViewChild(MatStepper) stepper!: MatStepper;
 
   constructor(
     private router: Router,
@@ -24,23 +26,76 @@ export class PasswordRecoveryComponent implements OnInit {
     private authService: AuthService
   ) {}
 
-  ngOnInit(): void {
-    this.emailFormGroup = this.formBuilder.group({
-      emailCtrl: ['', [Validators.required, Validators.email]]
-    });
-
-    this.addressFormGroup = this.formBuilder.group({
-      addressCtrl: ['', Validators.required]
-    });
-  }
+ngOnInit(): void {
+  this.email = '';
+ /* this.firstFormGroup = this.formBuilder.group({
+    firstCtrl: ['', Validators.required],
+  });
+  this.secondFormGroup = this.formBuilder.group({
+    secondCtrl: ['', Validators.required],
+  }); */
+}
 
  
-
-  sendResetCode(): void {
-  //  const email = this.emailFormGroup.get('emailCtrl').value;
-  }
 
   goBack(): void {
     this.router.navigate(['/login']);
   }
-}
+  initiatePasswordReset(email : string) {
+
+    console.log('initiatePasswordReset() called');
+    console.log('Email value:', email);
+  
+    this.authService.initiatePasswordReset(email).subscribe(
+      (response) => {
+        console.log('Response:', response); // Log the full response object for inspection
+    
+        // Check the response string to determine success or error
+        if (response) {
+          
+        this.step1Complete = true;
+        setTimeout(() => {
+          this.stepper.next();
+    //      this.step1Complete = false;
+        }, 100);
+          this.emailFound = true;
+          console.log('Email sent successfully');
+        } else {
+      
+          this.emailFound = false;
+    
+          console.log('Error occurred:', response);
+          console.log('this Email value:', this.email, this.emailFound);
+        }
+      },
+      (error: any) => {
+        // Handle the error response
+        this.emailFound = false;
+        console.error('Error occurred:', error);
+      }
+    );
+  }
+
+  password! : string;
+  resetCode!: string;
+  checkResetCode() {
+    this.authService.checkResetCode(this.email, this.resetCode).subscribe(
+      () => {
+        
+      },
+      (error) => {
+        this.errorMessage = error.error;
+      }
+    );
+
+  }
+    
+   
+  }
+  
+  
+  
+  
+
+
+
