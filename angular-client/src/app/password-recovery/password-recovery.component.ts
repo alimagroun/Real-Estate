@@ -78,17 +78,33 @@ ngOnInit(): void {
 
   password! : string;
   resetCode!: string;
-  checkResetCode() {
-    this.authService.checkResetCode(this.email, this.resetCode).subscribe(
-      () => {
-        
-      },
-      (error) => {
-        this.errorMessage = error.error;
-      }
-    );
 
-  }
+
+checkResetCode() {
+  this.authService.checkResetCode(this.email, this.resetCode).subscribe(
+    () => {
+      console.log("Reset code is correct");
+      this.step2Complete = true;
+      setTimeout(() => {
+        this.stepper.next();
+  //      this.step1Complete = false;
+      }, 100);
+
+    },
+    (error) => {
+      if (error.error instanceof ErrorEvent) {
+        // Client-side error occurred
+        this.errorMessage = "An error occurred: " + error.error.message;
+      } else {
+        // Backend returned an unsuccessful response code
+        this.errorMessage = "Error: " + error.error.message;
+      }
+      console.log("Error message:", this.errorMessage);
+    }
+  );
+}
+
+  
     
    
   }
