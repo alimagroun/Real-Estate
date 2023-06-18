@@ -1,8 +1,9 @@
-import { Component, OnInit ,ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit ,ViewChild} from '@angular/core';
 import { Router } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { AuthService } from '../_services/auth.service';
 import { MatStepper } from '@angular/material/stepper';
+import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-password-recovery',
   templateUrl: './password-recovery.component.html',
@@ -12,74 +13,46 @@ export class PasswordRecoveryComponent implements  OnInit  {
   isLinear = true;
   firstFormGroup!: FormGroup;
   secondFormGroup!: FormGroup;
-  emailFound: boolean = false;
-  email: string = '';
   step1Complete = false;
   step2Complete = false;
   errorMessage!: string;
+  errorMessage0!: string;
+  email: string = '';
+  password! : string;
+  resetCode!: string;
+  edit =true;
 
   @ViewChild(MatStepper) stepper!: MatStepper;
 
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
-    private authService: AuthService
+    private authService: AuthService,
+    private snackBar: MatSnackBar
   ) {}
 
 ngOnInit(): void {
-  this.email = '';
- /* this.firstFormGroup = this.formBuilder.group({
-    firstCtrl: ['', Validators.required],
-  });
-  this.secondFormGroup = this.formBuilder.group({
-    secondCtrl: ['', Validators.required],
-  }); */
 }
-
- 
-
-  goBack(): void {
-    this.router.navigate(['/login']);
-  }
-  initiatePasswordReset(email : string) {
+  initiatePasswordReset() {
 
     console.log('initiatePasswordReset() called');
-    console.log('Email value:', email);
+    console.log('Email value:', this.email);
   
-    this.authService.initiatePasswordReset(email).subscribe(
+    this.authService.initiatePasswordReset(this.email).subscribe(
       (response) => {
-        console.log('Response:', response); // Log the full response object for inspection
-    
-        // Check the response string to determine success or error
-        if (response) {
-          
+        if (response) {        
         this.step1Complete = true;
         setTimeout(() => {
           this.stepper.next();
-    //      this.step1Complete = false;
-        }, 100);
-          this.emailFound = true;
-          console.log('Email sent successfully');
+        }, 10);
         } else {
-      
-          this.emailFound = false;
-    
-          console.log('Error occurred:', response);
-          console.log('this Email value:', this.email, this.emailFound);
+          this.errorMessage0= "Invalid email";
         }
       },
       (error: any) => {
-        // Handle the error response
-        this.emailFound = false;
-        console.error('Error occurred:', error);
       }
     );
   }
-
-  password! : string;
-  resetCode!: string;
-
-
 checkResetCode() {
   this.authService.checkResetCode(this.email, this.resetCode).subscribe(
     () => {
@@ -88,8 +61,8 @@ checkResetCode() {
       setTimeout(() => {
         this.stepper.next();
   //      this.step1Complete = false;
-      }, 100);
-
+      }, 10);
+this.edit =false;
     },
     (error) => {
       if (error.error instanceof ErrorEvent) {
@@ -97,14 +70,37 @@ checkResetCode() {
         this.errorMessage = "An error occurred: " + error.error.message;
       } else {
         // Backend returned an unsuccessful response code
-        this.errorMessage = "Error: " + error.error.message;
+        this.errorMessage = error.error.message;
       }
       console.log("Error message:", this.errorMessage);
     }
   );
 }
-
-  
+updatePassword(): void {
+  this.authService.updatePassword(this.email, this.password, this.resetCode)
+    .subscribe(
+      response => {
+        // Password updated successfully
+        this.snackBar.open('Password updated successfully', 'Close', {
+          duration: 3000
+        });
+        // Auto navigate to the login page
+        this.router.navigate(['/login']);
+      },
+      error => {
+        // Handle error case
+        this.snackBar.open('Failed to update password. Please try again.', 'Close', {
+          duration: 3000
+        });
+      }
+    );
+}
+stepperReset(){
+  this.step1Complete = false;
+  this.step2Complete = false;
+  this.errorMessage0 = "";
+  this.errorMessage =""; 
+}
     
    
   }

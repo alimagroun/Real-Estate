@@ -19,6 +19,20 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
+  updatePassword(email: string, newPassword: string, resetCode: string): Observable<any> {
+    const url = this.baseUrl + 'updatePassword';
+
+    // Prepare the request body
+    const credentials = {
+      email: email,
+      password: newPassword,
+      resetCode: resetCode
+    };
+
+    // Send the POST request to the server
+    return this.http.post(url, credentials, httpOptions);
+  }
+
   checkResetCode(email: string, resetCode: string) {
     const credentials = { email,resetCode };
     return this.http.post(`${this.baseUrl}checkResetCode`, credentials);

@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.magroun.realestate.model.User;
 import com.magroun.realestate.model.UserCredentials;
+import com.magroun.realestate.payload.response.MessageResponse;
 import com.magroun.realestate.repository.UserRepository;
 import com.magroun.realestate.services.EmailService;
 import com.magroun.realestate.services.UserService;
@@ -37,10 +39,6 @@ public class ResetPasswordController {
 
     @PostMapping("send-reset-code")
     public ResponseEntity<Boolean> sendResetCodeEmail(@RequestParam("email") String email) {
-          
-        System.out.println("Email value: " + email);
-        
-        // Get the user by email
         User user = userRepository.getUserByEmail(email);
 
         if (user != null) {
@@ -59,15 +57,15 @@ public class ResetPasswordController {
     }
     
     @PostMapping("checkResetCode")
-    public String checkResetCode(@RequestBody UserCredentials credentials) {
+    public ResponseEntity<MessageResponse> checkResetCode(@RequestBody UserCredentials credentials) {
         String email = credentials.getEmail();
         Integer resetCode = credentials.getResetCode();
-        System.out.println(email+resetCode);
+        System.out.println(email + resetCode);
 
         // Retrieve user from the database using the email (assuming you have a UserDetailsService implementation)
         User user = userRepository.getUserByEmail(email);
         if (user == null) {
-            return "User not found";
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessageResponse("User not found"));
         }
 
         // Check if the reset code time is not older than 20 minutes
@@ -75,54 +73,44 @@ public class ResetPasswordController {
         LocalDateTime currentDateTime = LocalDateTime.now();
         long minutesElapsed = ChronoUnit.MINUTES.between(resetCodeTime, currentDateTime);
         if (minutesElapsed > 20) {
-            return "Reset code expired";
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MessageResponse("Reset code expired"));
         }
 
         // Check if the reset code matches the one stored in the database
         Integer storedResetCode = user.getResetCode();
         if (!resetCode.equals(storedResetCode)) {
-            return "Invalid reset code";
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MessageResponse("Incorrect reset code"));
         }
 
-        return ""; // Return an empty string to indicate success without any specific error message
+        return ResponseEntity.ok(new MessageResponse("ok")); // Return "Well done" for a successful response
     }
 
     
     @PostMapping("/updatePassword")
-    public String updatePassword(@RequestBody UserCredentials credentials) {
+    public ResponseEntity<MessageResponse> updatePassword(@RequestBody UserCredentials credentials) {
         String email = credentials.getEmail();
         String newPassword = credentials.getPassword();
         Integer resetCode = credentials.getResetCode();
-
-        // Retrieve user from database using the email (assuming you have a UserDetailsService implementation)
+        
+        // Retrieve user from the database using the email
         User user = userRepository.getUserByEmail(email);
         if (user == null) {
-            return "User not found";
-        }
-
-        // Check if the reset code time is not older than 20 minutes
-        LocalDateTime resetCodeTime = user.getResetCodeTime();
-        LocalDateTime currentDateTime = LocalDateTime.now();
-        long minutesElapsed = ChronoUnit.MINUTES.between(resetCodeTime, currentDateTime);
-        if (minutesElapsed > 20) {
-            return "Reset code expired";
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessageResponse("User not found"));
         }
 
         // Check if the reset code matches the one stored in the database
         Integer storedResetCode = user.getResetCode();
         if (!resetCode.equals(storedResetCode)) {
-            return "Invalid reset code";
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MessageResponse("Incorrect reset code"));
         }
 
-        // Encode the new password
         String encodedPassword = encoder.encode(newPassword);
-
-        // Update the user's password
         user.setPassword(encodedPassword);
         userRepository.save(user);
 
-        return "Password updated successfully";
+        return ResponseEntity.ok(new MessageResponse("Password updated successfully"));
     }
+
 }
 
 
