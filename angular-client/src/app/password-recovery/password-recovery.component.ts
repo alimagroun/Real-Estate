@@ -1,6 +1,6 @@
 import { Component, OnInit ,ViewChild} from '@angular/core';
 import { Router } from '@angular/router';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthService } from '../_services/auth.service';
 import { MatStepper } from '@angular/material/stepper';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -18,9 +18,10 @@ export class PasswordRecoveryComponent implements  OnInit  {
   errorMessage!: string;
   errorMessage0!: string;
   email: string = '';
-  password! : string;
+ // password! : string;
   resetCode!: string;
   edit =true;
+  password = new FormControl('', [Validators.minLength(6), Validators.maxLength(32), Validators.required]);
 
   @ViewChild(MatStepper) stepper!: MatStepper;
 
@@ -44,7 +45,7 @@ ngOnInit(): void {
         this.step1Complete = true;
         setTimeout(() => {
           this.stepper.next();
-        }, 10);
+        }, 1);
         } else {
           this.errorMessage0= "Invalid email";
         }
@@ -61,7 +62,7 @@ checkResetCode() {
       setTimeout(() => {
         this.stepper.next();
   //      this.step1Complete = false;
-      }, 10);
+      }, 1);
 this.edit =false;
     },
     (error) => {
@@ -77,31 +78,51 @@ this.edit =false;
   );
 }
 updatePassword(): void {
-  this.authService.updatePassword(this.email, this.password, this.resetCode)
-    .subscribe(
-      response => {
-        // Password updated successfully
-        this.snackBar.open('Password updated successfully', 'Close', {
-          duration: 3000
-        });
-        // Auto navigate to the login page
-        this.router.navigate(['/login']);
-      },
-      error => {
-        // Handle error case
-        this.snackBar.open('Failed to update password. Please try again.', 'Close', {
-          duration: 3000
-        });
-      }
-    );
-}
+  const password1: string = this.password.value !== null ? this.password.value : '';
+
+  console.log("Error message:", password1);
+    this.authService.updatePassword(this.email, password1, this.resetCode)
+      .subscribe(
+        response => {
+          // Password updated successfully
+          this.snackBar.open('Password updated successfully', 'Close', {
+            duration: 3000
+          });
+          // Auto navigate to the login page
+          this.router.navigate(['/login']);
+        },
+        error => {
+          // Handle error case
+          this.snackBar.open('Failed to update password. Please try again.', 'Close', {
+            duration: 3000
+          });
+        }
+      );
+  }
+
 stepperReset(){
   this.step1Complete = false;
   this.step2Complete = false;
   this.errorMessage0 = "";
   this.errorMessage =""; 
 }
-    
+getPasswordErrorMessage() {
+
+
+  if (this.password.hasError('required') ) {
+    return 'You must enter a password';
+  }
+
+  if (this.password.hasError('minlength') ) {
+    return 'Password must be at least 6 characters long';
+  }
+
+  if (this.password.hasError('maxlength')) {
+    return 'Password cannot exceed 32 characters';
+  }
+
+  return '';
+}
    
   }
   
