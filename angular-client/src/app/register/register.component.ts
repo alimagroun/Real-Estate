@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../_services/auth.service';
+import { cilPhone, cilShieldAlt } from '@coreui/icons';
 
 @Component({
   selector: 'app-register',
@@ -10,11 +11,14 @@ export class RegisterComponent implements OnInit {
   form: any = {
     username: null,
     email: null,
-    password: null
+    password: null,
+    name: null,
+    contactNumber: null
   };
   isSuccessful = false;
   isSignUpFailed = false;
   errorMessage = '';
+  icons = { cilPhone, cilShieldAlt };
 
   constructor(private authService: AuthService) { }
 
@@ -22,9 +26,9 @@ export class RegisterComponent implements OnInit {
   }
 
   onSubmit(): void {
-    const { username, email, password } = this.form;
+    const { name,contactNumber,username, email, password } = this.form;
 
-    this.authService.register(username, email, password).subscribe({
+    this.authService.register(username, email, password,name,contactNumber ).subscribe({
       next: data => {
         console.log(data);
         this.isSuccessful = true;

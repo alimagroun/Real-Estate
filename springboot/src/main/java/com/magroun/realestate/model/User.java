@@ -32,6 +32,15 @@ public class User {
   @Email
   private String email;
   
+  @NotBlank
+  @Size(max = 50)
+  private String name;
+  
+  @NotBlank
+  @Size(max = 20)
+  @Column(name = "contact_number")
+  private String contactNumber;
+  
   @Column(name = "reset_cote")
   private Integer resetCode;
   
@@ -51,13 +60,22 @@ public class User {
   public User() {
   }
 
-  public User(String username, String email, String password) {
-    this.username = username;
-    this.email = email;
-    this.password = password;
-  }
 
-  public Long getId() {
+
+  public User(String username,String email,
+		String name, String contactNumber,
+		String password) {
+	super();
+	this.username = username;
+	this.email = email;
+	this.name = name;
+	this.contactNumber = contactNumber;
+	this.password = password;
+}
+
+
+
+public Long getId() {
     return id;
   }
 
@@ -111,6 +129,22 @@ public LocalDateTime getResetCodeTime() {
 
 public void setResetCodeTime(LocalDateTime resetCodeTime) {
 	this.resetCodeTime = resetCodeTime;
+}
+
+public String getName() {
+	return name;
+}
+
+public void setName(String name) {
+	this.name = name;
+}
+
+public String getContactNumber() {
+	return contactNumber;
+}
+
+public void setContactNumber(String contactNumber) {
+	this.contactNumber = contactNumber;
 }
   
 }

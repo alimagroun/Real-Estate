@@ -28,7 +28,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'PasswordRecovery', component: PasswordRecoveryComponent },
-  { path: 'profile', component: ProfileComponent },
+
   { path: 'user', component: BoardUserComponent },
   { path: 'mod', component: BoardModeratorComponent },
   { path: 'admin', component: BoardAdminComponent },
@@ -52,6 +52,7 @@ const routes: Routes = [
           sidebar: false
         }
        },
+       { path: 'profile', component: ProfileComponent },
       {
         path: 'property/:propertyId',
         loadChildren: () =>

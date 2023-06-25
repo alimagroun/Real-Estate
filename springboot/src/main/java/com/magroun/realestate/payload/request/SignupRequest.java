@@ -2,6 +2,7 @@ package com.magroun.realestate.payload.request;
 
 import java.util.Set;
 
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -15,6 +16,14 @@ public class SignupRequest {
     @Size(max = 50)
     @Email
     private String email;
+    
+    @NotBlank
+    @Size(max = 50)
+    private String name;
+    
+    @NotBlank
+    @Size(max = 20)
+    private String contactNumber;
     
     private Set<String> role;
     
@@ -53,4 +62,21 @@ public class SignupRequest {
     public void setRole(Set<String> role) {
       this.role = role;
     }
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getContactNumber() {
+		return contactNumber;
+	}
+
+	public void setContactNumber(String contactNumber) {
+		this.contactNumber = contactNumber;
+	}
+    
 }

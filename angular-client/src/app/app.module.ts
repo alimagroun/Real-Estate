@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { HashLocationStrategy, LocationStrategy, PathLocationStrategy } from '@angular/common';
+import { HashLocationStrategy, LocationStrategy} from '@angular/common';
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -58,10 +58,6 @@ import { httpInterceptorProviders } from './_helpers/http.interceptor';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { UsersListComponent } from './users-list/users-list.component';
-import { AddPropertyComponent } from './add-property/add-property.component';
-import { PropertyListComponent } from './property-list/property-list.component';
-import { PropertyDetailsComponent } from './property-details/property-details.component';
-import { PropertyDetailsModule } from './property-details/property-details.module';
 import { UpdatePropertyComponent } from './update-property/update-property.component';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -76,8 +72,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { PasswordRecoveryComponent } from './password-recovery/password-recovery.component';
-
-import {FormBuilder, Validators} from '@angular/forms';
 import {MatStepperModule} from '@angular/material/stepper';
 import {MatButtonModule} from '@angular/material/button';
 

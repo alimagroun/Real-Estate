@@ -18,11 +18,13 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 })
 export class ProfileComponent implements OnInit {
   currentUser: any;
+  emailFormControl = new FormControl('', [Validators.required, Validators.email]);
  
   constructor(private storageService: StorageService, private authService: AuthService) { }
 
   ngOnInit(): void {
     this.currentUser = this.storageService.getUser(); 
+    this.emailFormControl.setValue(this.currentUser.email);
   }
   logout(): void {
     this.authService.logout().subscribe({
