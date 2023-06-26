@@ -18,13 +18,27 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 })
 export class ProfileComponent implements OnInit {
   currentUser: any;
-  emailFormControl = new FormControl('', [Validators.required, Validators.email]);
+  emailFormControl = new FormControl('', [
+    Validators.required,
+     Validators.email
+    ]);
+  nameFormControl = new FormControl('', [
+    Validators.required,
+    Validators.maxLength(50)
+  ]);
+
+  contactNumberFormControl = new FormControl('', [
+    Validators.required,
+    Validators.maxLength(20)
+  ]);
  
   constructor(private storageService: StorageService, private authService: AuthService) { }
 
   ngOnInit(): void {
     this.currentUser = this.storageService.getUser(); 
     this.emailFormControl.setValue(this.currentUser.email);
+    this.nameFormControl.setValue(this.currentUser.name);
+    this.contactNumberFormControl.setValue(this.currentUser.contactNumber);
   }
   logout(): void {
     this.authService.logout().subscribe({
@@ -39,5 +53,16 @@ export class ProfileComponent implements OnInit {
       }
     });
   }
-  
+  getErrorMessage(control: FormControl): string {
+    if (control.hasError('required')) {
+      return 'This field is required';
+    }
+
+    if (control.hasError('maxlength')) {
+      return 'Exceeded maximum length';
+    }
+
+    return '';
+  }
+
 }

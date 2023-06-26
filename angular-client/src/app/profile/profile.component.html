@@ -5,17 +5,36 @@
 </header>
 <div class="container" *ngIf="currentUser; else loggedOut">
   <br><br>
-    <mat-form-field appearance="outline">
-      <mat-label>Email</mat-label>
+  <form>
+    Full Name <br>
+    <mat-form-field class="custom-form-field">
+      <input matInput  [formControl]="nameFormControl" [value]="currentUser.name" maxlength="50">
+      <mat-error *ngIf="nameFormControl.hasError('required')">This field is <strong>required</strong></mat-error>  
+      <mat-error *ngIf="nameFormControl.errors?.['maxlength']">Please enter a full name with a maximum of 50 characters.</mat-error>   
+    </mat-form-field>
+    <br>
+  Email Address<br>
+  <mat-form-field class="custom-form-field">
+      
       <input matInput [formControl]="emailFormControl" [value]="currentUser.email" type="email">
       <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
-        Please enter a valid email address
+        Please enter a valid email address.
       </mat-error>
       <mat-error *ngIf="emailFormControl.hasError('required')">
-        Email is <strong>required</strong>
+        Email is <strong>required</strong>.
       </mat-error>
     </mat-form-field>
-    
+    <br>
+Contact Number
+    <br>
+    <mat-form-field class="custom-form-field">
+      <input matInput [formControl]="contactNumberFormControl" [value]="currentUser.contactNumber" maxlength="20">
+      <mat-error *ngIf="contactNumberFormControl.hasError('required')">Mobile phone number is <strong>required</strong>.</mat-error>
+      <mat-error *ngIf="nameFormControl.errors?.['maxlength']">Please enter a valid phone number.</mat-error>
+    </mat-form-field>
+    <button mat-raised-button color="primary">Update</button>
+  </form>
+  <br>
   </div>
    <button (click)="logout()">LogOut</button>
   <ng-template #loggedOut>

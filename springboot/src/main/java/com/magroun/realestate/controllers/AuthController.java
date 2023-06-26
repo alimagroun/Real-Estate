@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import org.springframework.web.bind.annotation.RequestParam;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Random;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -50,24 +49,14 @@ import com.magroun.realestate.repository.UserRepository;
 import com.magroun.realestate.security.jwt.JwtUtils;
 import com.magroun.realestate.security.services.UserDetailsImpl;
 import com.magroun.realestate.services.EmailService;
+import com.magroun.realestate.services.UserService;
 import com.magroun.realestate.util.FileUploadUtil;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
-
-import com.magroun.realestate.model.Property;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
-
-
-
 import org.springframework.util.StringUtils;
 
 
@@ -105,14 +94,13 @@ public class AuthController {
   @Autowired
   private PhotoRepository photoRepository;
  
+  @Autowired
+  private UserService userService;
 
   @Autowired
   JwtUtils jwtUtils;
-  
-  @Autowired
-  private EmailService emailService;
-  
-
+ 
+ 
   @PostMapping("/properties")
   public Property createProperty(@ModelAttribute Property property,
                                  @RequestParam("city_id") Long city_id,
@@ -235,6 +223,8 @@ public class AuthController {
         .body(new UserInfoResponse(userDetails.getId(),
                                      userDetails.getUsername(),
                                      userDetails.getEmail(),
+                                     userDetails.getName(),
+                                     userDetails.getContactNumber(),
                                      roles));
   }
 
@@ -325,6 +315,14 @@ public class AuthController {
       }
   }
 
-  
+  @PutMapping("updateuser/{userId}")
+  public ResponseEntity<User> updateUser(@PathVariable Long userId, @RequestBody User updatedUser) {
+    User user = userService.updateUser(userId, updatedUser.getName(), updatedUser.getEmail(), updatedUser.getContactNumber());
+    if (user != null) {
+      return ResponseEntity.ok(user);
+    } else {
+      return ResponseEntity.notFound().build();
+    }
+  }
 
 }
