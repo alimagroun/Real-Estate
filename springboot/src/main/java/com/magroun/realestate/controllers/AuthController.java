@@ -38,6 +38,7 @@ import com.magroun.realestate.model.User;
 import com.magroun.realestate.model.Photo;
 import com.magroun.realestate.payload.request.LoginRequest;
 import com.magroun.realestate.payload.request.SignupRequest;
+import com.magroun.realestate.payload.request.UpdatePasswordRequest;
 import com.magroun.realestate.payload.response.MessageResponse;
 import com.magroun.realestate.payload.response.UserInfoResponse;
 import com.magroun.realestate.repository.PropertyRepository;
@@ -316,13 +317,32 @@ public class AuthController {
   }
 
   @PutMapping("updateuser/{userId}")
-  public ResponseEntity<User> updateUser(@PathVariable Long userId, @RequestBody User updatedUser) {
-    User user = userService.updateUser(userId, updatedUser.getName(), updatedUser.getEmail(), updatedUser.getContactNumber());
-    if (user != null) {
-      return ResponseEntity.ok(user);
-    } else {
-      return ResponseEntity.notFound().build();
+  public ResponseEntity<?> updateUser(@PathVariable Long userId, @RequestBody User updatedUser) {
+    try {
+      User user = userService.updateUser(userId, updatedUser.getName(), updatedUser.getEmail(), updatedUser.getContactNumber());
+      if (user != null) {
+        return ResponseEntity.ok(user);
+      } else {
+        return ResponseEntity.notFound().build();
+      }
+    } catch (IllegalArgumentException e) {
+      return ResponseEntity.badRequest().body(e.getMessage());
     }
+  }
+
+
+  @PutMapping("updatePassword/{userId}")
+  public ResponseEntity<String> updatePassword(
+          @PathVariable Long userId,
+          @RequestBody UpdatePasswordRequest request) {
+
+      boolean passwordUpdated = userService.updatePassword(userId, request.getCurrentPassword(), request.getNewPassword());
+
+      if (passwordUpdated) {
+          return ResponseEntity.ok("Password updated successfully.");
+      } else {
+          return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to update password.");
+      }
   }
 
 }

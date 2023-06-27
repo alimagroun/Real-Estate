@@ -3,6 +3,8 @@ package com.magroun.realestate.services;
 import java.util.Optional;
 import java.util.Random;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,6 +14,9 @@ import com.magroun.realestate.repository.UserRepository;
 import java.time.LocalDateTime;
 @Service
 public class UserService {
+	
+	  @Autowired
+	  PasswordEncoder encoder;
     private UserRepository userRepository;
 
     // Constructor
@@ -45,6 +50,14 @@ public class UserService {
       Optional<User> optionalUser = userRepository.findById(userId);
       if (optionalUser.isPresent()) {
         User user = optionalUser.get();
+        
+        // Check if the newEmail already exists in the database
+        Optional<User> existingUserWithEmail = userRepository.findByEmail(newEmail);
+        if (existingUserWithEmail.isPresent() && !existingUserWithEmail.get().getId().equals(userId)) {
+          // An existing user with the newEmail already exists and it's not the same user being updated
+          throw new IllegalArgumentException("Email is already taken.");
+        }
+        
         user.setName(newName);
         user.setEmail(newEmail);
         user.setContactNumber(newContactNumber);
@@ -52,5 +65,24 @@ public class UserService {
       }
       return null; // or throw a custom exception, handle accordingly
     }
+    public boolean updatePassword(Long userId, String currentPassword, String newPassword) {
+        Optional<User> userOptional = userRepository.findById(userId);
+
+        if (userOptional.isEmpty()) {
+            return false; // User not found
+        }
+
+        User user = userOptional.get();
+
+        if (!encoder.matches(currentPassword, user.getPassword())) {
+
+            return false;
+        }
+        String encodedNewPassword = encoder.encode(newPassword);
+        user.setPassword(encodedNewPassword);
+        userRepository.save(user);
+        return true; // Password update successful
+    }
+
 }
 

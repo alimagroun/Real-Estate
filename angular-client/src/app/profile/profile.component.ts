@@ -1,14 +1,11 @@
 import { StorageService } from '../_services/storage.service';
 import { AuthService } from '../_services/auth.service';
-import { Component, OnInit ,ViewChild} from '@angular/core';
-import { Router } from '@angular/router';
-import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
-import { MatStepper } from '@angular/material/stepper';
+import { Component, OnInit} from '@angular/core';
+import { FormControl, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {NgIf} from '@angular/common';
-import {MatInputModule} from '@angular/material/input';
-import {MatFormFieldModule} from '@angular/material/form-field';
+import {User} from '../_models/user';
+
+
 
 
 @Component({
@@ -32,7 +29,7 @@ export class ProfileComponent implements OnInit {
     Validators.maxLength(20)
   ]);
  
-  constructor(private storageService: StorageService, private authService: AuthService) { }
+  constructor(private storageService: StorageService, private authService: AuthService, private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.currentUser = this.storageService.getUser(); 
@@ -40,6 +37,35 @@ export class ProfileComponent implements OnInit {
     this.nameFormControl.setValue(this.currentUser.name);
     this.contactNumberFormControl.setValue(this.currentUser.contactNumber);
   }
+  updateUser(): void {
+    if (this.emailFormControl.valid && this.nameFormControl.valid && this.contactNumberFormControl.valid) {
+      const updatedUser: User = {
+        name: this.nameFormControl.value || '',
+        email: this.emailFormControl.value || '',
+        contactNumber: this.contactNumberFormControl.value || ''
+      };
+  
+      this.authService.updateUser(this.currentUser.id, updatedUser).subscribe(
+        (response: User) => {
+          console.log('User updated successfully:', response);
+          this.currentUser = response;
+          this.storageService.saveUser(response);
+
+          this.snackBar.open('Personal Details Updated.', 'Close', {
+            duration: 3000,
+            horizontalPosition: 'center', 
+            verticalPosition: 'bottom' 
+          });
+        },
+        (error) => {
+          if (error?.error === 'Email is already taken.') {
+            this.emailFormControl.setErrors({ emailTaken: true });
+          } 
+        }
+      );
+    }
+  }
+  
   logout(): void {
     this.authService.logout().subscribe({
       next: () => {
@@ -52,17 +78,6 @@ export class ProfileComponent implements OnInit {
         console.log("Logout error:", err);
       }
     });
-  }
-  getErrorMessage(control: FormControl): string {
-    if (control.hasError('required')) {
-      return 'This field is required';
-    }
-
-    if (control.hasError('maxlength')) {
-      return 'Exceeded maximum length';
-    }
-
-    return '';
   }
 
 }
