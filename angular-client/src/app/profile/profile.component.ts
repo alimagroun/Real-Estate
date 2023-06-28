@@ -1,7 +1,7 @@
 import { StorageService } from '../_services/storage.service';
 import { AuthService } from '../_services/auth.service';
 import { Component, OnInit} from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {User} from '../_models/user';
 
@@ -28,6 +28,10 @@ export class ProfileComponent implements OnInit {
     Validators.required,
     Validators.maxLength(20)
   ]);
+  updatePasswordForm = new FormGroup({
+    currentPassword: new FormControl(''),
+    newPassword: new FormControl(''),
+  });
  
   constructor(private storageService: StorageService, private authService: AuthService, private snackBar: MatSnackBar) { }
 
@@ -64,6 +68,23 @@ export class ProfileComponent implements OnInit {
         }
       );
     }
+  }
+  updatePassword() {
+    const currentPassword = this.updatePasswordForm.get('currentPassword')?.value ?? '';
+    const newPassword = this.updatePasswordForm.get('newPassword')?.value ?? '';
+  
+    this.authService.updatePassword1(this.currentUser.id, currentPassword, newPassword).subscribe(
+      (response: any) => {
+        this.snackBar.open('Password updated successfully', 'Close', {
+          duration: 3000,
+        });
+        this.updatePasswordForm.reset();
+      },
+      (error) => {
+        this.updatePasswordForm.get('currentPassword')?.setErrors({ invalidPassword: true });
+    
+      }
+    );
   }
   
   logout(): void {

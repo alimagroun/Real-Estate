@@ -4,7 +4,50 @@
 
   }
   
-  .custom-form-field {
-    width: 100%;
+  .custom-form-field{
+    color: white;
+  }
+  
+
+  .profile-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .form-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .form-field {
+    margin-bottom: 10px;
+    
+  }
+  
+  @media screen and (max-width: 767px) {
+    .form-field mat-form-field {
+      width: 100%;
+    }
+  }
+  
+  @media screen and (min-width: 768px) {
+    .form-field mat-form-field {
+      width: 400px;
+    }
+  }
+  
+  @media screen and (max-width: 768px) {
+    .profile-container {
+      width: 90%;
+    }
+  }
+  
+  @media screen and (max-width: 480px) {
+    .profile-container {
+      width: 100%;
+    }
   }
   

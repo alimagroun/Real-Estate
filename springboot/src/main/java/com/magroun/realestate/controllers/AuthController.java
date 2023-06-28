@@ -332,16 +332,18 @@ public class AuthController {
 
 
   @PutMapping("updatePassword/{userId}")
-  public ResponseEntity<String> updatePassword(
+  public ResponseEntity<MessageResponse> updatePassword(
           @PathVariable Long userId,
           @RequestBody UpdatePasswordRequest request) {
 
       boolean passwordUpdated = userService.updatePassword(userId, request.getCurrentPassword(), request.getNewPassword());
 
       if (passwordUpdated) {
-          return ResponseEntity.ok("Password updated successfully.");
+    	  return ResponseEntity.ok(new MessageResponse("Password updated successfully"));
+         
+          
       } else {
-          return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to update password.");
+          return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MessageResponse("Failed to update password."));
       }
   }
 

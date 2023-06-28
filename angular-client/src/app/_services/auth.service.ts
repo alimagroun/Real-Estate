@@ -19,6 +19,13 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
+  updatePassword1(userId: number, currentPassword: string, newPassword: string): Observable<any> {
+    const url = `${AUTH_API}updatePassword/${userId}`;
+    const requestPayload = { currentPassword, newPassword };
+
+    return this.http.put(url, requestPayload);
+  }
+
   updateUser(userId: number, updatedUser: User): Observable<User> {
     const url = `${AUTH_API}updateuser/${userId}`;
     return this.http.put<User>(url, updatedUser);

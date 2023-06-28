@@ -74,6 +74,7 @@ import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { PasswordRecoveryComponent } from './password-recovery/password-recovery.component';
 import {MatStepperModule} from '@angular/material/stepper';
 import {MatButtonModule} from '@angular/material/button';
+import { PropertyListingComponent } from './property-listing/property-listing.component';
 
 
 
@@ -88,7 +89,7 @@ const APP_CONTAINERS = [
 ];
 
 @NgModule({
-  declarations: [AppComponent, ...APP_CONTAINERS, LoginComponent, RegisterComponent, HomeComponent, ProfileComponent, BoardAdminComponent, BoardModeratorComponent, BoardUserComponent, UsersListComponent, UpdatePropertyComponent, ConfirmationDialogComponent, PropertySearchComponent, PasswordRecoveryComponent],
+  declarations: [AppComponent, ...APP_CONTAINERS, LoginComponent, RegisterComponent, HomeComponent, ProfileComponent, BoardAdminComponent, BoardModeratorComponent, BoardUserComponent, UsersListComponent, UpdatePropertyComponent, ConfirmationDialogComponent, PropertySearchComponent, PasswordRecoveryComponent, PropertyListingComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
