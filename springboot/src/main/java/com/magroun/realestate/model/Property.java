@@ -1,6 +1,7 @@
 package com.magroun.realestate.model;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -11,6 +12,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -48,6 +50,10 @@ public class Property {
 	    @ManyToOne
 	    @JoinColumn(name = "user_id")
 	    private User user;
+	    
+	    @OneToMany(mappedBy = "property")
+	    private List<Photo> photos;
+
 
 		public Property() {
 			super();
@@ -180,7 +186,13 @@ public class Property {
 
 		public void setUser(User user) {
 			this.user = user;
-		}	  
+		}
+
+
+		public List<Photo> getPhotos() {
+			return photos;
+		}
+
 
 	  
 

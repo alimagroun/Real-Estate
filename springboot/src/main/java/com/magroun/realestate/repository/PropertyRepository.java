@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.magroun.realestate.model.Property;
+import com.magroun.realestate.projection.PropertyProjection;
 
 import java.util.List;
 
@@ -34,4 +35,15 @@ public interface PropertyRepository extends JpaRepository<Property, Long> {
     
     @Query("SELECT p FROM Property p ORDER BY p.createdAt DESC LIMIT 4")
     List<Property> findLast4Properties(); 
+    
+
+    
+    @Query("SELECT p.name AS name, p.photos AS photos FROM Property p")
+    List<PropertyProjection> findAllProperties();
+
+    
+ 
+    
+    
+    
 }

@@ -5,15 +5,22 @@ import org.springframework.web.bind.annotation.*;
 
 import com.magroun.realestate.model.Photo;
 import com.magroun.realestate.model.Property;
+import com.magroun.realestate.projection.PropertyProjection;
+import com.magroun.realestate.repository.PropertyRepository;
 import com.magroun.realestate.services.PropertyService;
 
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
 @RestController
 @RequestMapping("/api/properties")
 public class PropertyController {
+	
+	  @Autowired
+	  PropertyRepository propertyRepository;
 
     private final PropertyService propertyService;
 
@@ -97,6 +104,11 @@ public class PropertyController {
     @GetMapping("/last4")
     public List<Property> getLast8Properties() {
         return propertyService.getLast4Properties();
+    }
+    
+    @GetMapping("/px")
+    public List<PropertyProjection> getAll() {
+        return propertyRepository.findAllProperties();
     }
 }
 
