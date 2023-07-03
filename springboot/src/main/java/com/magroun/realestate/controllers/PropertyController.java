@@ -79,18 +79,25 @@ public class PropertyController {
             return ResponseEntity.notFound().build();
         }
     }
-    @GetMapping("/filter")
-    public Page<Property> getPropertiesByFilter(@RequestParam(required = false) String status,
-                                                @RequestParam(required = false) Long stateId,
-                                                @RequestParam(required = false) Float minPrice,
-                                                @RequestParam(required = false) Float maxPrice,
-                                                @RequestParam(defaultValue = "0") int bedrooms,
-                                                @RequestParam(defaultValue = "0") int bathrooms,
-                                                @RequestParam(required = false) Long cityId,
-                                                Pageable pageable) {
-        System.out.println("cityId: " + cityId);
-        return propertyService.getPropertiesByFilter(status, stateId, minPrice, maxPrice, bedrooms, bathrooms, cityId, pageable);
-    }
+	/*
+	 * @GetMapping("/filter") public Page<Property>
+	 * getPropertiesByFilter(@RequestParam(required = false) String status,
+	 * 
+	 * @RequestParam(required = false) Long stateId,
+	 * 
+	 * @RequestParam(required = false) Float minPrice,
+	 * 
+	 * @RequestParam(required = false) Float maxPrice,
+	 * 
+	 * @RequestParam(defaultValue = "0") int bedrooms,
+	 * 
+	 * @RequestParam(defaultValue = "0") int bathrooms,
+	 * 
+	 * @RequestParam(required = false) Long cityId, Pageable pageable) {
+	 * System.out.println("cityId: " + cityId); return
+	 * propertyService.getPropertiesByFilter(status, stateId, minPrice, maxPrice,
+	 * bedrooms, bathrooms, cityId, pageable); }
+	 */
     
     @GetMapping("/firstphoto/{propertyId}")
     public ResponseEntity<Photo> getFirstPhotoByPropertyId(@PathVariable Long propertyId) {
@@ -106,9 +113,9 @@ public class PropertyController {
         return propertyService.getLast4Properties();
     }
     
-    @GetMapping("/px")
-    public List<PropertyProjection> getAll() {
-        return propertyRepository.findAllProperties();
+    @GetMapping("/getAllByuser")
+    public List<PropertyProjection> getAll(@RequestParam Long userId) {
+        return propertyRepository.findPropertiesUserId(userId);
     }
 }
 

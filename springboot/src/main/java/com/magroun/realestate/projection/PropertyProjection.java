@@ -1,8 +1,13 @@
 package com.magroun.realestate.projection;
 
-import java.util.List;
-
 public interface PropertyProjection {
+    Long getId();
     String getName();
-    List<PhotoProjection> getPhotos();
+    Float getPrice();
+    int getBedrooms();
+    int getBathrooms();
+    int getSize();
+    String getFilePath();
+    String getCityName();
+   String getStateName();
 }

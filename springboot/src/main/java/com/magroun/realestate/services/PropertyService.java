@@ -82,43 +82,37 @@ public class PropertyService {
         return propertyRepository.findByStatus(status);
     }
 
-    public Page<Property> getPropertiesByFilter(String status, Long stateId, Float minPrice, Float maxPrice, int bedrooms, int bathrooms, Long cityId, Pageable pageable) {
-        Specification<Property> spec = Specification.where(null);
-
-        if (status != null) {
-            spec = spec.and((root, query, builder) -> builder.equal(root.get("status"), status));
-        }
-
-        if (stateId != null) {
-            spec = spec.and((root, query, builder) -> {
-                Join<Property, City> cityJoin = root.join("city");
-                Join<City, State> stateJoin = cityJoin.join("state");
-                return builder.equal(stateJoin.get("id"), stateId);
-            });
-        }
-
-        if (minPrice != null) {
-            spec = spec.and((root, query, builder) -> builder.greaterThanOrEqualTo(root.get("price"), minPrice));
-        }
-
-        if (maxPrice != null) {
-            spec = spec.and((root, query, builder) -> builder.lessThanOrEqualTo(root.get("price"), maxPrice));
-        }
-
-        if (bedrooms != 0) {
-            spec = spec.and((root, query, builder) -> builder.equal(root.get("bedrooms"), bedrooms));
-        }
-
-        if (bathrooms != 0) {
-            spec = spec.and((root, query, builder) -> builder.equal(root.get("bathrooms"), bathrooms));
-        }
-
-        if (cityId != null) {
-            spec = spec.and((root, query, builder) -> builder.equal(root.join("city").get("id"), cityId));
-        }
-
-        return propertyRepository.findAll(spec, pageable);
-    }
+	/*
+	 * public Page<Property> getPropertiesByFilter(String status, Long stateId,
+	 * Float minPrice, Float maxPrice, int bedrooms, int bathrooms, Long cityId,
+	 * Pageable pageable) { Specification<Property> spec =
+	 * Specification.where(null);
+	 * 
+	 * if (status != null) { spec = spec.and((root, query, builder) ->
+	 * builder.equal(root.get("status"), status)); }
+	 * 
+	 * if (stateId != null) { spec = spec.and((root, query, builder) -> {
+	 * Join<Property, City> cityJoin = root.join("city"); Join<City, State>
+	 * stateJoin = cityJoin.join("state"); return builder.equal(stateJoin.get("id"),
+	 * stateId); }); }
+	 * 
+	 * if (minPrice != null) { spec = spec.and((root, query, builder) ->
+	 * builder.greaterThanOrEqualTo(root.get("price"), minPrice)); }
+	 * 
+	 * if (maxPrice != null) { spec = spec.and((root, query, builder) ->
+	 * builder.lessThanOrEqualTo(root.get("price"), maxPrice)); }
+	 * 
+	 * if (bedrooms != 0) { spec = spec.and((root, query, builder) ->
+	 * builder.equal(root.get("bedrooms"), bedrooms)); }
+	 * 
+	 * if (bathrooms != 0) { spec = spec.and((root, query, builder) ->
+	 * builder.equal(root.get("bathrooms"), bathrooms)); }
+	 * 
+	 * if (cityId != null) { spec = spec.and((root, query, builder) ->
+	 * builder.equal(root.join("city").get("id"), cityId)); }
+	 * 
+	 * return propertyRepository.findAll(spec, pageable); }
+	 */
     public Photo getFirstPhotoByPropertyId(Long propertyId) {
         List<Photo> photos = photoRepository.findByPropertyId(propertyId);
         if (!photos.isEmpty()) {

@@ -14,6 +14,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -53,6 +54,9 @@ public class Property {
 	    
 	    @OneToMany(mappedBy = "property")
 	    private List<Photo> photos;
+	    
+	    @Transient
+	    private Photo cover;
 
 
 		public Property() {
@@ -194,6 +198,7 @@ public class Property {
 		}
 
 
-	  
-
+		public void setPhotos(List<Photo> photos) {
+			this.photos = photos;
+		}
 }

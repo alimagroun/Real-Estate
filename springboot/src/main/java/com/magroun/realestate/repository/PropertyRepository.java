@@ -12,6 +12,7 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 
 
 
@@ -36,14 +37,15 @@ public interface PropertyRepository extends JpaRepository<Property, Long> {
     @Query("SELECT p FROM Property p ORDER BY p.createdAt DESC LIMIT 4")
     List<Property> findLast4Properties(); 
     
+    
+    @Query("SELECT p.id AS id, p.name AS name, p.price AS price, p.bedrooms AS bedrooms, p.bathrooms AS bathrooms, p.size AS size, ph.filepath AS filePath, c.name AS cityName, s.name AS stateName " +
+            "FROM Property p " +
+            "JOIN p.photos ph " +
+            "JOIN p.city c " +
+            "JOIN c.state s " +
+            "WHERE p.user.id = :userId " +
+            "GROUP BY p.id")
+    List<PropertyProjection> findPropertiesUserId(@Param("userId") Long userId);
 
-    
-    @Query("SELECT p.name AS name, p.photos AS photos FROM Property p")
-    List<PropertyProjection> findAllProperties();
-
-    
- 
-    
-    
     
 }
