@@ -5,6 +5,7 @@ import {Property} from '../_models/property';
 import { Page } from '../_models/page';
 import { HttpParams } from '@angular/common/http';
 import{Photo} from "../_models/photo";
+import{PropertyProjection} from "../_models/PropertyProjection";
 import{PropertyFilter} from "../_models/propertyFilter";
 
 
@@ -17,6 +18,15 @@ export class PropertyService {
   private baseUrl = 'http://localhost:8080/api/auth/';
   private baseUrl1 = 'http://localhost:8080/api/properties';
   constructor(private http: HttpClient) { }
+
+  getPropertiesByUserId(page: number, size: number): Observable<Page<PropertyProjection>> {
+    const url = `${this.baseUrl1}/getAllByuser`;
+    const params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString());
+
+    return this.http.get<Page<PropertyProjection>>(url, { params });
+  }
 
   getLast8Properties(): Observable<Property[]> {
     return this.http.get<Property[]>(`${this.baseUrl1}/last4`);

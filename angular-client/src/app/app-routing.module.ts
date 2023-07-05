@@ -14,7 +14,7 @@ import {UpdatePropertyComponent} from './update-property/update-property.compone
 import {PropertySearchComponent} from './property-search/property-search.component';
 import { HomeComponent } from './home/home.component';
 import { PasswordRecoveryComponent } from './password-recovery/password-recovery.component';
-
+import { PropertyListingComponent } from './property-listing/property-listing.component';
 import { DefaultHeaderComponent } from './containers/default-layout/default-header/default-header.component';
 
 
@@ -24,7 +24,6 @@ import { BoardModeratorComponent } from './board-moderator/board-moderator.compo
 import { BoardAdminComponent } from './board-admin/board-admin.component';
 import { AuthGuard } from './_guards/auth.guard';
 const routes: Routes = [
- // { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'PasswordRecovery', component: PasswordRecoveryComponent },
@@ -45,6 +44,14 @@ const routes: Routes = [
     },
     children: [
       {
+        path: 'MyProperties',
+        component: PropertyListingComponent,
+        data: {
+          title: 'MyProperties',
+          sidebar: false
+        }
+       },
+       {
         path: 'home',
         component: HomeComponent,
         data: {

@@ -1,0 +1,39 @@
+.small-form-field {
+    width: 150px;
+  }
+  .short-select {
+    width: 148px; /* Set the desired width */
+  }
+  .price{
+    width: 100px;
+  }
+
+
+  
+  .property-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, max-content));
+    grid-gap: 10px;
+
+  }
+  
+  
+  .mat-card {
+    max-width: 300px;
+    margin-bottom: 10px;
+    width: 100%;
+  }
+  
+  .property-image {
+    width: 100%;
+    max-width: 300px;
+    height: 200px;
+    object-fit: cover; /* Adjust to your desired image display style */
+  }
+  
+  
+  .pagination-container {
+    display: flex;
+    justify-content: center;
+  }
+  

@@ -49,7 +49,6 @@ import com.magroun.realestate.repository.PhotoRepository;
 import com.magroun.realestate.repository.UserRepository;
 import com.magroun.realestate.security.jwt.JwtUtils;
 import com.magroun.realestate.security.services.UserDetailsImpl;
-import com.magroun.realestate.services.EmailService;
 import com.magroun.realestate.services.UserService;
 import com.magroun.realestate.util.FileUploadUtil;
 

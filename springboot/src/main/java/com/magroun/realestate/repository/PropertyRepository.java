@@ -14,14 +14,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.query.Param;
 
-
-
 @Repository
 public interface PropertyRepository extends JpaRepository<Property, Long> {
 	
 	
 	Page<Property> findAll(Specification<Property> specification, Pageable pageable);
 	
+
+
     @Query("SELECT p FROM Property p WHERE " +
             "(p.name LIKE %:filter% OR " +
             "p.description LIKE %:filter% OR " +
@@ -38,14 +38,13 @@ public interface PropertyRepository extends JpaRepository<Property, Long> {
     List<Property> findLast4Properties(); 
     
     
-    @Query("SELECT p.id AS id, p.name AS name, p.price AS price, p.bedrooms AS bedrooms, p.bathrooms AS bathrooms, p.size AS size, ph.filepath AS filePath, c.name AS cityName, s.name AS stateName " +
-            "FROM Property p " +
-            "JOIN p.photos ph " +
-            "JOIN p.city c " +
-            "JOIN c.state s " +
-            "WHERE p.user.id = :userId " +
-            "GROUP BY p.id")
-    List<PropertyProjection> findPropertiesUserId(@Param("userId") Long userId);
 
+	
+	  @Query("SELECT p.id AS id, p.name AS name,p.status as status, p.price AS price, p.bedrooms AS bedrooms, p.bathrooms AS bathrooms, p.size AS size, ph.filepath AS filePath, c.name AS cityName, s.name AS stateName "
+	  + "FROM Property p " + "JOIN p.photos ph " + "JOIN p.city c " +
+	  "JOIN c.state s " + "WHERE p.user.id = :userId " + "GROUP BY p.id")
+	  Page<PropertyProjection> findPropertiesUserId(@Param("userId") Long userId,
+	  Pageable pageable);
+	 
     
 }

@@ -14,7 +14,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -52,20 +51,19 @@ public class Property {
 	    @JoinColumn(name = "user_id")
 	    private User user;
 	    
-	    @OneToMany(mappedBy = "property")
-	    private List<Photo> photos;
 	    
-	    @Transient
-	    private Photo cover;
-
+	    
+   @OneToMany(mappedBy = "property")
+   private List<Photo> photos;
+	    
 
 		public Property() {
 			super();
 		}
 
-
-		public Property(Long id, String name, String description, String status, int bedrooms, int bathrooms, int size,
-				float price, City city, User user) {
+		public Property(Long id, @NotBlank String name, @NotBlank @Size(min = 1, max = 1000) String description,
+				@NotBlank String status, int bedrooms, int bathrooms, int size, @NotNull float price,
+				LocalDateTime createdAt, City city, User user) {
 			super();
 			this.id = id;
 			this.name = name;
@@ -75,15 +73,11 @@ public class Property {
 			this.bathrooms = bathrooms;
 			this.size = size;
 			this.price = price;
+			this.createdAt = createdAt;
 			this.city = city;
 			this.user = user;
 		}
 
-
-		public Property(String name2, String description2, String status2, int bedrooms2, int bathrooms2, int size2,
-				float price2) {
-			// TODO Auto-generated constructor stub
-		}
 
 
 		public Long getId() {
@@ -192,13 +186,4 @@ public class Property {
 			this.user = user;
 		}
 
-
-		public List<Photo> getPhotos() {
-			return photos;
-		}
-
-
-		public void setPhotos(List<Photo> photos) {
-			this.photos = photos;
-		}
 }

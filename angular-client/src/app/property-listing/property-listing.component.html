@@ -1,1 +1,17 @@
-<p>property-listing works!</p>
+<h2>My Properties</h2>
+<div class="property-list">
+  <mat-card *ngFor="let property of propertiesPage" (click)="viewPropertyDetails(property.id)">
+    <mat-card-header>
+        <img mat-card-image [src]="property.filePath" alt="Property Photo" class="property-image">
+    </mat-card-header>
+    <mat-card-content>
+      <mat-card-title>{{ property.price }} DT</mat-card-title>
+      <mat-card-subtitle>{{ property.bedrooms }} bds | {{ property.bathrooms }} ba | {{property.size}} &#13217; | for {{property.status}}
+       <br> {{property.cityName}}, {{property.stateName}}
+       <br> <button mat-stroked-button color="primary" (click)="updateProperty(property.id)">Edit</button>
+       <button mat-stroked-button color="primary">Delete</button>
+      </mat-card-subtitle>
+    </mat-card-content>
+  </mat-card>
+</div>
+  

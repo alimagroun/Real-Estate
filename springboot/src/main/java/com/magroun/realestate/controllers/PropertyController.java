@@ -14,6 +14,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
+import com.magroun.realestate.security.services.UserDetailsImpl;
 @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
 @RestController
 @RequestMapping("/api/properties")
@@ -79,25 +81,25 @@ public class PropertyController {
             return ResponseEntity.notFound().build();
         }
     }
-	/*
-	 * @GetMapping("/filter") public Page<Property>
-	 * getPropertiesByFilter(@RequestParam(required = false) String status,
-	 * 
-	 * @RequestParam(required = false) Long stateId,
-	 * 
-	 * @RequestParam(required = false) Float minPrice,
-	 * 
-	 * @RequestParam(required = false) Float maxPrice,
-	 * 
-	 * @RequestParam(defaultValue = "0") int bedrooms,
-	 * 
-	 * @RequestParam(defaultValue = "0") int bathrooms,
-	 * 
-	 * @RequestParam(required = false) Long cityId, Pageable pageable) {
-	 * System.out.println("cityId: " + cityId); return
-	 * propertyService.getPropertiesByFilter(status, stateId, minPrice, maxPrice,
-	 * bedrooms, bathrooms, cityId, pageable); }
-	 */
+	
+	  @GetMapping("/filter") public Page<Property>
+	  getPropertiesByFilter(@RequestParam(required = false) String status,
+	  
+	  @RequestParam(required = false) Long stateId,
+	  
+	  @RequestParam(required = false) Float minPrice,
+	  
+	  @RequestParam(required = false) Float maxPrice,
+	  
+	  @RequestParam(defaultValue = "0") int bedrooms,
+	  
+	  @RequestParam(defaultValue = "0") int bathrooms,
+	  
+	  @RequestParam(required = false) Long cityId, Pageable pageable) {
+	 
+	return propertyService.getPropertiesByFilter(status, stateId, minPrice, maxPrice,
+	  bedrooms, bathrooms, cityId, pageable); }
+	 
     
     @GetMapping("/firstphoto/{propertyId}")
     public ResponseEntity<Photo> getFirstPhotoByPropertyId(@PathVariable Long propertyId) {
@@ -113,9 +115,12 @@ public class PropertyController {
         return propertyService.getLast4Properties();
     }
     
-    @GetMapping("/getAllByuser")
-    public List<PropertyProjection> getAll(@RequestParam Long userId) {
-        return propertyRepository.findPropertiesUserId(userId);
+    @GetMapping("getAllByuser")
+    public Page<PropertyProjection> getPropertiesByUserId(Authentication authentication, Pageable pageable) {
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        Long userId = userDetails.getId();
+
+        return propertyService.getPropertiesByUserId(userId, pageable);
     }
 }
 
