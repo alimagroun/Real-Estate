@@ -30,9 +30,9 @@ export class PropertyListComponent implements OnInit, AfterViewInit {
   ];
   dataSource = new MatTableDataSource<Property>();
   @ViewChild(MatSort) sort!: MatSort;
-
   totalElements: number = 0;
   filterText: string = '';
+
 
   constructor(private propertyService: PropertyService, private router: Router,private dialog: MatDialog, private snackBar: MatSnackBar) {}
 

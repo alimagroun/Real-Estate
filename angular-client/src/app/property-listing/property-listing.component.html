@@ -8,10 +8,17 @@
       <mat-card-title>{{ property.price }} DT</mat-card-title>
       <mat-card-subtitle>{{ property.bedrooms }} bds | {{ property.bathrooms }} ba | {{property.size}} &#13217; | for {{property.status}}
        <br> {{property.cityName}}, {{property.stateName}}
-       <br> <button mat-stroked-button color="primary" (click)="updateProperty(property.id)">Edit</button>
-       <button mat-stroked-button color="primary">Delete</button>
+       <br>
+       <div class="center-div">
+       <button class="custom-button" mat-stroked-button color="primary" (click)="updateProperty(property.id); $event.stopPropagation()">Edit</button>
+       <button class="custom-button" mat-stroked-button color="primary" (click)="deleteProperty(property.id); $event.stopPropagation()">Delete</button>
+      </div>
       </mat-card-subtitle>
     </mat-card-content>
   </mat-card>
 </div>
+<br>
+<div *ngIf="totalElements > 12" class="pagination-container">
+  <pagination [(ngModel)]="currentPage" [totalItems]="totalElements" [itemsPerPage]="12" (pageChanged)="pageChanged($event)" [maxSize]="maxSize"></pagination>
+  </div>
   

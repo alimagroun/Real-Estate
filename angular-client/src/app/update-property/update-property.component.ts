@@ -6,6 +6,8 @@ import {City} from '../_models/city';
 import {PropertyService} from '../_services/property.service';
 import { StateService } from '../_services/state.service';
 import { CityService } from '../_services/city.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
 @Component({
   selector: 'app-update-property',
   templateUrl: './update-property.component.html',
@@ -18,7 +20,7 @@ export class UpdatePropertyComponent implements OnInit {
   cities: City[] = [];
   stateSelected = false;
 
-  constructor(private route: ActivatedRoute,private propertyService: PropertyService,private stateService: StateService,private cityService: CityService) {}
+  constructor(private route: ActivatedRoute,private propertyService: PropertyService,private stateService: StateService,private cityService: CityService,private snackBar: MatSnackBar) {}
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
@@ -71,12 +73,15 @@ export class UpdatePropertyComponent implements OnInit {
   updateProperty(id: number, property: Property): void {
     this.propertyService.updateProperty(id, property).subscribe(
       response => {
-        console.log('Property updated successfully:', response);
-        // Handle success scenario: show a success message, navigate to another page, etc.
+
+        this.snackBar.open('Property updated successfully', 'Close', {
+          duration: 3000, 
+        });
+      
       },
       error => {
         console.log('Error updating property:', error);
-        // Handle error scenario: show an error message, handle specific error cases, etc.
+      
       }
     );
   }  

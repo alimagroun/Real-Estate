@@ -37,3 +37,19 @@
     justify-content: center;
   }
   
+
+
+  .favorite-icon {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 1;
+    color: white;
+    cursor: pointer;
+  }
+  
+  .favorite-icon mat-icon {
+    font-size: 24px;
+  }
+  
+  
