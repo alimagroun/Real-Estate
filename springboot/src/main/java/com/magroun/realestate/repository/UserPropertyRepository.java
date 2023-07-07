@@ -16,6 +16,9 @@ public interface UserPropertyRepository extends JpaRepository<UserProperty, Long
     
     @Transactional
     void deleteByUser_IdAndProperty_Id(Long userId, Long propertyId);
+    
+    boolean existsByUser_IdAndProperty_Id(Long userId, Long propertyId);
+
 
 }
 

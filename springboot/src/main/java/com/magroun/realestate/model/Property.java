@@ -56,7 +56,9 @@ public class Property {
 	    
    @OneToMany(mappedBy = "property", cascade = CascadeType.ALL, orphanRemoval = true)
    private List<Photo> photos;
-	    
+
+   @OneToMany(mappedBy = "property", cascade = CascadeType.ALL, orphanRemoval = true)
+   private List<UserProperty> userproperty;
 
 		public Property() {
 			super();

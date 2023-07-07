@@ -25,5 +25,8 @@
       </div>
       <p>City: {{ property.city.name }}</p>
     </div>
+    <div class="favorite-icon" (click)="toggleFavorite(); $event.stopPropagation()">
+      <mat-icon>{{ isFavorite ? 'favorite' : 'favorite_border' }}</mat-icon>
+    </div>
   </div>
 </div>

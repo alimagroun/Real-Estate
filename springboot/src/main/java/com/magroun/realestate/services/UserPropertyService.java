@@ -46,9 +46,10 @@ public class UserPropertyService {
 
     
 
-    public boolean isFavorite(Long userPropertyId) {
-        return userPropertyRepository.existsById(userPropertyId);
+    public boolean isFavorite(Long userId, Long propertyId) {
+        return userPropertyRepository.existsByUser_IdAndProperty_Id(userId, propertyId);
     }
+    
     public List<Long> getFavoriteProperties(Long userId) {
         return userPropertyRepository.findFavoritePropertyIdsByUserId(userId);
     }

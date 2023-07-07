@@ -155,5 +155,15 @@ public class PropertyController {
 
       return ResponseEntity.status(HttpStatus.OK).body(null);
     }
+    
+    @GetMapping("/favorites/check")
+    public boolean checkFavorite(
+            @RequestParam("propertyId") Long propertyId,
+            Authentication authentication
+    ) {
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        Long userId = userDetails.getId();
+        return userPropertyService.isFavorite(userId, propertyId);
+    }
 }
 

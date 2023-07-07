@@ -19,6 +19,11 @@ export class PropertyService {
   private baseUrl1 = 'http://localhost:8080/api/properties';
   constructor(private http: HttpClient) { }
 
+  checkFavorite(propertyId: number): Observable<boolean> {
+    const url = `${this.baseUrl}/favorites/check?propertyId=${propertyId}`;
+    return this.http.get<boolean>(url);
+  }
+
   getFavoriteProperties(): Observable<number[]> {
     const url = `${this.baseUrl1}/favorites`;
     return this.http.get<number[]>(url);
