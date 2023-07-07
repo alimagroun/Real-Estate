@@ -5,9 +5,11 @@ import org.springframework.web.bind.annotation.*;
 
 import com.magroun.realestate.model.Photo;
 import com.magroun.realestate.model.Property;
+import com.magroun.realestate.model.UserProperty;
 import com.magroun.realestate.projection.PropertyProjection;
 import com.magroun.realestate.repository.PropertyRepository;
 import com.magroun.realestate.services.PropertyService;
+import com.magroun.realestate.services.UserPropertyService;
 
 import java.util.List;
 
@@ -20,6 +22,9 @@ import com.magroun.realestate.security.services.UserDetailsImpl;
 @RestController
 @RequestMapping("/api/properties")
 public class PropertyController {
+	
+    @Autowired
+    private UserPropertyService userPropertyService;
 	
 	  @Autowired
 	  PropertyRepository propertyRepository;
@@ -121,6 +126,34 @@ public class PropertyController {
         Long userId = userDetails.getId();
 
         return propertyService.getPropertiesByUserId(userId, pageable);
+    }
+    
+    @PostMapping("/favorites")
+    public ResponseEntity<String> addToFavorites(@RequestParam("propertyId") Long propertyId, Authentication authentication) {
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        Long userId = userDetails.getId();
+
+        userPropertyService.addToFavorites(userId, propertyId);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(null);
+    }
+    @GetMapping("/favorites")
+    public List<Long> getFavoriteProperties(Authentication authentication) {
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        Long userId = userDetails.getId();
+        return userPropertyService.getFavoriteProperties(userId);
+    }
+  
+    @DeleteMapping("/favorites")
+    public ResponseEntity<String> removeFromFavorites(
+        @RequestParam("propertyId") Long propertyId,
+        Authentication authentication) {
+      UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+      Long userId = userDetails.getId();
+
+      userPropertyService.removeFromFavorites(userId, propertyId);
+
+      return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 }
 

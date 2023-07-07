@@ -17,6 +17,7 @@ import { CityService } from '../_services/city.service';
 export class PropertySearchComponent {
   states: State[] = [];
   cities: City[] = [];
+  favoriteProperties: number[] = [];
   properties: Property[] = [];
   stateSelected = false;
   min: number[] = [0, 50000, 100000, 150000, 200000, 250000, 300000, 350000];
@@ -32,7 +33,7 @@ export class PropertySearchComponent {
   constructor(private propertyService: PropertyService,private stateService: StateService,private cityService: CityService,private route: ActivatedRoute,private router: Router){}
 
   ngOnInit() {
-
+this.loadFavoriteProperties();
     this.route.queryParams.subscribe(params => {
       this.stateId = +params['stateId'];
       if (this.stateId !== undefined) 
@@ -50,6 +51,55 @@ export class PropertySearchComponent {
       this.states = data;
     });
   }
+  loadFavoriteProperties(): void {
+    this.propertyService.getFavoriteProperties().subscribe(
+      (favoriteProperties) => {
+        this.favoriteProperties = favoriteProperties;
+      },
+      (error) => {
+        console.error('Failed to load favorite properties', error);
+        // Handle error here
+      }
+    );
+  }
+  isFavorite(property: any): boolean {
+    const propertyId = property.id;
+    return this.favoriteProperties.includes(propertyId);
+  }
+  toggleFavorite(property: any): void {
+    const propertyId = property.id;
+    const isFavorite = this.favoriteProperties.includes(propertyId);
+  
+    if (isFavorite) {
+      // Property is a favorite, remove it from favorites
+      this.propertyService.removeFromFavorites(propertyId).subscribe(
+        () => {
+          console.log('Property removed from favorites');
+          this.favoriteProperties = this.favoriteProperties.filter(id => id !== propertyId);
+          // Handle success here
+        },
+        (error) => {
+          console.error('Failed to remove property from favorites', error);
+          // Handle error here
+        }
+      );
+    } else {
+      // Property is not a favorite, add it to favorites
+      this.propertyService.addToFavorites(propertyId).subscribe(
+        () => {
+          console.log('Property added to favorites');
+          this.favoriteProperties.push(propertyId);
+          // Handle success here
+        },
+        (error) => {
+          console.error('Failed to add property to favorites', error);
+          // Handle error here
+        }
+      );
+    }
+  }
+  
+  
   onStateChange(event: any) {
     this.stateId = event.value;
     if (this.stateId !== undefined) {

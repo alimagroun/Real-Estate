@@ -23,6 +23,19 @@ public class UserProperty {
     @ManyToOne
     @JoinColumn(name = "property_id")
     private Property property;
+    
+    
+
+	public UserProperty() {
+		super();
+	}
+
+	public UserProperty(Long id, User user, Property property) {
+		super();
+		this.id = id;
+		this.user = user;
+		this.property = property;
+	}
 
 	public Long getId() {
 		return id;

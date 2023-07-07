@@ -19,6 +19,21 @@ export class PropertyService {
   private baseUrl1 = 'http://localhost:8080/api/properties';
   constructor(private http: HttpClient) { }
 
+  getFavoriteProperties(): Observable<number[]> {
+    const url = `${this.baseUrl1}/favorites`;
+    return this.http.get<number[]>(url);
+  }
+
+  addToFavorites(propertyId: number): Observable<any> {
+    const url = `${this.baseUrl1}/favorites?propertyId=${propertyId}`;
+    return this.http.post<any>(url, null);
+  }
+
+  removeFromFavorites(propertyId: number): Observable<any> {
+    const url = `${this.baseUrl1}/favorites?propertyId=${propertyId}`;
+    return this.http.delete<any>(url);
+  }
+
   getPropertiesByUserId(page: number, size: number): Observable<Page<PropertyProjection>> {
     const url = `${this.baseUrl1}/getAllByuser`;
     const params = new HttpParams()

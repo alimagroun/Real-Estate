@@ -65,8 +65,8 @@
 <div class="property-list">
   <mat-card *ngFor="let property of properties" (click)="viewPropertyDetails(property.id)">
     <mat-card-header>
-      <div class="favorite-icon">
-        <mat-icon>favorite_border</mat-icon>
+      <div class="favorite-icon" (click)="toggleFavorite(property); $event.stopPropagation()">
+        <mat-icon>{{ isFavorite(property) ? 'favorite' : 'favorite_border' }}</mat-icon>
       </div>
         <img mat-card-image [src]="property.photos[0].filepath" alt="Property Photo" class="property-image">
     </mat-card-header>
