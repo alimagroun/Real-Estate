@@ -1,0 +1,17 @@
+<p>favorites works!</p>
+
+
+<div *ngIf="favorites">
+    <h2>Your Favorite Properties</h2>
+  
+    <ul>
+      <li *ngFor="let property of favorites.content">
+        <p>{{ property.name }}</p>
+        <p>{{ property.price }}</p>
+        <!-- Display other property details as needed -->
+      </li>
+    </ul>
+  
+
+  </div>
+  

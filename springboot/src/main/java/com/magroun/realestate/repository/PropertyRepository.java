@@ -45,6 +45,12 @@ public interface PropertyRepository extends JpaRepository<Property, Long> {
 	  "JOIN c.state s " + "WHERE p.user.id = :userId " + "GROUP BY p.id")
 	  Page<PropertyProjection> findPropertiesUserId(@Param("userId") Long userId,
 	  Pageable pageable);
+	  
+	  @Query("SELECT p.id AS id, p.name AS name,p.status as status, p.price AS price, p.bedrooms AS bedrooms, p.bathrooms AS bathrooms, p.size AS size, ph.filepath AS filePath, c.name AS cityName, s.name AS stateName "
+	  + "FROM Property p " + "JOIN p.photos ph " + "JOIN p.city c " + "Join p.userproperty u "+
+	  "JOIN c.state s " + "WHERE u.user.id = :userId " + "GROUP BY p.id")
+	  Page<PropertyProjection> findFavoritesProperties(@Param("userId") Long userId,
+	  Pageable pageable);
 	 
     
 }

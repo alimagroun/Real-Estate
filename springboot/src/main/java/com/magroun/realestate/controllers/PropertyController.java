@@ -165,5 +165,16 @@ public class PropertyController {
         Long userId = userDetails.getId();
         return userPropertyService.isFavorite(userId, propertyId);
     }
+    @GetMapping("/userfavorites")
+    public ResponseEntity<Page<PropertyProjection>> findFavoritesProperties(
+        Authentication authentication,
+        Pageable pageable
+    ) {
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        Long userId = userDetails.getId();
+        
+        Page<PropertyProjection> favorites = propertyService.findFavoritesProperties(userId, pageable);
+        return ResponseEntity.ok(favorites);
+    }
 }
 

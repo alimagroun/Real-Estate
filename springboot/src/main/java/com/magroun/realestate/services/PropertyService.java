@@ -128,5 +128,8 @@ public class PropertyService {
     public Page<PropertyProjection> getPropertiesByUserId(Long userId, Pageable pageable) {
         return propertyRepository.findPropertiesUserId(userId, pageable);
     }
+    public Page<PropertyProjection> findFavoritesProperties(Long userId, Pageable pageable) {
+        return propertyRepository.findFavoritesProperties(userId, pageable);
+    }
 }
 

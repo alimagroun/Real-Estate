@@ -16,6 +16,7 @@ import { HomeComponent } from './home/home.component';
 import { PasswordRecoveryComponent } from './password-recovery/password-recovery.component';
 import { PropertyListingComponent } from './property-listing/property-listing.component';
 import { DefaultHeaderComponent } from './containers/default-layout/default-header/default-header.component';
+import { FavoritesComponent } from './favorites/favorites.component';
 
 
 import { ProfileComponent } from './profile/profile.component';
@@ -48,6 +49,14 @@ const routes: Routes = [
         component: PropertyListingComponent,
         data: {
           title: 'MyProperties',
+          sidebar: false
+        }
+       },
+       {
+        path: 'favorites',
+        component: FavoritesComponent,
+        data: {
+          title: 'favorites',
           sidebar: false
         }
        },

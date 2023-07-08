@@ -19,6 +19,15 @@ export class PropertyService {
   private baseUrl1 = 'http://localhost:8080/api/properties';
   constructor(private http: HttpClient) { }
 
+  findFavoritesProperties(pageIndex: number, pageSize: number): Observable<Page<PropertyProjection>> {
+    const url = `${this.baseUrl1}/userfavorites`;
+    let params = new HttpParams()
+      .set('page', pageIndex.toString())
+      .set('size', pageSize.toString());
+
+    return this.http.get<Page<PropertyProjection>>(url, { params: params });
+  }
+
   checkFavorite(propertyId: number): Observable<boolean> {
     const url = `${this.baseUrl}/favorites/check?propertyId=${propertyId}`;
     return this.http.get<boolean>(url);
