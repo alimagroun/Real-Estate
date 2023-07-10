@@ -8,6 +8,7 @@ import{PropertyFilter} from '../_models/propertyFilter';
 import {PropertyService} from '../_services/property.service';
 import { StateService } from '../_services/state.service';
 import { CityService } from '../_services/city.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-property-search',
@@ -18,6 +19,7 @@ export class PropertySearchComponent {
   states: State[] = [];
   cities: City[] = [];
   favoriteProperties: number[] = [];
+  numFavorites: number =0;
   properties: Property[] = [];
   stateSelected = false;
   min: number[] = [0, 50000, 100000, 150000, 200000, 250000, 300000, 350000];
@@ -29,8 +31,12 @@ export class PropertySearchComponent {
   bedrooms: number| undefined;
   bathrooms: number| undefined;
   cityId: number | undefined;
+  currentPage = 1;
+  totalElements: number = 0;
+  pageSize = 12;
+  maxSize = 5;
 
-  constructor(private propertyService: PropertyService,private stateService: StateService,private cityService: CityService,private route: ActivatedRoute,private router: Router){}
+  constructor(private propertyService: PropertyService,private stateService: StateService,private cityService: CityService,private route: ActivatedRoute,private router: Router,private snackBar: MatSnackBar){}
 
   ngOnInit() {
 this.loadFavoriteProperties();
@@ -55,6 +61,7 @@ this.loadFavoriteProperties();
     this.propertyService.getFavoriteProperties().subscribe(
       (favoriteProperties) => {
         this.favoriteProperties = favoriteProperties;
+        this.numFavorites = this.favoriteProperties.filter(num => num >= 1).length;
       },
       (error) => {
         console.error('Failed to load favorite properties', error);
@@ -76,7 +83,8 @@ this.loadFavoriteProperties();
         () => {
           console.log('Property removed from favorites');
           this.favoriteProperties = this.favoriteProperties.filter(id => id !== propertyId);
-          // Handle success here
+          this.numFavorites--;
+          this.snackBar.open('Property removed from favorites.', 'Close', { duration: 3000 });
         },
         (error) => {
           console.error('Failed to remove property from favorites', error);
@@ -89,7 +97,8 @@ this.loadFavoriteProperties();
         () => {
           console.log('Property added to favorites');
           this.favoriteProperties.push(propertyId);
-          // Handle success here
+          this.numFavorites++;
+          this.snackBar.open('Property added to favorites.', 'Close', { duration: 3000 });
         },
         (error) => {
           console.error('Failed to add property to favorites', error);
@@ -112,8 +121,32 @@ this.loadFavoriteProperties();
     this.cityId = undefined;
     this.applyFilter(0,12);
   }
- 
+  saveSearch() {
+    const filter: PropertyFilter = {
+      status: this.status,
+      stateId: this.stateId,
+      minPrice: this.minPrice,
+      maxPrice: this.maxPrice,
+      bedrooms: this.bedrooms,
+      bathrooms: this.bathrooms,
+      cityId: this.cityId
+    };
 
+    this.propertyService.saveSearch(filter)
+      .subscribe(
+        () => {
+          // Handle success, the search was saved
+          console.log('Search saved successfully');
+          // You can perform any additional actions here, such as displaying a success message
+        },
+        (error) => {
+          // Handle error, the search save operation failed
+          console.error('Error saving search:', error);
+          // You can perform any error handling or display error messages here
+        }
+      );
+  }
+ 
   applyFilter(pageIndex: number, pageSize: number) {
     const filter: PropertyFilter = {
       status: this.status,
@@ -136,10 +169,6 @@ this.loadFavoriteProperties();
     });
   
   }
-  currentPage = 1;
-  totalElements: number = 0;
-  pageSize = 12;
-  maxSize = 5;
   pageChanged(event: any): void {
     this.currentPage = event.page;
     const pageIndex = this.currentPage - 1;

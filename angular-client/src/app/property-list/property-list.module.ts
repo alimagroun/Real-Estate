@@ -7,7 +7,7 @@ import { PropertyListRoutingModule } from './property-list-routing.module';
 import { PropertyListComponent } from './property-list.component';
 
 import { DataTablesModule } from 'angular-datatables';
-
+import { MatTooltipModule } from '@angular/material/tooltip';
 import {
   AvatarModule,
   ButtonGroupModule,
@@ -63,7 +63,8 @@ import { MatIconModule } from '@angular/material/icon';
     MatSortModule,
     MatFormFieldModule,
     MatInputModule,
-    MatIconModule
+    MatIconModule,
+    MatTooltipModule
     
   ]
 })

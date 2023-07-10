@@ -78,7 +78,6 @@ import { PropertyListingComponent } from './property-listing/property-listing.co
 import { FavoritesComponent } from './favorites/favorites.component';
 
 
-
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
 };

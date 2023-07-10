@@ -60,8 +60,17 @@
           <mat-option value="3">3</mat-option>
           <mat-option value="4">4+</mat-option>
         </mat-select>
-      </mat-form-field>   
+      </mat-form-field>  
+      <button mat-raised-button color="primary" (click)="saveSearch()">Save search</button> 
+      <br>
 </div>
+<div class="container">
+  <ng-container *ngIf="numFavorites >= 1">
+    <a [routerLink]="['/favorites']">{{ numFavorites }} Saved {{ numFavorites === 1 ? 'Property' : 'Properties' }}</a>
+    <br>
+  </ng-container>
+</div>
+
 <div class="property-list">
   <mat-card *ngFor="let property of properties" (click)="viewPropertyDetails(property.id)">
     <mat-card-header>
@@ -83,7 +92,7 @@
 <pagination [(ngModel)]="currentPage" [totalItems]="totalElements" [itemsPerPage]="12" (pageChanged)="pageChanged($event)" [maxSize]="maxSize"></pagination>
 </div>
 <div  class="text-center">
-  <p>Found {{totalElements}} matching properties</p>
+  <p>Found {{totalElements}} matching properties.</p>
  <span *ngIf="totalElements==0"> <p>Edit or remove these filters for best results.</p></span>
 </div>
   

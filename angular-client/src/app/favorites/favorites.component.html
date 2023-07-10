@@ -1,17 +1,26 @@
-<p>favorites works!</p>
-
-
-<div *ngIf="favorites">
-    <h2>Your Favorite Properties</h2>
-  
-    <ul>
-      <li *ngFor="let property of favorites.content">
-        <p>{{ property.name }}</p>
-        <p>{{ property.price }}</p>
-        <!-- Display other property details as needed -->
-      </li>
-    </ul>
-  
-
+<h2>Saved properties</h2>
+<div class="property-list">
+  <mat-card *ngFor="let property of favorites.content" (click)="viewPropertyDetails(property.id)">
+    <mat-card-header>
+      <div class="favorite-icon" (click)="removeFromFavorites(property); $event.stopPropagation()">
+        <mat-icon>favorite</mat-icon>
+      </div>
+        <img mat-card-image [src]="property.filePath" alt="Property Photo" class="property-image">
+    </mat-card-header>
+    <mat-card-content>
+      <mat-card-title>{{ property.price }} DT</mat-card-title>
+      <mat-card-subtitle>{{ property.bedrooms }} bds | {{ property.bathrooms }} ba | {{property.size}} &#13217; | for {{property.status}}
+       <br> {{property.cityName}}, {{property.stateName}}
+      </mat-card-subtitle>
+    </mat-card-content>
+  </mat-card>
+</div>
+<br>
+<div *ngIf="totalElements > 12" class="pagination-container">
+  <pagination [(ngModel)]="currentPage" [totalItems]="totalElements" [itemsPerPage]="12" (pageChanged)="pageChanged($event)" [maxSize]="maxSize"></pagination>
+  </div>
+  <div  class="text-center">
+    <p>{{totalElements}} Saved properties.</p>
+   <span *ngIf="totalElements==0"> <p>Whenever you find property you like, select the <mat-icon>favorite_border</mat-icon> to save them here.</p></span>
   </div>
   

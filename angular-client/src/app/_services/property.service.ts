@@ -29,7 +29,7 @@ export class PropertyService {
   }
 
   checkFavorite(propertyId: number): Observable<boolean> {
-    const url = `${this.baseUrl}/favorites/check?propertyId=${propertyId}`;
+    const url = `${this.baseUrl1}/favorites/check?propertyId=${propertyId}`;
     return this.http.get<boolean>(url);
   }
 
@@ -154,4 +154,34 @@ export class PropertyService {
   return this.http.get<Page<Property>>(`${this.baseUrl}property`, { params });
 }
 
+
+saveSearch(filter: PropertyFilter) {
+  const url = `${this.baseUrl1}/saved-searches`;
+
+  let params = new HttpParams();
+
+  if (filter.status) {
+    params = params.set('status', filter.status);
+  }
+  if (filter.stateId) {
+    params = params.set('stateId', filter.stateId.toString());
+  }
+  if (filter.minPrice) {
+    params = params.set('minPrice', filter.minPrice.toString());
+  }
+  if (filter.maxPrice) {
+    params = params.set('maxPrice', filter.maxPrice.toString());
+  }
+  if (filter.bedrooms) {
+    params = params.set('bedrooms', filter.bedrooms.toString());
+  }
+  if (filter.bathrooms) {
+    params = params.set('bathrooms', filter.bathrooms.toString());
+  }
+  if (filter.cityId) {
+    params = params.set('cityId', filter.cityId.toString());
+  }
+
+  return this.http.post(url, null, { params, observe: 'response' });
+}
 }

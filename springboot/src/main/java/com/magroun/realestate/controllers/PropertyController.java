@@ -5,10 +5,11 @@ import org.springframework.web.bind.annotation.*;
 
 import com.magroun.realestate.model.Photo;
 import com.magroun.realestate.model.Property;
-import com.magroun.realestate.model.UserProperty;
+import com.magroun.realestate.model.SavedSearch;
 import com.magroun.realestate.projection.PropertyProjection;
 import com.magroun.realestate.repository.PropertyRepository;
 import com.magroun.realestate.services.PropertyService;
+import com.magroun.realestate.services.SavedSearchService;
 import com.magroun.realestate.services.UserPropertyService;
 
 import java.util.List;
@@ -23,13 +24,15 @@ import com.magroun.realestate.security.services.UserDetailsImpl;
 @RequestMapping("/api/properties")
 public class PropertyController {
 	
-    @Autowired
-    private UserPropertyService userPropertyService;
-	
-	  @Autowired
-	  PropertyRepository propertyRepository;
-
-    private final PropertyService propertyService;
+  
+		@Autowired
+		UserPropertyService userPropertyService;	
+		@Autowired
+		PropertyRepository propertyRepository;
+		@Autowired
+		SavedSearchService savedSearchService;
+		@Autowired
+		PropertyService propertyService;
 
     public PropertyController(PropertyService propertyService) {
         this.propertyService = propertyService;
@@ -175,6 +178,23 @@ public class PropertyController {
         
         Page<PropertyProjection> favorites = propertyService.findFavoritesProperties(userId, pageable);
         return ResponseEntity.ok(favorites);
+    }
+    @PostMapping("/saved-searches")
+    public ResponseEntity<Void> saveSearch(@RequestParam(required = false) String status,
+                                  @RequestParam(required = false) Long stateId,
+                                  @RequestParam(required = false) Float minPrice,
+                                  @RequestParam(required = false) Float maxPrice,
+                                  @RequestParam(defaultValue = "0") int bedrooms,
+                                  @RequestParam(defaultValue = "0") int bathrooms,
+                                  @RequestParam(required = false) Long cityId,
+                                  Authentication authentication) {
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        Long userId = userDetails.getId();
+
+        savedSearchService.save(status, stateId, minPrice, maxPrice, bedrooms, bathrooms,
+                cityId, userId);
+
+        return ResponseEntity.noContent().build();
     }
 }
 
