@@ -196,5 +196,11 @@ public class PropertyController {
 
         return ResponseEntity.noContent().build();
     }
+    @GetMapping("/saved-searches")
+    public Page<SavedSearch> getSavedSearches(Authentication authentication, Pageable pageable) {
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        Long userId = userDetails.getId();
+        return savedSearchService.getSavedSearches(userId,pageable);
+    }
 }
 

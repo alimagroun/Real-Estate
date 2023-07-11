@@ -1,0 +1,30 @@
+<h2>Saved searches</h2>
+
+
+<div>
+  
+
+    <mat-list *ngFor="let savedSearch of savedSearches">
+        <mat-list-item class="item-background">
+          For {{ savedSearch.status }}
+          <ng-container *ngIf="savedSearch.city && savedSearch.city.name; else fallback">
+            in {{ savedSearch.city.name }} 
+          </ng-container>
+          <ng-template #fallback>
+            in {{ savedSearch.state.name }} 
+          </ng-template>
+
+              <!-- Price range display -->
+    <ng-container *ngIf="savedSearch.minPrice && !savedSearch.maxPrice">
+       : {{ savedSearch.minPrice }}DT +
+      </ng-container>
+      <ng-container *ngIf="!savedSearch.minPrice && savedSearch.maxPrice">
+        : No Min - {{ savedSearch.maxPrice }}DT
+      </ng-container>
+      <ng-container *ngIf="savedSearch.minPrice && savedSearch.maxPrice">
+        : {{ savedSearch.minPrice }}DT - {{ savedSearch.maxPrice }}DT
+      </ng-container>
+        </mat-list-item>
+      </mat-list>
+  </div>
+  

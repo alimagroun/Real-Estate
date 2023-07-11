@@ -7,6 +7,7 @@ import { HttpParams } from '@angular/common/http';
 import{Photo} from "../_models/photo";
 import{PropertyProjection} from "../_models/PropertyProjection";
 import{PropertyFilter} from "../_models/propertyFilter";
+import{SavedSearch} from "../_models/SavedSearch";
 
 
 
@@ -184,4 +185,15 @@ saveSearch(filter: PropertyFilter) {
 
   return this.http.post(url, null, { params, observe: 'response' });
 }
+
+getSavedSearches(page: number, size: number): Observable<Page<SavedSearch>> {
+  const url = `${this.baseUrl1}/saved-searches`;
+  const params = new HttpParams()
+    .set('page', String(page))
+    .set('size', String(size));
+
+  return this.http.get<Page<SavedSearch>>(url, { params });
 }
+}
+
+

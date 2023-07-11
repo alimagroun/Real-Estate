@@ -4,7 +4,6 @@ import {Property} from '../_models/property';
 import {State} from '../_models/state';
 import {City} from '../_models/city';
 import{PropertyFilter} from '../_models/propertyFilter';
-
 import {PropertyService} from '../_services/property.service';
 import { StateService } from '../_services/state.service';
 import { CityService } from '../_services/city.service';
@@ -137,6 +136,7 @@ this.loadFavoriteProperties();
         () => {
           // Handle success, the search was saved
           console.log('Search saved successfully');
+          this.snackBar.open('Search saved successfully.', 'Close', { duration: 3000 });
           // You can perform any additional actions here, such as displaying a success message
         },
         (error) => {

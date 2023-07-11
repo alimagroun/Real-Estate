@@ -61,7 +61,7 @@
           <mat-option value="4">4+</mat-option>
         </mat-select>
       </mat-form-field>  
-      <button mat-raised-button color="primary" (click)="saveSearch()">Save search</button> 
+      <button mat-raised-button color="primary" [disabled]="!status || !stateId" (click)="saveSearch()">Save search</button> 
       <br>
 </div>
 <div class="container">

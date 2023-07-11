@@ -17,6 +17,7 @@ import { PasswordRecoveryComponent } from './password-recovery/password-recovery
 import { PropertyListingComponent } from './property-listing/property-listing.component';
 import { DefaultHeaderComponent } from './containers/default-layout/default-header/default-header.component';
 import { FavoritesComponent } from './favorites/favorites.component';
+import { SavedSearchesComponent } from './saved-searches/saved-searches.component';
 
 
 import { ProfileComponent } from './profile/profile.component';
@@ -57,6 +58,14 @@ const routes: Routes = [
         component: FavoritesComponent,
         data: {
           title: 'favorites',
+          sidebar: false
+        }
+       },
+       {
+        path: 'SavedSearches',
+        component: SavedSearchesComponent,
+        data: {
+          title: 'SavedSearches',
           sidebar: false
         }
        },

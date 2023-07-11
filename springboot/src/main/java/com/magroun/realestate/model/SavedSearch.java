@@ -17,17 +17,18 @@ public class SavedSearch {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    @Column(name = "user_id")
+    private Long userId;
 
     private String status;
 
-    @Column(name = "state_id")
-    private Long stateId;
+    @ManyToOne
+    @JoinColumn(name = "state_id")
+    private State state;
 
-    @Column(name = "city_id")
-    private Long cityId;
+    @ManyToOne
+    @JoinColumn(name = "city_id")
+    private City city;
 
     @Column(name = "min_price")
     private Float minPrice;
@@ -43,20 +44,29 @@ public class SavedSearch {
         // Default constructor
     }
 
-    public SavedSearch(User user, String status, Long stateId, Long cityId, Float minPrice, Float maxPrice,
-                       Integer bedrooms, Integer bathrooms) {
-        this.user = user;
-        this.status = status;
-        this.stateId = stateId;
-        this.cityId = cityId;
-        this.minPrice = minPrice;
-        this.maxPrice = maxPrice;
-        this.bedrooms = bedrooms;
-        this.bathrooms = bathrooms;
-    }
-    
+	public SavedSearch(Long id, Long userId, String status, State state, City city, Float minPrice, Float maxPrice,
+			Integer bedrooms, Integer bathrooms) {
+		super();
+		this.id = id;
+		this.userId = userId;
+		this.status = status;
+		this.state = state;
+		this.city = city;
+		this.minPrice = minPrice;
+		this.maxPrice = maxPrice;
+		this.bedrooms = bedrooms;
+		this.bathrooms = bathrooms;
+	}
 
-  
+
+
+
+
+
+
+
+
+
 
 	public Long getId() {
         return id;
@@ -66,13 +76,7 @@ public class SavedSearch {
         this.id = id;
     }
 
-    public User getUser() {
-        return user;
-    }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
 
     public String getStatus() {
         return status;
@@ -82,21 +86,7 @@ public class SavedSearch {
         this.status = status;
     }
 
-    public Long getStateId() {
-        return stateId;
-    }
 
-    public void setStateId(Long stateId) {
-        this.stateId = stateId;
-    }
-
-    public Long getCityId() {
-        return cityId;
-    }
-
-    public void setCityId(Long cityId) {
-        this.cityId = cityId;
-    }
 
     public Float getMinPrice() {
         return minPrice;
@@ -129,4 +119,77 @@ public class SavedSearch {
     public void setBathrooms(Integer bathrooms) {
         this.bathrooms = bathrooms;
     }
+
+
+
+
+
+	public Long getUserId() {
+		return userId;
+	}
+
+
+
+
+
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
+
+
+
+
+
+
+
+
+
+
+
+	public State getState() {
+		return state;
+	}
+
+
+
+
+
+
+
+
+
+
+
+	public void setState(State state) {
+		this.state = state;
+	}
+
+
+
+
+
+
+
+
+
+
+
+	public City getCity() {
+		return city;
+	}
+
+
+
+
+
+
+
+
+
+
+
+	public void setCity(City city) {
+		this.city = city;
+	}
+    
 }
