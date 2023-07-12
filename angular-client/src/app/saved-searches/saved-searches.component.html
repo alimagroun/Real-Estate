@@ -2,10 +2,19 @@
 
 
 <div>
-  
-
     <mat-list *ngFor="let savedSearch of savedSearches">
         <mat-list-item class="item-background">
+
+<a (click)="applyFilter(savedSearch, $event)" href="#">
+  For {{ savedSearch.status }}
+  <ng-container *ngIf="savedSearch.city && savedSearch.city.name; else fallback">
+    in {{ savedSearch.city.name }} 
+  </ng-container>
+  <ng-template #fallback>
+    in {{ savedSearch.state.name }} 
+  </ng-template>
+</a>
+<br>
           For {{ savedSearch.status }}
           <ng-container *ngIf="savedSearch.city && savedSearch.city.name; else fallback">
             in {{ savedSearch.city.name }} 
@@ -24,6 +33,9 @@
       <ng-container *ngIf="savedSearch.minPrice && savedSearch.maxPrice">
         : {{ savedSearch.minPrice }}DT - {{ savedSearch.maxPrice }}DT
       </ng-container>
+
+
+      <mat-icon class="delete-icon" matTooltip="Delete" (click)="deleteSavedSearch(savedSearch.id)">delete</mat-icon>
         </mat-list-item>
       </mat-list>
   </div>

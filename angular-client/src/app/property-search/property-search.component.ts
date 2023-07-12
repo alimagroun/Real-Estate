@@ -50,6 +50,10 @@ this.loadFavoriteProperties();
         this.stateSelected=true;}
       this.status = params['status'];
       this.cityId = +params['cityId'];
+      this.minPrice = params['minPrice'];
+      this.maxPrice = params['maxPrice'];
+      this.bedrooms = params['bedrooms'];
+      this.bathrooms = params['bathrooms'];
       this.applyFilter(0,12);
     });
     this.stateService.getStates().subscribe((data: State[]) => {

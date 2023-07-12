@@ -44,5 +44,7 @@ public class SavedSearchService {
 	  public Page<SavedSearch> getSavedSearches(Long userId, Pageable pageable) {
 		    return savedSearchRepository.findByUserId(userId, pageable);
 		}
-
+	    public void delete(long searchId) {
+	        savedSearchRepository.deleteById(searchId);
+	    }
 }

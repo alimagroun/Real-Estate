@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient,HttpHeaders  } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import {Property} from '../_models/property';
 import { Page } from '../_models/page';
@@ -193,6 +193,14 @@ getSavedSearches(page: number, size: number): Observable<Page<SavedSearch>> {
     .set('size', String(size));
 
   return this.http.get<Page<SavedSearch>>(url, { params });
+}
+deleteSavedSearch(searchId: number): Observable<void> {
+  const params = { searchId: searchId.toString() };
+  const options = {
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+    params
+  };
+  return this.http.delete<void>(`${this.baseUrl1}/saved-searches`, options);
 }
 }
 

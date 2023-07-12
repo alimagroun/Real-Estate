@@ -78,6 +78,7 @@ import { PropertyListingComponent } from './property-listing/property-listing.co
 import { FavoritesComponent } from './favorites/favorites.component';
 import { SavedSearchesComponent } from './saved-searches/saved-searches.component';
 import { MatListModule } from '@angular/material/list';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
@@ -133,7 +134,8 @@ const APP_CONTAINERS = [
     PaginationModule,
     MatButtonModule,
     MatStepperModule,
-    MatListModule
+    MatListModule,
+    MatTooltipModule
   ],
   providers: [
     {

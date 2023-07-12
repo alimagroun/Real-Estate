@@ -1,4 +1,30 @@
 .item-background {
-    background-color: white;
+  background-color: white;
+  padding: 30px;
+  border: 1.5px solid #CCCCCC; 
+  font-size: 1.2rem;
+  position: relative;
+}
+
+@media screen and (min-width: 768px) {
+  .item-background {
+    padding: 40px;
+    font-size: 1.4rem;
   }
-  
+}
+
+@media screen and (min-width: 1200px) {
+  .item-background {
+    padding: 50px;
+    font-size: 1.6rem;
+  }
+}
+
+.delete-icon {
+  position: absolute;
+  top: 50%;
+  right: 30px;
+  transform: translateY(-50%);
+}
+
+

@@ -202,5 +202,10 @@ public class PropertyController {
         Long userId = userDetails.getId();
         return savedSearchService.getSavedSearches(userId,pageable);
     }
+    @DeleteMapping("/saved-searches")
+    public ResponseEntity<Void> deleteSavedSearch(@RequestParam("searchId") long searchId) {
+        savedSearchService.delete(searchId);
+        return ResponseEntity.ok().build();
+    }
 }
 
