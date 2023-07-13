@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 
 import {Property} from '../_models/property';
 import {State} from '../_models/state';
@@ -22,7 +24,8 @@ export class AddPropertyComponent {
   stateSelected = false;
   errorMessage: string = '';
 
-  constructor(private propertyService: PropertyService,private stateService: StateService,private cityService: CityService) {}
+  constructor(private propertyService: PropertyService,private stateService: StateService,private cityService: CityService,  private snackBar: MatSnackBar,
+    private router: Router) {}
 
   ngOnInit() {
     this.stateService.getStates().subscribe((data: State[]) => {
@@ -52,10 +55,10 @@ export class AddPropertyComponent {
     this.propertyService.createProperty(this.newProperty, this.files)
       .subscribe(
         (data) => {
-          console.log('Property created successfully!', data);
+          this.snackBar.open('Property created successfully.', 'Close', { duration: 3000 });
+          this.router.navigate(['/myproperties']);
         },
         (error) => {
-          console.error('Error creating property', error);
         }
       );
   }

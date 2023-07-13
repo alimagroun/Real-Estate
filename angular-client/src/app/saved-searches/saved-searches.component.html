@@ -39,4 +39,7 @@
         </mat-list-item>
       </mat-list>
   </div>
-  
+  <br>
+<div *ngIf="totalElements > 10" class="pagination-container">
+  <pagination [(ngModel)]="currentPage" [totalItems]="totalElements" [itemsPerPage]="10" (pageChanged)="pageChanged($event)" [maxSize]="maxSize"></pagination>
+  </div>

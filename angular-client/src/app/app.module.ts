@@ -79,6 +79,8 @@ import { FavoritesComponent } from './favorites/favorites.component';
 import { SavedSearchesComponent } from './saved-searches/saved-searches.component';
 import { MatListModule } from '@angular/material/list';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { ContactFormComponent } from './contact-form/contact-form.component';
+//import { ReCaptchaModule } from 'ngx-captcha';
 
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
@@ -92,7 +94,7 @@ const APP_CONTAINERS = [
 ];
 
 @NgModule({
-  declarations: [AppComponent, ...APP_CONTAINERS, LoginComponent, RegisterComponent, HomeComponent, ProfileComponent, BoardAdminComponent, BoardModeratorComponent, BoardUserComponent, UsersListComponent, UpdatePropertyComponent, ConfirmationDialogComponent, PropertySearchComponent, PasswordRecoveryComponent, PropertyListingComponent, FavoritesComponent, SavedSearchesComponent],
+  declarations: [AppComponent, ...APP_CONTAINERS, LoginComponent, RegisterComponent, HomeComponent, ProfileComponent, BoardAdminComponent, BoardModeratorComponent, BoardUserComponent, UsersListComponent, UpdatePropertyComponent, ConfirmationDialogComponent, PropertySearchComponent, PasswordRecoveryComponent, PropertyListingComponent, FavoritesComponent, SavedSearchesComponent, ContactFormComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

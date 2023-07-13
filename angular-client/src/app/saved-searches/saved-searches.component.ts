@@ -15,23 +15,27 @@ export class SavedSearchesComponent implements OnInit {
   savedSearches!: SavedSearch[];
   currentPage: number = 0;
   pageSize: number = 10;
-  totalItems!: number;
+  totalElements: number = 0;
+  maxSize = 5;
+  pageIndex = 0;
 
   constructor(private  propertyService: PropertyService,private router: Router,private dialog: MatDialog, private snackBar: MatSnackBar) { }
 
   ngOnInit() {
-    this.getSavedSearches();
+    this.getSavedSearches(this.pageIndex,this.pageSize);
   }
-  getSavedSearches() {
-    this.propertyService.getSavedSearches(this.currentPage, this.pageSize)
+  getSavedSearches(pageIndex: number, pageSize: number) {
+    this.propertyService.getSavedSearches(pageIndex, pageSize)
       .subscribe((page: Page<SavedSearch>) => {
         this.savedSearches = page.content;
-        this.totalItems = page.totalElements;
+        this.totalElements = page.totalElements;
       });
   }
-  onPageChange(page: number) {
-    this.currentPage = page;
-    this.getSavedSearches();
+  pageChanged(event: any): void {
+    this.currentPage = event.page;
+    const pageIndex = this.currentPage - 1;
+    const pageSize = this.pageSize;
+    this.getSavedSearches(pageIndex, pageSize);
   }
   applyFilter(savedSearch: SavedSearch, event: Event): void {
     event.preventDefault();
@@ -56,14 +60,22 @@ export class SavedSearchesComponent implements OnInit {
   }
 
   deleteSavedSearch(searchId: number): void {
-    const dialogRef = this.dialog.open(ConfirmationDialogComponent);
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      data: 'Are you sure you want to delete this saved search?'
+    });
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.propertyService.deleteSavedSearch(searchId)
           .subscribe(
             () => {
-     this.getSavedSearches();
+              const totalItemsOnCurrentPage = this.savedSearches.length;
+              const lastPage = Math.ceil(this.totalElements / this.pageSize);
+        
+              if (totalItemsOnCurrentPage === 1 && this.currentPage > 1) {
+                this.currentPage -= 1;
+              }
+     this.getSavedSearches(this.currentPage -1,this.pageSize);
               this.snackBar.open('Saved search deleted successfully', 'Close', {
                 duration: 3000,
               });

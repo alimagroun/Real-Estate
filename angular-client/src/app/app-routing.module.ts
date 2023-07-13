@@ -19,6 +19,7 @@ import { DefaultHeaderComponent } from './containers/default-layout/default-head
 import { FavoritesComponent } from './favorites/favorites.component';
 import { SavedSearchesComponent } from './saved-searches/saved-searches.component';
 
+import { ContactFormComponent } from './contact-form/contact-form.component';
 
 import { ProfileComponent } from './profile/profile.component';
 import { BoardUserComponent } from './board-user/board-user.component';
@@ -46,10 +47,10 @@ const routes: Routes = [
     },
     children: [
       {
-        path: 'MyProperties',
+        path: 'myproperties',
         component: PropertyListingComponent,
         data: {
-          title: 'MyProperties',
+          title: 'myproperties',
           sidebar: false
         }
        },
@@ -74,6 +75,14 @@ const routes: Routes = [
         component: HomeComponent,
         data: {
           title: 'Home',
+          sidebar: false
+        }
+       },
+       {
+        path: 'contact',
+        component: ContactFormComponent,
+        data: {
+          title: 'Contact',
           sidebar: false
         }
        },

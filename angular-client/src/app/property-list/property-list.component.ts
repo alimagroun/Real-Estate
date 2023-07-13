@@ -66,7 +66,9 @@ export class PropertyListComponent implements OnInit, AfterViewInit {
     this.router.navigate(['/updateproperty', propertyId]);
   }
   deleteProperty(id: number): void {
-    const dialogRef = this.dialog.open(ConfirmationDialogComponent);
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      data: 'Are you sure you want to delete this property?'
+    });
   
     dialogRef.afterClosed().subscribe(result => {
       if (result === true) {

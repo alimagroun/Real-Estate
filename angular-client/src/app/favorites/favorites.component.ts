@@ -39,13 +39,10 @@ export class FavoritesComponent implements OnInit {
     const propertyId = property.id;
       this.propertyService.removeFromFavorites(propertyId).subscribe(
         () => {
-          console.log('Property removed from favorites');
           const totalItemsOnCurrentPage = this.favorites.content.length;
           const lastPage = Math.ceil(this.totalElements / this.pageSize);
     
           if (totalItemsOnCurrentPage === 1 && this.currentPage > 1) {
-            // If the current page becomes empty and it's not the first page,
-            // navigate to the previous page
             this.currentPage -= 1;
           }
           this.getFavorites(this.currentPage -1,this.pageSize);

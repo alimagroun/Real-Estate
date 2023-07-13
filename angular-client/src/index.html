@@ -25,6 +25,21 @@
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+
+  <script src="assets/recaptcha.js"></script>
+  <script src="https://www.google.com/recaptcha/api.js?render=explicit&onload=onRecaptchaLoaded&render=explicit" async defer></script>
+  <script>
+    onRecaptchaLoaded = function() {
+      grecaptcha.ready(function() {
+        grecaptcha.execute('6LeAgiAnAAAAAA2Q4V3EXvKh9WvsfopK1YoI54fJ', { action: 'form_submit' })
+          .then(function(token) {
+            document.getElementById('recaptchaToken').value = token;
+          });
+      });
+    };
+  </script>
+  
 </head>
 <body>
   <noscript>You need to enable JavaScript to run this app.</noscript>
