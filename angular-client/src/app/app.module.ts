@@ -61,10 +61,8 @@ import { UsersListComponent } from './users-list/users-list.component';
 import { UpdatePropertyComponent } from './update-property/update-property.component';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { PropertySearchComponent } from './property-search/property-search.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatCardModule } from '@angular/material/card';
@@ -72,15 +70,21 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { PasswordRecoveryComponent } from './password-recovery/password-recovery.component';
-import {MatStepperModule} from '@angular/material/stepper';
 import {MatButtonModule} from '@angular/material/button';
 import { PropertyListingComponent } from './property-listing/property-listing.component';
 import { FavoritesComponent } from './favorites/favorites.component';
 import { SavedSearchesComponent } from './saved-searches/saved-searches.component';
 import { MatListModule } from '@angular/material/list';
-import { MatTooltipModule } from '@angular/material/tooltip';
 import { ContactFormComponent } from './contact-form/contact-form.component';
-//import { ReCaptchaModule } from 'ngx-captcha';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSelectModule } from '@angular/material/select';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import {MatStepperModule} from '@angular/material/stepper';
+
+import { RECAPTCHA_SETTINGS, RecaptchaFormsModule, RecaptchaModule, RecaptchaSettings } from 'ng-recaptcha';
+import { environment } from '../environments/environment';
+
+
 
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
@@ -137,7 +141,10 @@ const APP_CONTAINERS = [
     MatButtonModule,
     MatStepperModule,
     MatListModule,
-    MatTooltipModule
+    MatTooltipModule,
+    RecaptchaModule,
+    RecaptchaFormsModule
+    
   ],
   providers: [
     {
@@ -147,6 +154,12 @@ const APP_CONTAINERS = [
     {
       provide: PERFECT_SCROLLBAR_CONFIG,
       useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG,
+    },
+    {
+      provide: RECAPTCHA_SETTINGS,
+      useValue: {
+        siteKey: environment.recaptcha.siteKey,
+      } as RecaptchaSettings,
     },
     IconSetService,
     Title,

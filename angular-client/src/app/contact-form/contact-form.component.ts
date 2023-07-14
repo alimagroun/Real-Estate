@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ContactForm } from '../_models/ContactForm';
-import { Page } from '../_models/page';
 import { ContactFormService  } from '../_services/contact-form.service';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-contact-form',
@@ -11,10 +11,11 @@ import { ContactFormService  } from '../_services/contact-form.service';
 })
 export class ContactFormComponent implements OnInit {
   contactForm!: FormGroup;
+  recaptchaToken: string | undefined;
 
   constructor(
     private formBuilder: FormBuilder,
-    private contactFormService: ContactFormService
+    private contactFormService: ContactFormService,
   ) { }
 
   ngOnInit() {
@@ -26,7 +27,8 @@ export class ContactFormComponent implements OnInit {
       name: ['', [Validators.required, Validators.maxLength(50)]],
       email: ['', [Validators.required, Validators.email]],
       subject: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(100)]],
-      message: ['', [Validators.required, Validators.minLength(25), Validators.maxLength(500)]]
+      message: ['', [Validators.required, Validators.minLength(25), Validators.maxLength(500)]],
+      recaptchaToken: ['', Validators.required] // Add the recaptchaToken form control
     });
   }
 
@@ -34,18 +36,15 @@ export class ContactFormComponent implements OnInit {
     if (this.contactForm.invalid) {
       return;
     }
-  
-    const recaptchaToken = this.contactForm.get('recaptchaToken')?.value;
-  
+
     const contactFormData: ContactForm = {
       name: this.contactForm.value.name,
       email: this.contactForm.value.email,
       subject: this.contactForm.value.subject,
-      message: this.contactForm.value.message
+      message: this.contactForm.value.message,
+      recaptchaToken: this.recaptchaToken
     };
-  
-    contactFormData.recaptchaToken = recaptchaToken;
-  
+
     this.contactFormService.createContactForm(contactFormData).subscribe(
       (response) => {
         console.log('Form submitted successfully');
@@ -57,5 +56,9 @@ export class ContactFormComponent implements OnInit {
       }
     );
   }
-  
+
+ public handleCaptchaResponse(token: string): void {
+    this.recaptchaToken = token;
+  }
+    public environment = environment;
 }

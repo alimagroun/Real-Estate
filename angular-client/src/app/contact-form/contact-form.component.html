@@ -28,7 +28,15 @@
     </mat-form-field>
   
 
-    <input type="hidden" name="recaptchaToken" id="recaptchaToken" formControlName="recaptchaToken">
-    <button mat-raised-button color="primary" type="submit">Submit</button>
+    <re-captcha
+    [siteKey]="environment.recaptcha.siteKey"
+    (resolved)="handleCaptchaResponse($event)"
+    formControlName="recaptchaToken"
+  ></re-captcha>
+
+  <!-- Disable the submit button until reCAPTCHA is completed -->
+  <button mat-raised-button color="primary" type="submit" [disabled]="!contactForm.get('recaptchaToken')?.value">
+    Submit
+  </button>
   </form>
   
