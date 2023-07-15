@@ -1,8 +1,9 @@
-import { Component, OnInit,Inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ContactForm } from '../_models/ContactForm';
 import { ContactFormService  } from '../_services/contact-form.service';
 import { environment } from '../../environments/environment';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-contact-form',
@@ -16,6 +17,7 @@ export class ContactFormComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private contactFormService: ContactFormService,
+    private snackBar: MatSnackBar
   ) { }
 
   ngOnInit() {
@@ -47,16 +49,22 @@ export class ContactFormComponent implements OnInit {
 
     this.contactFormService.createContactForm(contactFormData).subscribe(
       (response) => {
-        console.log('Form submitted successfully');
-        // Reset the form after successful submission
         this.contactForm.reset();
+        this.clearFormErrors();
+        this.snackBar.open('Thank you for contacting us! Your message has been successfully sent.', 'Close', {
+          duration: 3000,
+        });
       },
       (error) => {
         console.log('Form submission failed');
       }
     );
   }
-
+  clearFormErrors() {
+    Object.keys(this.contactForm.controls).forEach((key) => {
+      this.contactForm.get(key)?.setErrors(null);
+    });
+  }
  public handleCaptchaResponse(token: string): void {
     this.recaptchaToken = token;
   }

@@ -1,5 +1,6 @@
 package com.magroun.realestate.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -15,6 +16,7 @@ public class ContactForm {
     private Long id;
     private String name;
     private String email;
+    @Column(length = 500)
     private String message;
     private String subject;
     

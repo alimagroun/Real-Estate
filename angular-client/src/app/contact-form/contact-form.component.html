@@ -21,7 +21,7 @@
     </mat-form-field>
     Message
     <mat-form-field>
-      <textarea matInput  formControlName="message"></textarea>
+      <textarea matInput  formControlName="message" rows="5"></textarea>
       <mat-error *ngIf="contactForm.get('message')?.hasError('required')">Message is required</mat-error>
       <mat-error *ngIf="contactForm.get('message')?.hasError('minlength')">Message must be minimum 25 characters</mat-error>
       <mat-error *ngIf="contactForm.get('message')?.hasError('maxlength')">Message must be maximum 500 characters</mat-error>
@@ -35,8 +35,8 @@
   ></re-captcha>
 
   <!-- Disable the submit button until reCAPTCHA is completed -->
-  <button mat-raised-button color="primary" type="submit" [disabled]="!contactForm.get('recaptchaToken')?.value">
-    Submit
+  <button mat-raised-button color="primary" type="submit" style="width: 200px;" [disabled]="!contactForm.get('recaptchaToken')?.value">
+    SEND MESSAGE
   </button>
   </form>
   

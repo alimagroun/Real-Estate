@@ -16,7 +16,7 @@ export class ContactFormService {
     const params = new HttpParams()
       .set('page', pageNumber.toString())
       .set('size', pageSize.toString());
-    return this.http.get<Page<ContactForm>>(this.baseUrl, { params });
+    return this.http.get<Page<ContactForm>>(`${this.baseUrl}/all`, { params });
   }
 
   getContactFormById(id: number): Observable<ContactForm> {

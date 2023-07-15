@@ -18,8 +18,11 @@ import { PropertyListingComponent } from './property-listing/property-listing.co
 import { DefaultHeaderComponent } from './containers/default-layout/default-header/default-header.component';
 import { FavoritesComponent } from './favorites/favorites.component';
 import { SavedSearchesComponent } from './saved-searches/saved-searches.component';
-
 import { ContactFormComponent } from './contact-form/contact-form.component';
+import { MessageListComponent } from './message-list/message-list.component';
+import { MessageDetailsComponent } from './message-details/message-details.component';
+
+
 
 import { ProfileComponent } from './profile/profile.component';
 import { BoardUserComponent } from './board-user/board-user.component';
@@ -78,6 +81,22 @@ const routes: Routes = [
           sidebar: false
         }
        },
+       {
+        path: 'messagelist',
+        component: MessageListComponent,
+        data: {
+          title: 'MessageList',
+          sidebar: false
+        }
+       },
+       {
+        path: 'messagedetails/:id',
+        component: MessageDetailsComponent,
+        data: {
+          title: 'Message Details',
+          sidebar: false
+        }
+      },
        {
         path: 'contact',
         component: ContactFormComponent,

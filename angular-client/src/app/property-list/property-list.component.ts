@@ -47,7 +47,6 @@ export class PropertyListComponent implements OnInit, AfterViewInit {
     this.propertyService.getAll(pageIndex, pageSize, this.filterText).subscribe((page: Page<Property>) => {
       this.dataSource.data = page.content;
         this.totalElements = page.totalElements;
-        console.log(`Total elements: ${page.totalElements}`);
       
     });
   }

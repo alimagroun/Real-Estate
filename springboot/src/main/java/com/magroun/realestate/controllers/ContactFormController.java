@@ -19,7 +19,7 @@ public class ContactFormController {
 
 
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<Page<ContactForm>> getAllContactForms(Pageable pageable) {
         Page<ContactForm> contactForms = contactFormService.getAllContactForms(pageable);
         return ResponseEntity.ok(contactForms);

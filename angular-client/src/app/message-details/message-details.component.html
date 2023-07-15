@@ -1,0 +1,24 @@
+<div class="container">
+    <div class="card">
+      <div class="card-header">
+        Message Details
+      </div>
+      <div class="card-body">
+        <ng-container *ngIf="(contactForm$ | async) as contactForm">
+          <div >
+            <label>Name:</label>
+            <p>{{ contactForm.name }}</p>
+          </div>
+          <div >
+            <label>Email:</label>
+            <p>{{ contactForm.email }}</p>
+          </div>
+          <div >
+            <label>Message:</label>
+            <p>{{ contactForm.message }}</p>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+  

@@ -83,7 +83,10 @@ import {MatStepperModule} from '@angular/material/stepper';
 
 import { RECAPTCHA_SETTINGS, RecaptchaFormsModule, RecaptchaModule, RecaptchaSettings } from 'ng-recaptcha';
 import { environment } from '../environments/environment';
-
+import { MessageListComponent } from './message-list/message-list.component';
+import { DataTablesModule } from 'angular-datatables';
+import { MatTableModule } from '@angular/material/table';
+import { MessageDetailsComponent } from './message-details/message-details.component';
 
 
 
@@ -98,7 +101,7 @@ const APP_CONTAINERS = [
 ];
 
 @NgModule({
-  declarations: [AppComponent, ...APP_CONTAINERS, LoginComponent, RegisterComponent, HomeComponent, ProfileComponent, BoardAdminComponent, BoardModeratorComponent, BoardUserComponent, UsersListComponent, UpdatePropertyComponent, ConfirmationDialogComponent, PropertySearchComponent, PasswordRecoveryComponent, PropertyListingComponent, FavoritesComponent, SavedSearchesComponent, ContactFormComponent],
+  declarations: [AppComponent, ...APP_CONTAINERS, LoginComponent, RegisterComponent, HomeComponent, ProfileComponent, BoardAdminComponent, BoardModeratorComponent, BoardUserComponent, UsersListComponent, UpdatePropertyComponent, ConfirmationDialogComponent, PropertySearchComponent, PasswordRecoveryComponent, PropertyListingComponent, FavoritesComponent, SavedSearchesComponent, ContactFormComponent, MessageListComponent, MessageDetailsComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -142,6 +145,8 @@ const APP_CONTAINERS = [
     MatStepperModule,
     MatListModule,
     MatTooltipModule,
+    DataTablesModule,
+    MatTableModule,
     RecaptchaModule,
     RecaptchaFormsModule
     
