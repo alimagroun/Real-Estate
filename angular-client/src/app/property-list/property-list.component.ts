@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 
 
 
@@ -30,9 +31,12 @@ export class PropertyListComponent implements OnInit, AfterViewInit {
     'actions'
   ];
   dataSource = new MatTableDataSource<Property>();
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   totalElements: number = 0;
+  pageSize:number=10;
   filterText: string = '';
+
 
 
   constructor(private propertyService: PropertyService, private router: Router,private dialog: MatDialog, private snackBar: MatSnackBar) {}
@@ -71,6 +75,7 @@ export class PropertyListComponent implements OnInit, AfterViewInit {
   
     dialogRef.afterClosed().subscribe(result => {
       if (result === true) {
+        const previousTotalElements = this.totalElements;
         this.propertyService.deleteProperty(id).subscribe(
           () => {
             console.log('Property deleted successfully.');
@@ -79,7 +84,18 @@ export class PropertyListComponent implements OnInit, AfterViewInit {
               duration: 3000, // Duration in milliseconds
               panelClass: ['success-snackbar'] // Apply custom styles to the snackbar
             });
-            this.loadPage(0, 10);
+            this.totalElements -= 1; // Reduce 1 from totalElements
+
+            const currentPageIndex = Math.floor(previousTotalElements / this.pageSize);
+            const isValidPageIndex = currentPageIndex < Math.ceil(this.totalElements / this.pageSize);
+  
+            if (!isValidPageIndex) {
+              const previousPageIndex = Math.max(currentPageIndex - 1, 0);
+              this.paginator.pageIndex = previousPageIndex; // Update the pagination component
+            }
+  
+            // Load the data for the current or previous page
+            this.loadPage(this.paginator.pageIndex, this.paginator.pageSize);
             
           },
           (error) => {

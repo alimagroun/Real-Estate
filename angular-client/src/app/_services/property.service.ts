@@ -140,9 +140,6 @@ export class PropertyService {
     return this.http.get<Property[]>(this.baseUrl);
   }
 
-  getAll1(): Observable<Property[]> {
-    return this.http.get<Property[]>(`${this.baseUrl}property`);
- }
  getAll(pageIndex: number, pageSize: number, filter?: string): Observable<Page<Property>> {
   let params = new HttpParams()
     .set('page', pageIndex.toString())
@@ -152,9 +149,8 @@ export class PropertyService {
     params = params.set('filter', filter);
   }
   
-  return this.http.get<Page<Property>>(`${this.baseUrl}property`, { params });
+  return this.http.get<Page<Property>>(`${this.baseUrl1}/properties`, { params });
 }
-
 
 saveSearch(filter: PropertyFilter) {
   const url = `${this.baseUrl1}/saved-searches`;

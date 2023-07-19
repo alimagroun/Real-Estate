@@ -37,15 +37,36 @@ public class PropertyController {
     public PropertyController(PropertyService propertyService) {
         this.propertyService = propertyService;
     }
+    
+    @GetMapping("/properties")
+    public ResponseEntity<Page<Property>> getAllProperty(Pageable pageable,
+            @RequestParam(value = "filter", required = false) String filter) {
+        try {
+            Page<Property> page;
+            if (filter != null && !filter.isEmpty()) {
+                page = propertyRepository.findByFilter(filter, pageable);
+            } else {
+                page = propertyRepository.findAll(pageable);
+            }
 
-    @GetMapping
-    public ResponseEntity<List<Property>> getAllProperties() {
-        List<Property> properties = propertyService.getAllProperties();
-        return ResponseEntity.ok(properties);
+            System.out.println("Row IDs:");
+            for (Property property : page.getContent()) {
+                System.out.println(property.getId());
+            }
+
+            return new ResponseEntity<>(page, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Property> getPropertyById(@PathVariable Long id) {
+
+        if (id == null || id <= 0) {
+            return ResponseEntity.badRequest().build();
+        }
+
         Property property = propertyService.getPropertyById(id);
         if (property != null) {
             return ResponseEntity.ok(property);
@@ -53,6 +74,7 @@ public class PropertyController {
             return ResponseEntity.notFound().build();
         }
     }
+
 
     @PostMapping
     public ResponseEntity<Property> createProperty(@RequestBody Property property) {
@@ -80,6 +102,7 @@ public class PropertyController {
             return ResponseEntity.notFound().build();
         }
     }
+    
     @GetMapping("/{propertyId}/photos")
     public ResponseEntity<List<Photo>> getPhotosByPropertyId(@PathVariable Long propertyId) {
         List<Photo> photos = propertyService.getPhotosByPropertyId(propertyId);
@@ -106,7 +129,8 @@ public class PropertyController {
 	  @RequestParam(required = false) Long cityId, Pageable pageable) {
 	 
 	return propertyService.getPropertiesByFilter(status, stateId, minPrice, maxPrice,
-	  bedrooms, bathrooms, cityId, pageable); }
+	  bedrooms, bathrooms, cityId, pageable);
+	}
 	 
     
     @GetMapping("/firstphoto/{propertyId}")
@@ -118,6 +142,7 @@ public class PropertyController {
             return ResponseEntity.notFound().build();
         }
     }
+    
     @GetMapping("/last4")
     public List<Property> getLast8Properties() {
         return propertyService.getLast4Properties();
@@ -140,6 +165,7 @@ public class PropertyController {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(null);
     }
+    
     @GetMapping("/favorites")
     public List<Long> getFavoriteProperties(Authentication authentication) {
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
@@ -168,6 +194,7 @@ public class PropertyController {
         Long userId = userDetails.getId();
         return userPropertyService.isFavorite(userId, propertyId);
     }
+    
     @GetMapping("/userfavorites")
     public ResponseEntity<Page<PropertyProjection>> findFavoritesProperties(
         Authentication authentication,
@@ -179,6 +206,7 @@ public class PropertyController {
         Page<PropertyProjection> favorites = propertyService.findFavoritesProperties(userId, pageable);
         return ResponseEntity.ok(favorites);
     }
+    
     @PostMapping("/saved-searches")
     public ResponseEntity<Void> saveSearch(@RequestParam(required = false) String status,
                                   @RequestParam(required = false) Long stateId,
@@ -196,12 +224,14 @@ public class PropertyController {
 
         return ResponseEntity.noContent().build();
     }
+    
     @GetMapping("/saved-searches")
     public Page<SavedSearch> getSavedSearches(Authentication authentication, Pageable pageable) {
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         Long userId = userDetails.getId();
         return savedSearchService.getSavedSearches(userId,pageable);
     }
+    
     @DeleteMapping("/saved-searches")
     public ResponseEntity<Void> deleteSavedSearch(@RequestParam("searchId") long searchId) {
         savedSearchService.delete(searchId);

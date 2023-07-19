@@ -59,30 +59,25 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import org.springframework.util.StringUtils;
 
-
-
-
-
-
-// @CrossOrigin(origins = "*", maxAge = 3600)
 @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
+	
   @Autowired
-  AuthenticationManager authenticationManager;
+  private AuthenticationManager authenticationManager;
 
   @Autowired
-  UserRepository userRepository;
+  private UserRepository userRepository;
 
   @Autowired
-  RoleRepository roleRepository;
+  private RoleRepository roleRepository;
 
   @Autowired
-  PasswordEncoder encoder;
+  private PasswordEncoder encoder;
   
   @Autowired
-  PropertyRepository propertyRepository;
+  private PropertyRepository propertyRepository;
   
   @Autowired
   private StateRepository stateRepository;
@@ -98,7 +93,7 @@ public class AuthController {
   private UserService userService;
 
   @Autowired
-  JwtUtils jwtUtils;
+  private JwtUtils jwtUtils;
  
  
   @PostMapping("/properties")
@@ -140,7 +135,8 @@ public class AuthController {
       }
 
       return savedProperty;
-  }  
+  } 
+  
   @GetMapping("/getCitiesByState")
   public ResponseEntity<List<City>> getCitiesByState(@RequestParam("stateId") int stateId) {
       // Get cities from cityRepository based on stateId

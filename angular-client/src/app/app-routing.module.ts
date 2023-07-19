@@ -21,9 +21,6 @@ import { SavedSearchesComponent } from './saved-searches/saved-searches.componen
 import { ContactFormComponent } from './contact-form/contact-form.component';
 import { MessageListComponent } from './message-list/message-list.component';
 import { MessageDetailsComponent } from './message-details/message-details.component';
-
-
-
 import { ProfileComponent } from './profile/profile.component';
 import { BoardUserComponent } from './board-user/board-user.component';
 import { BoardModeratorComponent } from './board-moderator/board-moderator.component';
@@ -257,7 +254,7 @@ const routes: Routes = [
     }
   
   },
-  {path: '**', redirectTo: 'dashboard'}
+  { path: '**', component: Page404Component }
 ];
 
 @NgModule({

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute,Router  } from '@angular/router';
 import {PropertyService} from '../_services/property.service';
 import { Property } from '../_models/property';
 import{Photo} from '../_models/photo';
@@ -10,6 +10,7 @@ import{Photo} from '../_models/photo';
   styleUrls: ['./property-details.component.scss']
 })
 export class PropertyDetailsComponent implements OnInit {
+  
   property?: Property;
   propertyId?: number;
   photos: Photo[] = [];
@@ -18,6 +19,7 @@ export class PropertyDetailsComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private propertyService: PropertyService
   ) {}
 
@@ -30,6 +32,7 @@ export class PropertyDetailsComponent implements OnInit {
       }
     });
   }
+
   toggleFavorite(): void {
     if (this.propertyId !== undefined) {
     if   (this.isFavorite && this.propertyId !== undefined) {
@@ -68,16 +71,22 @@ export class PropertyDetailsComponent implements OnInit {
   }
 
   getPropertyDetails(propertyId: number): void {
-    this.propertyService.getProperty(propertyId).subscribe(property => {
-      this.property = property;
-      this.propertyService.getPhotos(propertyId).subscribe(photos => {
-        if (this.property) {
-          this.photos = photos;
-          this.primaryPhotoSrc = this.photos[0].filepath;
+    this.propertyService.getProperty(propertyId).subscribe(
+      property => {
+        if (property) {
+          this.property = property;
+          this.propertyService.getPhotos(propertyId).subscribe(photos => {
+            this.photos = photos;
+            this.primaryPhotoSrc = this.photos[0].filepath;
+          });
         }
-      });
-    });
+      },
+      error => {
+        this.router.navigate(['/404']);
+      }
+    );
   }
+
   setPrimaryPhoto(index: number): void {
     this.primaryPhotoSrc = this.photos[index].filepath;
   }

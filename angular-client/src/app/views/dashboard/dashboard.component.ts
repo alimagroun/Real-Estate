@@ -127,7 +127,6 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.initCharts();
     this.retrieveUsers();
-    this.retrieveProperties();
   }
   retrieveUsers():void{
     this.authService.getAll()
@@ -139,20 +138,6 @@ export class DashboardComponent implements OnInit {
       error: (e) => console.error(e)
     });
   }
-
-  retrieveProperties():void{
-    this.propertyService.getAll1()
-    .subscribe({
-      next:(data) =>{
-        this.properties=data;
-        console.log(data);
-      },
-      error: (e)=> console.error(e)
-    })
-  }
-
-
-
 
 
 
