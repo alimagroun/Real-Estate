@@ -19,12 +19,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import com.magroun.realestate.security.services.UserDetailsImpl;
+
 @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
 @RestController
 @RequestMapping("/api/properties")
 public class PropertyController {
 	
-  
 		@Autowired
 		UserPropertyService userPropertyService;	
 		@Autowired
@@ -48,12 +48,6 @@ public class PropertyController {
             } else {
                 page = propertyRepository.findAll(pageable);
             }
-
-            System.out.println("Row IDs:");
-            for (Property property : page.getContent()) {
-                System.out.println(property.getId());
-            }
-
             return new ResponseEntity<>(page, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -74,7 +68,6 @@ public class PropertyController {
             return ResponseEntity.notFound().build();
         }
     }
-
 
     @PostMapping
     public ResponseEntity<Property> createProperty(@RequestBody Property property) {
@@ -132,7 +125,6 @@ public class PropertyController {
 	  bedrooms, bathrooms, cityId, pageable);
 	}
 	 
-    
     @GetMapping("/firstphoto/{propertyId}")
     public ResponseEntity<Photo> getFirstPhotoByPropertyId(@PathVariable Long propertyId) {
         Photo photo = propertyService.getFirstPhotoByPropertyId(propertyId);

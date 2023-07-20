@@ -25,12 +25,14 @@ import { ProfileComponent } from './profile/profile.component';
 import { BoardUserComponent } from './board-user/board-user.component';
 import { BoardModeratorComponent } from './board-moderator/board-moderator.component';
 import { BoardAdminComponent } from './board-admin/board-admin.component';
+
 import { AuthGuard } from './_guards/auth.guard';
+import { AdminGuard } from './_guards/admin.guard';
+
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'PasswordRecovery', component: PasswordRecoveryComponent },
-
   { path: 'user', component: BoardUserComponent },
   { path: 'mod', component: BoardModeratorComponent },
   { path: 'admin', component: BoardAdminComponent },
@@ -140,7 +142,8 @@ const routes: Routes = [
       {
       path: 'propertylist',
       loadChildren: () =>
-        import('./property-list/property-list.module').then((m) => m.PropertyListModule)
+        import('./property-list/property-list.module').then((m) => m.PropertyListModule),
+        canActivate: [AdminGuard]
     },
       {
         path: 'theme',

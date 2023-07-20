@@ -1,17 +1,12 @@
 package com.magroun.realestate.controllers;
 
 import java.util.ArrayList;
-
-
-import org.springframework.web.bind.annotation.RequestParam;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
@@ -49,6 +44,7 @@ import com.magroun.realestate.repository.PhotoRepository;
 import com.magroun.realestate.repository.UserRepository;
 import com.magroun.realestate.security.jwt.JwtUtils;
 import com.magroun.realestate.security.services.UserDetailsImpl;
+import com.magroun.realestate.services.AuthService;
 import com.magroun.realestate.services.UserService;
 import com.magroun.realestate.util.FileUploadUtil;
 
@@ -85,9 +81,11 @@ public class AuthController {
   @Autowired
   private CityRepository cityRepository;
  
-  
   @Autowired
   private PhotoRepository photoRepository;
+  
+  @Autowired
+  private AuthService authService;
  
   @Autowired
   private UserService userService;
@@ -149,7 +147,6 @@ public class AuthController {
       return new ResponseEntity<>(cities, HttpStatus.OK);
   }
   
-  
   @GetMapping("/users")
   public ResponseEntity<List<User>> getAllUsers(){
   try {
@@ -162,30 +159,7 @@ public class AuthController {
  return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 }
   }
-  
-  @GetMapping("/property")
-  public ResponseEntity<Page<Property>> getAllProperty(Pageable pageable,
-          @RequestParam(value = "filter", required = false) String filter) {
-      try {
-          Page<Property> page;
-          if (filter != null && !filter.isEmpty()) {
-              page = propertyRepository.findByFilter(filter, pageable);
-          } else {
-              page = propertyRepository.findAll(pageable);
-          }
-
-          System.out.println("Row IDs:");
-          for (Property property : page.getContent()) {
-              System.out.println(property.getId());
-          }
-
-          return new ResponseEntity<>(page, HttpStatus.OK);
-      } catch (Exception e) {
-          return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-      }
-  }
-
-  
+    
   @GetMapping("/states")
   public ResponseEntity<List<State>> getAllStates(){
   try {
@@ -198,8 +172,6 @@ public class AuthController {
 }
   }
   
-  
-
   @PostMapping("/signin")
   public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
@@ -276,9 +248,6 @@ public class AuthController {
 
     return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
   }
-
-  
-
   
   @PostMapping("/signout")
   public ResponseEntity<?> logoutUser() {
@@ -289,26 +258,14 @@ public class AuthController {
   
   @GetMapping("/check-auth")
   public ResponseEntity<Boolean> checkAuthentication(HttpServletRequest request) {
-      // Retrieve the HTTP-only cookie containing the authentication token
-      Cookie[] cookies = request.getCookies();
-      String jwtToken = null;
-      if (cookies != null) {
-          for (Cookie cookie : cookies) {
-        	  System.out.println("Cookie Name: " + cookie.getName());
-              if (cookie.getName().equals("cookie")) {
-                  jwtToken = cookie.getValue();
-                  break;
-              }
-          }
-      }
-
-      if (jwtToken != null && jwtUtils.validateJwtToken(jwtToken)) {
-          // Token is valid, user is authenticated
-          return ResponseEntity.ok(true);
-      } else {
-          // Token is invalid or not present, user is not authenticated
-          return ResponseEntity.ok(false);
-      }
+      boolean isAuthenticated = authService.isAuthenticated(request);
+      return ResponseEntity.ok(isAuthenticated);
+  }
+  
+  @GetMapping("/isadmin")
+  public ResponseEntity<Boolean> checkIsAdmin(HttpServletRequest request) {
+      boolean isAdmin = authService.isAdmin(request);
+      return ResponseEntity.ok(isAdmin);
   }
 
   @PutMapping("updateuser/{userId}")
@@ -324,7 +281,6 @@ public class AuthController {
       return ResponseEntity.badRequest().body(e.getMessage());
     }
   }
-
 
   @PutMapping("updatePassword/{userId}")
   public ResponseEntity<MessageResponse> updatePassword(

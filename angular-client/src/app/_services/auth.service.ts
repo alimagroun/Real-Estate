@@ -5,7 +5,6 @@ import {User} from '../_models/user';
 
 const AUTH_API = 'http://localhost:8080/api/auth/';
 
-
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
@@ -50,7 +49,6 @@ export class AuthService {
     return this.http.post(`${this.baseUrl}checkResetCode`, credentials);
   }
 
-//`${this.baseUrl1}/last4`
   initiatePasswordReset(email: string) {
     const headers = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });
     const body = new URLSearchParams();
@@ -61,6 +59,10 @@ export class AuthService {
 
   isLoggedIn(): Observable<boolean> {
     return this.http.get<boolean>(`${AUTH_API}check-auth`);
+  }
+
+  isAdmin(): Observable<boolean> {
+    return this.http.get<boolean>(`${AUTH_API}isadmin`);
   }
 
   getAll(): Observable<User[]>{

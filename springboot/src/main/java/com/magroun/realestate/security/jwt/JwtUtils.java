@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import java.util.Date;
 
 import org.slf4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Component;
@@ -12,6 +13,10 @@ import org.springframework.web.util.WebUtils;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.Cookie;
+
+import com.magroun.realestate.model.User;
+import com.magroun.realestate.repository.PhotoRepository;
+import com.magroun.realestate.repository.UserRepository;
 import com.magroun.realestate.security.services.UserDetailsImpl;
 
 import io.jsonwebtoken.*;
@@ -19,7 +24,7 @@ import io.jsonwebtoken.*;
 @Component
 public class JwtUtils {
   private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
-
+  
   @Value("${app.jwtSecret}")
   private String jwtSecret;
 

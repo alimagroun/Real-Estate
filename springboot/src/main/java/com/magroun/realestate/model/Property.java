@@ -25,8 +25,7 @@ public class Property {
 	
 	  @Id
 	  @GeneratedValue(strategy = GenerationType.IDENTITY)
-	  private Long id;
-	  
+	  private Long id;	  
 	  @NotBlank
 	  private String name;
 	  @NotBlank
@@ -41,10 +40,7 @@ public class Property {
 	  private float price;
 	  @CreationTimestamp
 	  @Column(name = "created_at")
-	  private LocalDateTime createdAt;
-
-	  
-	  
+	  private LocalDateTime createdAt;  
 	    @ManyToOne
 	    @JoinColumn(name = "city_id")
 	    private City city;
@@ -80,8 +76,6 @@ public class Property {
 			this.city = city;
 			this.user = user;
 		}
-
-
 
 		public Long getId() {
 			return id;

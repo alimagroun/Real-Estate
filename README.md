@@ -58,9 +58,9 @@ Build and run the backend Spring Boot application.
 Navigate to the frontend directory and install the necessary dependencies using npm install.
 Start the frontend development server using npm start.
 Access the web app through the provided URL in your browser.
-For more detailed instructions and additional configuration steps, please refer to the project documentation.
 
 Contact
 
-For any inquiries or suggestions, feel free to reach out to the project owner at 
+For any inquiries or suggestions, feel free to reach out to the project owner at
+
 ali.magroun1@gmail.com.

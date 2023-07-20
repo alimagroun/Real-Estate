@@ -89,6 +89,7 @@ public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
       .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
       .authorizeRequests().requestMatchers("/api/auth/**").permitAll()
       .requestMatchers("/api/test/**").permitAll()
+      .requestMatchers("/api/properties/properties").hasRole("ADMIN")
       .requestMatchers("/api/properties/**").permitAll()
       .requestMatchers("/api/contact-forms/**").permitAll()
       .requestMatchers("/api/**").permitAll()
