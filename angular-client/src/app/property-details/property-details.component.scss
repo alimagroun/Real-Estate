@@ -74,3 +74,13 @@
   }
 }
 
+.favorite-icon {
+  display: flex;
+  align-items: center;
+}
+
+.favorite-icon mat-icon,
+.favorite-icon a {
+  color: blue;
+  cursor: pointer;
+}

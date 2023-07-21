@@ -87,6 +87,7 @@ import { MessageListComponent } from './message-list/message-list.component';
 import { DataTablesModule } from 'angular-datatables';
 import { MatTableModule } from '@angular/material/table';
 import { MessageDetailsComponent } from './message-details/message-details.component';
+import { Page403Component } from './page403/page403.component';
 
 
 
@@ -101,7 +102,7 @@ const APP_CONTAINERS = [
 ];
 
 @NgModule({
-  declarations: [AppComponent, ...APP_CONTAINERS, LoginComponent, RegisterComponent, HomeComponent, ProfileComponent, BoardAdminComponent, BoardModeratorComponent, BoardUserComponent, UsersListComponent, UpdatePropertyComponent, ConfirmationDialogComponent, PropertySearchComponent, PasswordRecoveryComponent, PropertyListingComponent, FavoritesComponent, SavedSearchesComponent, ContactFormComponent, MessageListComponent, MessageDetailsComponent],
+  declarations: [AppComponent, ...APP_CONTAINERS, LoginComponent, RegisterComponent, HomeComponent, ProfileComponent, BoardAdminComponent, BoardModeratorComponent, BoardUserComponent, UsersListComponent, UpdatePropertyComponent, ConfirmationDialogComponent, PropertySearchComponent, PasswordRecoveryComponent, PropertyListingComponent, FavoritesComponent, SavedSearchesComponent, ContactFormComponent, MessageListComponent, MessageDetailsComponent, Page403Component],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

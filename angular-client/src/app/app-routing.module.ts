@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { DefaultLayoutComponent } from './containers';
 import { Page404Component } from './views/pages/page404/page404.component';
+import { Page403Component } from './page403/page403.component';
 import { Page500Component } from './views/pages/page500/page500.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
@@ -86,7 +87,8 @@ const routes: Routes = [
         data: {
           title: 'MessageList',
           sidebar: false
-        }
+        },
+        canActivate: [AdminGuard]
        },
        {
         path: 'messagedetails/:id',
@@ -94,7 +96,8 @@ const routes: Routes = [
         data: {
           title: 'Message Details',
           sidebar: false
-        }
+        },
+        canActivate: [AdminGuard]
       },
        {
         path: 'contact',
@@ -191,6 +194,13 @@ const routes: Routes = [
           import('./views/pages/pages.module').then((m) => m.PagesModule)
       },
     ]
+  },
+  {
+    path: '403',
+    component: Page403Component,
+    data: {
+      title: 'Page 403'
+    }
   },
   {
     path: '404',
