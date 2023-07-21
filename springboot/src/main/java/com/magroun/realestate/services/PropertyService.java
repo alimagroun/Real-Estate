@@ -17,9 +17,6 @@ import jakarta.persistence.criteria.Join;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-
-
-
 @Service
 public class PropertyService {
 	
@@ -75,15 +72,15 @@ public class PropertyService {
             return false;
         }
     }
+    
     public List<Photo> getPhotosByPropertyId(Long propertyId) {
         return photoRepository.findByPropertyId(propertyId);
     }
+    
     public List<Property> getPropertiesByStatus(String status) {
         return propertyRepository.findByStatus(status);
     }
 
-	
-	
 	  public Page<Property> getPropertiesByFilter(String status, Long stateId,
 	  Float minPrice, Float maxPrice, int bedrooms, int bathrooms, Long cityId,
 	  Pageable pageable) { Specification<Property> spec =
@@ -122,12 +119,15 @@ public class PropertyService {
         }
         return null;
     }
+    
     public List<Property> getLast4Properties() {
         return propertyRepository.findLast4Properties();
     }
+    
     public Page<PropertyProjection> getPropertiesByUserId(Long userId, Pageable pageable) {
         return propertyRepository.findPropertiesUserId(userId, pageable);
     }
+    
     public Page<PropertyProjection> findFavoritesProperties(Long userId, Pageable pageable) {
         return propertyRepository.findFavoritesProperties(userId, pageable);
     }

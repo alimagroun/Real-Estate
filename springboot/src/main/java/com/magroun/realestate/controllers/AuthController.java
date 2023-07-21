@@ -45,6 +45,7 @@ import com.magroun.realestate.repository.UserRepository;
 import com.magroun.realestate.security.jwt.JwtUtils;
 import com.magroun.realestate.security.services.UserDetailsImpl;
 import com.magroun.realestate.services.AuthService;
+import com.magroun.realestate.services.PropertyService;
 import com.magroun.realestate.services.UserService;
 import com.magroun.realestate.util.FileUploadUtil;
 
@@ -89,6 +90,9 @@ public class AuthController {
  
   @Autowired
   private UserService userService;
+  
+  @Autowired
+  private PropertyService propertyService;
 
   @Autowired
   private JwtUtils jwtUtils;
@@ -297,5 +301,11 @@ public class AuthController {
           return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MessageResponse("Failed to update password."));
       }
   }
+  private boolean isAuthorized(Long propertyId, Authentication authentication) {
+	    Long userId = ((UserDetailsImpl) authentication.getPrincipal()).getId();
+	    boolean isAdmin = authentication.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("ROLE_ADMIN"));
+	    Property existingProperty = propertyService.getPropertyById(propertyId);
+	    return existingProperty != null && (existingProperty.getUser().getId().equals(userId) || isAdmin);
+	}
 
 }

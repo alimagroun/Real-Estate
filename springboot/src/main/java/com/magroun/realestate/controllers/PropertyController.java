@@ -69,20 +69,28 @@ public class PropertyController {
         }
     }
 
-    @PostMapping
-    public ResponseEntity<Property> createProperty(@RequestBody Property property) {
-        Property createdProperty = propertyService.createProperty(property);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdProperty);
-    }
-
     @PutMapping("/{id}")
-    public ResponseEntity<Property> updateProperty(@PathVariable Long id, @RequestBody Property property) {
-        Property updatedProperty = propertyService.updateProperty(id, property);
-        if (updatedProperty != null) {
-        	System.out.println("city code:"+property.getCity().getId());
-            return ResponseEntity.ok(updatedProperty);
+    public ResponseEntity<Property> updateProperty(@PathVariable Long id, @RequestBody Property property, Authentication authentication) {
+
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        Long userId = ((UserDetailsImpl) authentication.getPrincipal()).getId();
+
+        boolean isAdmin = authentication.getAuthorities().stream()
+                            .anyMatch(role -> role.getAuthority().equals("ROLE_ADMIN"));
+
+        Property existingProperty = propertyService.getPropertyById(id);
+        if (existingProperty != null && (existingProperty.getUser().getId().equals(userId) || isAdmin)) {
+            Property updatedProperty = propertyService.updateProperty(id, property);
+            if (updatedProperty != null) {
+                return ResponseEntity.ok(updatedProperty);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
         } else {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
     }
 
