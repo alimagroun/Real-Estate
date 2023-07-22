@@ -61,6 +61,10 @@ export class AuthService {
     return this.http.get<boolean>(`${AUTH_API}check-auth`);
   }
 
+  isAuthorized(propertyId: number): Observable<boolean> {
+    return this.http.get<boolean>(`${AUTH_API}isAuthorized/${propertyId}`);
+  }
+  
   isAdmin(): Observable<boolean> {
     return this.http.get<boolean>(`${AUTH_API}isadmin`);
   }
@@ -69,7 +73,6 @@ export class AuthService {
     return this.http.get<User[]>(`${AUTH_API}users`);
   }
   
-
   login(username: string, password: string): Observable<any> {
     return this.http.post(
       AUTH_API + 'signin',

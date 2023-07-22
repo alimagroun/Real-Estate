@@ -5,9 +5,6 @@ import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {User} from '../_models/user';
 
-
-
-
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -19,6 +16,7 @@ export class ProfileComponent implements OnInit {
     Validators.required,
      Validators.email
     ]);
+
   nameFormControl = new FormControl('', [
     Validators.required,
     Validators.maxLength(50)
@@ -41,6 +39,7 @@ export class ProfileComponent implements OnInit {
     this.nameFormControl.setValue(this.currentUser.name);
     this.contactNumberFormControl.setValue(this.currentUser.contactNumber);
   }
+
   updateUser(): void {
     if (this.emailFormControl.valid && this.nameFormControl.valid && this.contactNumberFormControl.valid) {
       const updatedUser: User = {
@@ -69,6 +68,7 @@ export class ProfileComponent implements OnInit {
       );
     }
   }
+
   updatePassword() {
     const currentPassword = this.updatePasswordForm.get('currentPassword')?.value ?? '';
     const newPassword = this.updatePasswordForm.get('newPassword')?.value ?? '';
@@ -87,18 +87,4 @@ export class ProfileComponent implements OnInit {
     );
   }
   
-  logout(): void {
-    this.authService.logout().subscribe({
-      next: () => {
-        console.log("Logout successful.");
-        this.storageService.clean(); // Assuming this clears any stored user data
-  
-        window.location.reload(); // Refresh the page after logout
-      },
-      error: (err) => {
-        console.log("Logout error:", err);
-      }
-    });
-  }
-
 }

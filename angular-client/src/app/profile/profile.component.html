@@ -1,8 +1,8 @@
 <header>
-  <h3>Profile</h3>
+  <h1>Profile</h1>
 </header>
 
-<div class="container" *ngIf="currentUser; else loggedOut" class="profile-container">
+<div class="container" *ngIf="currentUser" class="profile-container">
   <div class="form-section">
     <form>
       Full Name
@@ -58,10 +58,4 @@
       </div>
     </form>
   </div>
-
-  <button (click)="logout()">Log Out</button>
 </div>
-
-<ng-template #loggedOut>
-  Please log in.
-</ng-template>

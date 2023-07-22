@@ -29,6 +29,7 @@ import { BoardAdminComponent } from './board-admin/board-admin.component';
 
 import { AuthGuard } from './_guards/auth.guard';
 import { AdminGuard } from './_guards/admin.guard';
+import { PropertyAuthorizationGuard } from './_guards/property-authorization.guard';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -50,10 +51,10 @@ const routes: Routes = [
     },
     children: [
       {
-        path: 'myproperties',
+        path: 'yourproperties',
         component: PropertyListingComponent,
         data: {
-          title: 'myproperties',
+          title: 'Your Properties',
           sidebar: false
         }
        },
@@ -66,10 +67,10 @@ const routes: Routes = [
         }
        },
        {
-        path: 'SavedSearches',
+        path: 'savedsearches',
         component: SavedSearchesComponent,
         data: {
-          title: 'SavedSearches',
+          title: 'Saved Searches',
           sidebar: false
         }
        },
@@ -100,10 +101,10 @@ const routes: Routes = [
         canActivate: [AdminGuard]
       },
        {
-        path: 'contact',
+        path: 'contactus',
         component: ContactFormComponent,
         data: {
-          title: 'Contact',
+          title: 'Contact us',
           sidebar: false
         }
        },
@@ -121,7 +122,8 @@ const routes: Routes = [
         component: UpdatePropertyComponent,
         data: {
           title: 'Update Property'
-        }
+        },
+        canActivate: [PropertyAuthorizationGuard]
       },
       {
       path: 'propertysearch',
@@ -235,13 +237,6 @@ const routes: Routes = [
     component: UsersListComponent,
     data: {
       title: 'users list'
-    }
-  },
-  {
-    path: 'addproperty',
-    component: AddPropertyComponent,
-    data: {
-      title: 'add property'
     }
   },
   {

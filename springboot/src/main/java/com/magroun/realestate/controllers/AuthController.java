@@ -49,7 +49,6 @@ import com.magroun.realestate.services.PropertyService;
 import com.magroun.realestate.services.UserService;
 import com.magroun.realestate.util.FileUploadUtil;
 
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
@@ -301,11 +300,14 @@ public class AuthController {
           return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MessageResponse("Failed to update password."));
       }
   }
-  private boolean isAuthorized(Long propertyId, Authentication authentication) {
-	    Long userId = ((UserDetailsImpl) authentication.getPrincipal()).getId();
-	    boolean isAdmin = authentication.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("ROLE_ADMIN"));
-	    Property existingProperty = propertyService.getPropertyById(propertyId);
-	    return existingProperty != null && (existingProperty.getUser().getId().equals(userId) || isAdmin);
-	}
+  
+  @GetMapping("/isAuthorized/{propertyId}")
+  public boolean isAuthorized(@PathVariable Long propertyId, Authentication authentication) {
+      Long userId = ((UserDetailsImpl) authentication.getPrincipal()).getId();
+      boolean isAdmin = authentication.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("ROLE_ADMIN"));
+      Property existingProperty = propertyService.getPropertyById(propertyId);
+      return existingProperty != null && (existingProperty.getUser().getId().equals(userId) || isAdmin);
+  }
+
 
 }
