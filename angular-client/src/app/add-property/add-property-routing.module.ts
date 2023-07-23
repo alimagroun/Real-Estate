@@ -7,7 +7,7 @@ const routes: Routes = [
     path: '',
     component: AddPropertyComponent,
     data: {
-      title: $localize`Dashboard`
+      title: $localize`Add property`
     }
   }
 ];

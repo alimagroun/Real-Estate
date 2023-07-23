@@ -1,4 +1,4 @@
-import { Component, Input, OnInit} from '@angular/core';
+import { Component, Input, OnInit, HostListener} from '@angular/core';
 import { Router } from '@angular/router';
 import { StorageService } from '../../../_services/storage.service';
 import { ClassToggleService, HeaderComponent } from '@coreui/angular';
@@ -17,6 +17,13 @@ export class DefaultHeaderComponent extends HeaderComponent implements OnInit {
   public newNotifications = new Array(5)
 
   isLoggedIn!: boolean;
+  showSidebarToggler = true;
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    // Check the screen width and set showSidebarToggler accordingly
+    this.showSidebarToggler = window.innerWidth <= 768; // Adjust the value (768) as needed for your breakpoint
+  }
 
   constructor(private storageService: StorageService, private classToggler: ClassToggleService, private authService: AuthService, private router: Router) {
     super();
@@ -25,6 +32,7 @@ export class DefaultHeaderComponent extends HeaderComponent implements OnInit {
   ngOnInit() {
     this.authService.isLoggedIn().subscribe((loggedIn) => {
       this.isLoggedIn = loggedIn;
+      this.showSidebarToggler = window.innerWidth <= 768;
     });
   }
 

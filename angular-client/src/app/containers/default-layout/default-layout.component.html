@@ -1,4 +1,4 @@
-<!--sidebar-->
+<!--sidebar
 <c-sidebar
 *ngIf="showSidebar"
   #sidebar="cSidebar"
@@ -24,19 +24,29 @@
   >
   </c-sidebar-brand>
     <perfect-scrollbar [config]="perfectScrollbarConfig">
-  <!--  [perfectScrollbar]="perfectScrollbarConfig"-->
+  <!--  [perfectScrollbar]="perfectScrollbarConfig"
   <c-sidebar-nav
     [navItems]="navItems"
     dropdownMode="close"
   >
   </c-sidebar-nav>
     </perfect-scrollbar>
-  <c-sidebar-toggler
+ <!-- <c-sidebar-toggler
     *ngIf="!sidebar.narrow"
     toggle="unfoldable"
     cSidebarToggle="sidebar"
-  ></c-sidebar-toggler>
+  ></c-sidebar-toggler>  
+</c-sidebar>    -->
+
+<c-sidebar
+id="sidebar">
+  <c-sidebar-brand>Real Estate</c-sidebar-brand>
+  <c-sidebar-nav [navItems]="navItems" dropdownMode="close"></c-sidebar-nav>
+  <c-sidebar-toggler></c-sidebar-toggler>
 </c-sidebar>
+
+
+
 
 <!--main-->
 <div class="wrapper d-flex flex-column min-vh-100 bg-light dark:bg-transparent">

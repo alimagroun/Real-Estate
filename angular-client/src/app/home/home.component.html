@@ -1,6 +1,6 @@
 <div class="container">
     <div>
-        Let’s find a home that’s perfect for you <br>
+        Let’s find a home that’s perfect for you <br><br>
       <mat-form-field appearance="outline">
         <mat-label>Category</mat-label>
         <mat-select [(ngModel)]="status">
@@ -23,14 +23,16 @@
             <mat-option *ngFor="let city of cities" [value]="city.id">{{ city.name }}</mat-option>
           </mat-select>
         </mat-form-field>
-        <span>&nbsp;&nbsp;&nbsp;</span>
       </ng-container>
-      <button mat-raised-button color="primary" (click)="applyFilter()">
-        Search
-      </button>
-      
+
     </div>
   </div>
+<div class="b">
+  <button mat-raised-button color="primary" (click)="applyFilter()">
+    Search
+  </button>
+</div>
+
   <div class="spacer"></div>
 
   <h4 class="black-heading">New Listings</h4>

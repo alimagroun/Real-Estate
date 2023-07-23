@@ -7,7 +7,6 @@ import { CityService } from '../_services/city.service';
 import {Property} from '../_models/property';
 import {State} from '../_models/state';
 import {City} from '../_models/city';
-import{PropertyFilter} from '../_models/propertyFilter';
 
 @Component({
   selector: 'app-home',
@@ -23,12 +22,14 @@ export class HomeComponent {
   stateId: number | undefined;
   cityId: number | undefined;
   constructor(private propertyService: PropertyService,private stateService: StateService,private cityService: CityService, private router: Router){}
+  
   ngOnInit() {
     this.stateService.getStates().subscribe((data: State[]) => {
       this.states = data;
     });
     this.getLast4Properties();
   }
+
   onStateChange(event: any) {
     this.stateId = event.value;
     if (this.stateId !== undefined) {
@@ -40,6 +41,7 @@ export class HomeComponent {
     }
     this.cityId = undefined;
   }
+
   getLast4Properties(): void {
     this.propertyService.getLast8Properties()
       .subscribe(properties => {
@@ -50,6 +52,7 @@ export class HomeComponent {
         });
       });
   }
+
   applyFilter() {
     const queryParams: Params = {
       status: this.status,
@@ -59,6 +62,7 @@ export class HomeComponent {
   
     this.router.navigate(['/propertysearch'], { queryParams });
   }
+  
   viewPropertyDetails(propertyId: number): void {
     this.router.navigate(['/property', propertyId]);
   }
