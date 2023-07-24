@@ -17,7 +17,7 @@ export class DefaultHeaderComponent extends HeaderComponent implements OnInit {
   public newNotifications = new Array(5)
 
   isLoggedIn!: boolean;
-  showSidebarToggler = true;
+  showSidebarToggler = false;
 
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {

@@ -30,9 +30,10 @@ import { BoardAdminComponent } from './board-admin/board-admin.component';
 import { AuthGuard } from './_guards/auth.guard';
 import { AdminGuard } from './_guards/admin.guard';
 import { PropertyAuthorizationGuard } from './_guards/property-authorization.guard';
+import { UnauthenticatedGuard } from './_guards/unauthenticated.guard';
+
 
 const routes: Routes = [
-  { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'PasswordRecovery', component: PasswordRecoveryComponent },
   { path: 'user', component: BoardUserComponent },
@@ -55,31 +56,30 @@ const routes: Routes = [
         component: PropertyListingComponent,
         data: {
           title: 'Your Properties',
-          sidebar: false
-        }
+        },
+        canActivate: [AuthGuard]
        },
        {
         path: 'favorites',
         component: FavoritesComponent,
         data: {
-          title: 'favorites',
-          sidebar: false
-        }
+          title: 'Favorites',
+        },
+        canActivate: [AuthGuard]
        },
        {
         path: 'savedsearches',
         component: SavedSearchesComponent,
         data: {
           title: 'Saved Searches',
-          sidebar: false
-        }
+        },
+        canActivate: [AuthGuard]
        },
        {
         path: 'home',
         component: HomeComponent,
         data: {
           title: 'Home',
-          sidebar: false
         }
        },
        {
@@ -87,7 +87,6 @@ const routes: Routes = [
         component: MessageListComponent,
         data: {
           title: 'MessageList',
-          sidebar: false
         },
         canActivate: [AdminGuard]
        },
@@ -96,7 +95,6 @@ const routes: Routes = [
         component: MessageDetailsComponent,
         data: {
           title: 'Message Details',
-          sidebar: false
         },
         canActivate: [AdminGuard]
       },
@@ -105,17 +103,13 @@ const routes: Routes = [
         component: ContactFormComponent,
         data: {
           title: 'Contact us',
-          sidebar: false
         }
        },
        { path: 'profile', component: ProfileComponent },
       {
         path: 'property/:propertyId',
         loadChildren: () =>
-          import('./property-details/property-details.module').then((m) => m.PropertyDetailsModule),
-          data: {
-            sidebar: false
-          }
+          import('./property-details/property-details.module').then((m) => m.PropertyDetailsModule)
       },
       {
         path: 'updateproperty/:propertyId',
@@ -129,8 +123,7 @@ const routes: Routes = [
       path: 'propertysearch',
       component: PropertySearchComponent,
       data: {
-        title: 'Search Property',
-        sidebar: false
+        title: 'Search Property'
       }
      },
       {
@@ -222,7 +215,7 @@ const routes: Routes = [
     path: 'login',
     component: LoginComponent,
     data: {
-      title: 'Login Page'
+      title: 'Login'
     }
   },
   {

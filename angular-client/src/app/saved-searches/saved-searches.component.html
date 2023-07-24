@@ -41,3 +41,6 @@
 <div *ngIf="totalElements > 10" class="pagination-container">
   <pagination [(ngModel)]="currentPage" [totalItems]="totalElements" [itemsPerPage]="10" (pageChanged)="pageChanged($event)" [maxSize]="maxSize"></pagination>
   </div>
+  <div  class="text-center">
+   <span *ngIf="totalElements==0"> <p>Saving your searches saves you time.</p></span>
+  </div>

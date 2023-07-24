@@ -1,6 +1,6 @@
 <h1>Saved properties</h1>
 <div class="property-list">
-  <mat-card *ngFor="let property of favorites.content" (click)="viewPropertyDetails(property.id)">
+  <mat-card class="pointer" *ngFor="let property of favorites.content" (click)="viewPropertyDetails(property.id)">
     <mat-card-header>
       <div class="favorite-icon" (click)="removeFromFavorites(property); $event.stopPropagation()">
         <mat-icon>favorite</mat-icon>

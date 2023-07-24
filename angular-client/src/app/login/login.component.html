@@ -6,7 +6,7 @@
             <c-card class="p-4">
               <c-card-body>
                 <form
-                *ngIf="!isLoggedIn"
+            
                 name="form"
                 (ngSubmit)="f.form.valid && onSubmit()"
                 #f="ngForm"
@@ -68,13 +68,10 @@
                   </c-row>
                   <div class="form-group">
                     <div *ngIf="f.submitted && isLoginFailed" class="alert alert-danger" role="alert">
-                      Login failed: {{ errorMessage }}
+                    {{ errorMessage }}
                     </div>
                   </div>
                 </form>
-                <div class="alert alert-success" *ngIf="isLoggedIn">
-                  Logged in as {{ roles }}.
-                </div>
               </c-card-body>
             </c-card>
             <c-card [ngStyle]="{'width.%': 44}" class="text-white bg-primary py-5">
