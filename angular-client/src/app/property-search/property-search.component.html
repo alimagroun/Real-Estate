@@ -72,7 +72,7 @@
 </div>
 
 <div class="property-list">
-  <mat-card *ngFor="let property of properties" (click)="viewPropertyDetails(property.id)">
+  <mat-card class="pointer" *ngFor="let property of properties" (click)="viewPropertyDetails(property.id)">
     <mat-card-header>
       <div class="favorite-icon" (click)="toggleFavorite(property); $event.stopPropagation()">
         <mat-icon>{{ isFavorite(property) ? 'favorite' : 'favorite_border' }}</mat-icon>

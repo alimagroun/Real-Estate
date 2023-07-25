@@ -38,28 +38,32 @@ export class PropertySearchComponent {
   constructor(private propertyService: PropertyService,private stateService: StateService,private cityService: CityService,private route: ActivatedRoute,private router: Router,private snackBar: MatSnackBar){}
 
   ngOnInit() {
-this.loadFavoriteProperties();
+    this.loadFavoriteProperties();
     this.route.queryParams.subscribe(params => {
       this.stateId = +params['stateId'];
-      if (this.stateId !== undefined) 
-      {      this.cityService.getCitiesByState(this.stateId)
-        .subscribe(cities => {
-          this.cities = cities;
-          this.stateSelected = true;
-        });
-        this.stateSelected=true;}
+      if (!isNaN(this.stateId)) {
+        this.cityService.getCitiesByState(this.stateId)
+          .subscribe(cities => {
+            this.cities = cities;
+            this.stateSelected = true;
+          });
+        this.stateSelected = true;
+      }
+  
       this.status = params['status'];
       this.cityId = +params['cityId'];
       this.minPrice = params['minPrice'];
       this.maxPrice = params['maxPrice'];
       this.bedrooms = params['bedrooms'];
       this.bathrooms = params['bathrooms'];
-      this.applyFilter(0,12);
+      this.applyFilter(0, 12);
     });
+  
     this.stateService.getStates().subscribe((data: State[]) => {
       this.states = data;
     });
   }
+  
   loadFavoriteProperties(): void {
     this.propertyService.getFavoriteProperties().subscribe(
       (favoriteProperties) => {
@@ -72,10 +76,12 @@ this.loadFavoriteProperties();
       }
     );
   }
+
   isFavorite(property: any): boolean {
     const propertyId = property.id;
     return this.favoriteProperties.includes(propertyId);
   }
+
   toggleFavorite(property: any): void {
     const propertyId = property.id;
     const isFavorite = this.favoriteProperties.includes(propertyId);
@@ -111,7 +117,6 @@ this.loadFavoriteProperties();
     }
   }
   
-  
   onStateChange(event: any) {
     this.stateId = event.value;
     if (this.stateId !== undefined) {
@@ -124,6 +129,7 @@ this.loadFavoriteProperties();
     this.cityId = undefined;
     this.applyFilter(0,12);
   }
+
   saveSearch() {
     const filter: PropertyFilter = {
       status: this.status,
@@ -157,28 +163,30 @@ this.loadFavoriteProperties();
       stateId: this.stateId,
       minPrice: this.minPrice,
       maxPrice: this.maxPrice,
-      bedrooms:this.bedrooms,
-      bathrooms:this.bathrooms,
-      cityId:this.cityId
+      bedrooms: this.bedrooms,
+      bathrooms: this.bathrooms,
+      cityId: this.cityId
     };
-    console.log('State ID:'+filter.stateId+filter.minPrice+filter.maxPrice);
-    this.propertyService.getPropertiesByFilter(filter,pageIndex, pageSize)
-    .subscribe(page => {
-      this.totalElements = page.totalElements;
-      this.properties = page.content;
-      this.properties.forEach(property => {
-        this.propertyService.getFirstPhotoByPropertyId(property.id)
-          .subscribe(photo => property.photos = [photo]);
-      });
-    });
   
+    this.propertyService.getPropertiesByFilter(filter, pageIndex, pageSize)
+      .subscribe(page => {
+        this.totalElements = page.totalElements;
+        this.properties = page.content;
+  
+        this.properties.forEach(property => {
+          this.propertyService.getFirstPhotoByPropertyId(property.id)
+            .subscribe(photo => property.photos = [photo]);
+        });
+      });
   }
+  
   pageChanged(event: any): void {
     this.currentPage = event.page;
     const pageIndex = this.currentPage - 1;
     const pageSize = this.pageSize;
     this.applyFilter(pageIndex, pageSize);
   }
+
   viewPropertyDetails(propertyId: number): void {
     this.router.navigate(['/property', propertyId]);
   }

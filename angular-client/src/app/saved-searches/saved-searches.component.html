@@ -3,15 +3,16 @@
     <mat-list *ngFor="let savedSearch of savedSearches">
         <mat-list-item class="item-background">
 
-<a (click)="applyFilter(savedSearch, $event)" href="#">
-  For {{ savedSearch.status }}
-  <ng-container *ngIf="savedSearch.city && savedSearch.city.name; else fallback">
-    in {{ savedSearch.city.name }} 
-  </ng-container>
-  <ng-template #fallback>
-    in {{ savedSearch.state.name }} 
-  </ng-template>
-</a>
+          <a [routerLink]="['/propertysearch']" [queryParams]="getQueryParams(savedSearch)">
+            For {{ savedSearch.status }}
+            <ng-container *ngIf="savedSearch.city && savedSearch.city.name; else fallback">
+              in {{ savedSearch.city.name }} 
+            </ng-container>
+            <ng-template #fallback>
+              in {{ savedSearch.state.name }} 
+            </ng-template>
+          </a>
+          
 <br>
           For {{ savedSearch.status }}
           <ng-container *ngIf="savedSearch.city && savedSearch.city.name; else fallback">

@@ -30,12 +30,14 @@ import { BoardAdminComponent } from './board-admin/board-admin.component';
 import { AuthGuard } from './_guards/auth.guard';
 import { AdminGuard } from './_guards/admin.guard';
 import { PropertyAuthorizationGuard } from './_guards/property-authorization.guard';
-import { UnauthenticatedGuard } from './_guards/unauthenticated.guard';
+import { AuthenticatedGuard } from './_guards/authenticated.guard';
 
 
 const routes: Routes = [
-  { path: 'register', component: RegisterComponent },
-  { path: 'PasswordRecovery', component: PasswordRecoveryComponent },
+  { path: 'PasswordRecovery',
+  component: PasswordRecoveryComponent,
+  canActivate:[AuthenticatedGuard]
+  },
   { path: 'user', component: BoardUserComponent },
   { path: 'mod', component: BoardModeratorComponent },
   { path: 'admin', component: BoardAdminComponent },
@@ -216,14 +218,16 @@ const routes: Routes = [
     component: LoginComponent,
     data: {
       title: 'Login'
-    }
+    },
+   canActivate:[AuthenticatedGuard]
   },
   {
     path: 'register',
     component: RegisterComponent,
     data: {
       title: 'Register Page'
-    }
+    },
+    canActivate:[AuthenticatedGuard]
   },
    {
     path: 'users',

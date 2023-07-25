@@ -24,6 +24,7 @@ export class SavedSearchesComponent implements OnInit {
   ngOnInit() {
     this.getSavedSearches(this.pageIndex,this.pageSize);
   }
+
   getSavedSearches(pageIndex: number, pageSize: number) {
     this.propertyService.getSavedSearches(pageIndex, pageSize)
       .subscribe((page: Page<SavedSearch>) => {
@@ -31,19 +32,20 @@ export class SavedSearchesComponent implements OnInit {
         this.totalElements = page.totalElements;
       });
   }
+
   pageChanged(event: any): void {
     this.currentPage = event.page;
     const pageIndex = this.currentPage - 1;
     const pageSize = this.pageSize;
     this.getSavedSearches(pageIndex, pageSize);
   }
-  applyFilter(savedSearch: SavedSearch, event: Event): void {
-    event.preventDefault();
+
+  getQueryParams(savedSearch: SavedSearch): Params {
     const queryParams: Params = {
       status: savedSearch.status,
       stateId: savedSearch.state.id?.toString(),
-      minPrice: savedSearch.minPrice?.toString() ,
-      maxPrice: savedSearch.maxPrice?.toString() ,
+      minPrice: savedSearch.minPrice?.toString(),
+      maxPrice: savedSearch.maxPrice?.toString(),
     };
 
     if (savedSearch.city) {
@@ -51,12 +53,12 @@ export class SavedSearchesComponent implements OnInit {
     }
     if (savedSearch.bedrooms && savedSearch.bedrooms !== 0) {
       queryParams['bedrooms'] = savedSearch.bedrooms.toString();
-    } 
+    }
     if (savedSearch.bathrooms && savedSearch.bathrooms !== 0) {
       queryParams['bathrooms'] = savedSearch.bathrooms.toString();
     }
 
-    this.router.navigate(['/propertysearch'], { queryParams });
+    return queryParams;
   }
 
   deleteSavedSearch(searchId: number): void {

@@ -3,6 +3,7 @@ import { ActivatedRoute,Router  } from '@angular/router';
 import {PropertyService} from '../_services/property.service';
 import { Property } from '../_models/property';
 import{Photo} from '../_models/photo';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-property-details',
@@ -20,7 +21,8 @@ export class PropertyDetailsComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private propertyService: PropertyService
+    private propertyService: PropertyService,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -39,7 +41,7 @@ export class PropertyDetailsComponent implements OnInit {
       // Property is a favorite, remove it from favorites
       this.propertyService.removeFromFavorites(this.propertyId).subscribe(
         () => {
-          console.log('Property removed from favorites');
+        this.snackBar.open('Property removed from favorites.', 'Close', { duration: 3000 });
         this.isFavorite = false;
           // Handle success here
         },
@@ -52,7 +54,7 @@ export class PropertyDetailsComponent implements OnInit {
       // Property is not a favorite, add it to favorites
       this.propertyService.addToFavorites(this.propertyId).subscribe(
         () => {
-          console.log('Property added to favorites');
+          this.snackBar.open('Property added to favorites.', 'Close', { duration: 3000 });
           this.isFavorite = true;
           // Handle success here
         },

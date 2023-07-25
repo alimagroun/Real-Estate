@@ -114,24 +114,17 @@ public class PropertyController {
         }
     }
 	
-	  @GetMapping("/filter") public Page<Property>
-	  getPropertiesByFilter(@RequestParam(required = false) String status,
-	  
-	  @RequestParam(required = false) Long stateId,
-	  
-	  @RequestParam(required = false) Float minPrice,
-	  
-	  @RequestParam(required = false) Float maxPrice,
-	  
-	  @RequestParam(defaultValue = "0") int bedrooms,
-	  
-	  @RequestParam(defaultValue = "0") int bathrooms,
-	  
-	  @RequestParam(required = false) Long cityId, Pageable pageable) {
-	 
-	return propertyService.getPropertiesByFilter(status, stateId, minPrice, maxPrice,
-	  bedrooms, bathrooms, cityId, pageable);
-	}
+    @GetMapping("/filter")
+    public Page<Property> getPropertiesByFilter(@RequestParam(required = false) String status,
+                                                @RequestParam(required = false) Long stateId,
+                                                @RequestParam(required = false) Float minPrice,
+                                                @RequestParam(required = false) Float maxPrice,
+                                                @RequestParam(defaultValue = "0") int bedrooms,
+                                                @RequestParam(defaultValue = "0") int bathrooms,
+                                                @RequestParam(required = false) Long cityId,
+                                                Pageable pageable) {
+        return propertyService.getPropertiesByFilter(status, stateId, minPrice, maxPrice, bedrooms, bathrooms, cityId, pageable);
+    }
 	 
     @GetMapping("/firstphoto/{propertyId}")
     public ResponseEntity<Photo> getFirstPhotoByPropertyId(@PathVariable Long propertyId) {
