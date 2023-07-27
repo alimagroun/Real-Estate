@@ -125,7 +125,7 @@ export class PropertyService {
     for (let i = 0; i < files.length; i++) {
       formData.append('files', files[i]);
     }
-    return this.http.post(`${this.baseUrl}properties`, formData);
+    return this.http.post(`${this.baseUrl1}/createProperty`, formData);
   }
 
   updateProperty(id: number, property: Property): Observable<any> {

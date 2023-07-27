@@ -23,9 +23,7 @@ import { ContactFormComponent } from './contact-form/contact-form.component';
 import { MessageListComponent } from './message-list/message-list.component';
 import { MessageDetailsComponent } from './message-details/message-details.component';
 import { ProfileComponent } from './profile/profile.component';
-import { BoardUserComponent } from './board-user/board-user.component';
-import { BoardModeratorComponent } from './board-moderator/board-moderator.component';
-import { BoardAdminComponent } from './board-admin/board-admin.component';
+
 
 import { AuthGuard } from './_guards/auth.guard';
 import { AdminGuard } from './_guards/admin.guard';
@@ -38,12 +36,9 @@ const routes: Routes = [
   component: PasswordRecoveryComponent,
   canActivate:[AuthenticatedGuard]
   },
-  { path: 'user', component: BoardUserComponent },
-  { path: 'mod', component: BoardModeratorComponent },
-  { path: 'admin', component: BoardAdminComponent },
   {
     path: '',
-    redirectTo: 'dashboard',
+    redirectTo: 'home',
     pathMatch: 'full'
   },
   {
@@ -107,7 +102,11 @@ const routes: Routes = [
           title: 'Contact us',
         }
        },
-       { path: 'profile', component: ProfileComponent },
+       {
+        path: 'profile',
+        component: ProfileComponent,
+        canActivate: [AuthGuard]
+      },
       {
         path: 'property/:propertyId',
         loadChildren: () =>

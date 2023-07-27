@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.magroun.realestate.model.City;
 import com.magroun.realestate.model.ERole;
@@ -30,7 +29,6 @@ import com.magroun.realestate.model.Property;
 import com.magroun.realestate.model.Role;
 import com.magroun.realestate.model.State;
 import com.magroun.realestate.model.User;
-import com.magroun.realestate.model.Photo;
 import com.magroun.realestate.payload.request.LoginRequest;
 import com.magroun.realestate.payload.request.SignupRequest;
 import com.magroun.realestate.payload.request.UpdatePasswordRequest;
@@ -47,13 +45,10 @@ import com.magroun.realestate.security.services.UserDetailsImpl;
 import com.magroun.realestate.services.AuthService;
 import com.magroun.realestate.services.PropertyService;
 import com.magroun.realestate.services.UserService;
-import com.magroun.realestate.util.FileUploadUtil;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
-import java.io.IOException;
-import org.springframework.util.StringUtils;
 
 @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
 @RestController
@@ -73,17 +68,11 @@ public class AuthController {
   private PasswordEncoder encoder;
   
   @Autowired
-  private PropertyRepository propertyRepository;
-  
-  @Autowired
   private StateRepository stateRepository;
   
   @Autowired
   private CityRepository cityRepository;
- 
-  @Autowired
-  private PhotoRepository photoRepository;
-  
+   
   @Autowired
   private AuthService authService;
  
@@ -95,49 +84,7 @@ public class AuthController {
 
   @Autowired
   private JwtUtils jwtUtils;
- 
- 
-  @PostMapping("/properties")
-  public Property createProperty(@ModelAttribute Property property,
-                                 @RequestParam("city_id") Long city_id,
-                                 @RequestParam("files") MultipartFile[] files,
-                                 Authentication authentication) throws IOException {
-      // Retrieve the authenticated user
-      UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-      
-      // Get the user ID from the authenticated user
-      Long userId = userDetails.getId();
-      
-      // Retrieve the user from the database using the user ID
-      User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
-
-      // Save the property to the database
-      City city = cityRepository.getCityById(city_id);
-      property.setCity(city);
-      property.setUser(user);
-      Property savedProperty = propertyRepository.save(property);
-
-      // Upload the photos
-      for (MultipartFile file : files) {
-          // Create a new unique filename using the current time and property ID
-          String originalFilename = StringUtils.cleanPath(file.getOriginalFilename());
-          String extension = StringUtils.getFilenameExtension(originalFilename);
-          String newFilename = System.currentTimeMillis() + "-" + savedProperty.getId() + "." + extension;
-          
-          String uploadDir = "C:/Real-estate/angular-client/src/assets/photos";
-          FileUploadUtil.saveFile(uploadDir, newFilename, file);
-          
-          // Save photo information to the database
-          Photo photo = new Photo();
-          photo.setFilename(newFilename);
-          photo.setFilepath("assets/photos" + "/" + newFilename);
-          photo.setProperty(savedProperty);
-          photoRepository.save(photo);
-      }
-
-      return savedProperty;
-  } 
-  
+   
   @GetMapping("/getCitiesByState")
   public ResponseEntity<List<City>> getCitiesByState(@RequestParam("stateId") int stateId) {
       // Get cities from cityRepository based on stateId

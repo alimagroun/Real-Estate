@@ -11,7 +11,6 @@
   </div>
   <div class="property-details">
     <h2>Property Details</h2>
-    <p>Property ID: {{ propertyId }}</p>
     <div *ngIf="property">
       <p>Price: {{ property.price }} DT</p>
       <p>Bedrooms: {{ property.bedrooms }}</p>
@@ -24,6 +23,8 @@
         <p class="multiline">{{ property.description }}</p>
       </div>
       <p>City: {{ property.city.name }}</p>
+      <p>Listed by: {{ property.user.name }}</p>
+      <p>Contact number: {{ property.user.contactNumber }}</p>
     </div>
     <div class="favorite-icon" (click)="toggleFavorite(); $event.stopPropagation()">
       <mat-icon>

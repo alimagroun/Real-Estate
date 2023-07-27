@@ -1,5 +1,6 @@
 import { City } from "./city";
 import{Photo} from "./photo";
+import{User} from "./user";
 
 export class Property {
     id!: number;
@@ -10,6 +11,7 @@ export class Property {
     bathrooms!: number;
     size!: number;
     price!: number;
+    user!: User;
     cityId!: number;
     city!: City;
     photos: Photo[] = [];

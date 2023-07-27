@@ -17,6 +17,7 @@ export class DefaultHeaderComponent extends HeaderComponent implements OnInit {
   public newNotifications = new Array(5)
 
   isLoggedIn!: boolean;
+  isAdmin: boolean = false;
   showSidebarToggler = false;
 
   @HostListener('window:resize', ['$event'])
@@ -33,6 +34,10 @@ export class DefaultHeaderComponent extends HeaderComponent implements OnInit {
     this.authService.isLoggedIn().subscribe((loggedIn) => {
       this.isLoggedIn = loggedIn;
       this.showSidebarToggler = window.innerWidth <= 768;
+    });
+
+    this.authService.isAdmin().subscribe((admin) => {
+      this.isAdmin = admin;
     });
   }
 

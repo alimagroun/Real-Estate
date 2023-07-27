@@ -49,9 +49,6 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { HomeComponent } from './home/home.component';
 import { ProfileComponent } from './profile/profile.component';
-import { BoardAdminComponent } from './board-admin/board-admin.component';
-import { BoardModeratorComponent } from './board-moderator/board-moderator.component';
-import { BoardUserComponent } from './board-user/board-user.component';
 
 import { httpInterceptorProviders } from './_helpers/http.interceptor';
 
@@ -102,7 +99,7 @@ const APP_CONTAINERS = [
 ];
 
 @NgModule({
-  declarations: [AppComponent, ...APP_CONTAINERS, LoginComponent, RegisterComponent, HomeComponent, ProfileComponent, BoardAdminComponent, BoardModeratorComponent, BoardUserComponent, UsersListComponent, UpdatePropertyComponent, ConfirmationDialogComponent, PropertySearchComponent, PasswordRecoveryComponent, PropertyListingComponent, FavoritesComponent, SavedSearchesComponent, ContactFormComponent, MessageListComponent, MessageDetailsComponent, Page403Component],
+  declarations: [AppComponent, ...APP_CONTAINERS, LoginComponent, RegisterComponent, HomeComponent, ProfileComponent, UsersListComponent, UpdatePropertyComponent, ConfirmationDialogComponent, PropertySearchComponent, PasswordRecoveryComponent, PropertyListingComponent, FavoritesComponent, SavedSearchesComponent, ContactFormComponent, MessageListComponent, MessageDetailsComponent, Page403Component],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

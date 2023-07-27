@@ -2,22 +2,33 @@ package com.magroun.realestate.controllers;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.magroun.realestate.model.City;
 import com.magroun.realestate.model.Photo;
 import com.magroun.realestate.model.Property;
 import com.magroun.realestate.model.SavedSearch;
+import com.magroun.realestate.model.User;
 import com.magroun.realestate.projection.PropertyProjection;
+import com.magroun.realestate.repository.CityRepository;
+import com.magroun.realestate.repository.PhotoRepository;
 import com.magroun.realestate.repository.PropertyRepository;
+import com.magroun.realestate.repository.UserRepository;
 import com.magroun.realestate.services.PropertyService;
 import com.magroun.realestate.services.SavedSearchService;
 import com.magroun.realestate.services.UserPropertyService;
+import com.magroun.realestate.util.FileUploadUtil;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
+import org.springframework.util.StringUtils;
+
 import com.magroun.realestate.security.services.UserDetailsImpl;
 
 @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
@@ -25,17 +36,68 @@ import com.magroun.realestate.security.services.UserDetailsImpl;
 @RequestMapping("/api/properties")
 public class PropertyController {
 	
-		@Autowired
-		UserPropertyService userPropertyService;	
-		@Autowired
-		PropertyRepository propertyRepository;
-		@Autowired
-		SavedSearchService savedSearchService;
-		@Autowired
-		PropertyService propertyService;
+    @Autowired
+    private UserPropertyService userPropertyService;
 
-    public PropertyController(PropertyService propertyService) {
-        this.propertyService = propertyService;
+    @Autowired
+    private PropertyRepository propertyRepository;
+
+    @Autowired
+    private SavedSearchService savedSearchService;
+
+    @Autowired
+    private PropertyService propertyService;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private CityRepository cityRepository;
+
+    @Autowired
+    private PhotoRepository photoRepository;
+    
+    @Value("${upload.dir}")
+    private String uploadDir;
+
+    @PostMapping("/createProperty")
+    public Property createProperty(@ModelAttribute Property property,
+                                   @RequestParam("city_id") Long city_id,
+                                   @RequestParam("files") MultipartFile[] files,
+                                   Authentication authentication) throws IOException {
+        // Retrieve the authenticated user
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        
+        // Get the user ID from the authenticated user
+        Long userId = userDetails.getId();
+        
+        // Retrieve the user from the database using the user ID
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+
+        // Save the property to the database
+        City city = cityRepository.getCityById(city_id);
+        property.setCity(city);
+        property.setUser(user);
+        Property savedProperty = propertyRepository.save(property);
+
+        // Upload the photos
+        for (MultipartFile file : files) {
+            // Create a new unique filename using the current time and property ID
+            String originalFilename = StringUtils.cleanPath(file.getOriginalFilename());
+            String extension = StringUtils.getFilenameExtension(originalFilename);
+            String newFilename = System.currentTimeMillis() + "-" + savedProperty.getId() + "." + extension;
+            
+            FileUploadUtil.saveFile(uploadDir, newFilename, file);
+            
+            // Save photo information to the database
+            Photo photo = new Photo();
+            photo.setFilename(newFilename);
+            photo.setFilepath("assets/photos" + "/" + newFilename);
+            photo.setProperty(savedProperty);
+            photoRepository.save(photo);
+        }
+
+        return savedProperty;
     }
     
     @GetMapping("/properties")
