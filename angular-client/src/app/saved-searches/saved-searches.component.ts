@@ -1,5 +1,5 @@
 import { Component,OnInit  } from '@angular/core';
-import{SavedSearch} from "../_models/SavedSearch";
+import{SavedSearch} from "../_models/savedsearch";
 import {PropertyService} from '../_services/property.service';
 import {Page} from '../_models/page';
 import { Router,Params } from '@angular/router';

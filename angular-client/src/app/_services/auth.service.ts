@@ -2,8 +2,11 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams  } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import {User} from '../_models/user';
+import { environment } from '../../environments/environment';
 
-const AUTH_API = 'http://localhost:8080/api/auth/';
+ const AUTH_API = 'http://localhost:8080/api/auth/';
+// const AUTH_API = '/api/auth/';
+
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -14,24 +17,25 @@ const httpOptions = {
 })
 export class AuthService {
 
-  private baseUrl = 'http://localhost:8080/api/';
+  private baseUrl = environment.baseUrl;
+  private resetPasswordBaseUrl = '/api/';
 
   constructor(private http: HttpClient) {}
 
   updatePassword1(userId: number, currentPassword: string, newPassword: string): Observable<any> {
-    const url = `${AUTH_API}updatePassword/${userId}`;
+    const url = `${this.baseUrl}/updatePassword/${userId}`;
     const requestPayload = { currentPassword, newPassword };
-
+  
     return this.http.put(url, requestPayload);
   }
-
+  
   updateUser(userId: number, updatedUser: User): Observable<User> {
-    const url = `${AUTH_API}updateuser/${userId}`;
+    const url = `${this.baseUrl}/updateuser/${userId}`;
     return this.http.put<User>(url, updatedUser);
   }
 
   updatePassword(email: string, newPassword: string, resetCode: string): Observable<any> {
-    const url = this.baseUrl + 'updatePassword';
+    const url = this.resetPasswordBaseUrl + 'updatePassword';
 
     // Prepare the request body
     const credentials = {
@@ -46,7 +50,7 @@ export class AuthService {
 
   checkResetCode(email: string, resetCode: string) {
     const credentials = { email,resetCode };
-    return this.http.post(`${this.baseUrl}checkResetCode`, credentials);
+    return this.http.post(`${this.resetPasswordBaseUrl}checkResetCode`, credentials);
   }
 
   initiatePasswordReset(email: string) {
@@ -54,51 +58,51 @@ export class AuthService {
     const body = new URLSearchParams();
     body.set('email', email);
 
-    return this.http.post<boolean>(`${this.baseUrl}send-reset-code`, body.toString(), { headers });
+    return this.http.post<boolean>(`${this.resetPasswordBaseUrl}send-reset-code`, body.toString(), { headers });
   }
 
   isLoggedIn(): Observable<boolean> {
-    return this.http.get<boolean>(`${AUTH_API}check-auth`);
+    return this.http.get<boolean>(`${this.baseUrl}/check-auth`);
   }
-
+  
   isAuthorized(propertyId: number): Observable<boolean> {
-    return this.http.get<boolean>(`${AUTH_API}isAuthorized/${propertyId}`);
+    return this.http.get<boolean>(`${this.baseUrl}/isAuthorized/${propertyId}`);
   }
   
   isAdmin(): Observable<boolean> {
-    return this.http.get<boolean>(`${AUTH_API}isadmin`);
+    return this.http.get<boolean>(`${this.baseUrl}/isadmin`);
   }
-
-  getAll(): Observable<User[]>{
-    return this.http.get<User[]>(`${AUTH_API}users`);
+  
+  getAll(): Observable<User[]> {
+    return this.http.get<User[]>(`${this.baseUrl}/users`);
   }
   
   login(username: string, password: string): Observable<any> {
-    return this.http.post(
-      AUTH_API + 'signin',
-      {
-        username,
-        password,
-      },
-      httpOptions
-    );
+    const url = `${this.baseUrl}/signin`;
+    const body = {
+      username,
+      password,
+    };
+  
+    return this.http.post(url, body, httpOptions);
   }
 
-  register(username: string, email: string, password: string,name: string,contactNumber: string): Observable<any> {
-    return this.http.post(
-      AUTH_API + 'signup',
-      {
-        name,
-        contactNumber,
-        username,
-        email,
-        password,
-      },
-      httpOptions
-    );
+  register(username: string, email: string, password: string, name: string, contactNumber: string): Observable<any> {
+    const url = `${this.baseUrl}/signup`;
+    const body = {
+      name,
+      contactNumber,
+      username,
+      email,
+      password,
+    };
+  
+    return this.http.post(url, body, httpOptions);
   }
-
+  
   logout(): Observable<any> {
-    return this.http.post(AUTH_API + 'signout', { }, httpOptions);
+    const url = `${this.baseUrl}/signout`;
+    return this.http.post(url, {}, httpOptions);
   }
+
 }

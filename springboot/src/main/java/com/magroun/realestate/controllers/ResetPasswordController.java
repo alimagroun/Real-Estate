@@ -16,12 +16,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.magroun.realestate.model.User;
 import com.magroun.realestate.model.UserCredentials;
-import com.magroun.realestate.payload.response.MessageResponse;
+import com.magroun.realestate.dto.MessageResponse;
 import com.magroun.realestate.repository.UserRepository;
 import com.magroun.realestate.services.EmailService;
 import com.magroun.realestate.services.UserService;
 
-@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
+@CrossOrigin(
+        origins = {"http://frontend:4200", "http://localhost:4200"},
+        maxAge = 3600,
+        allowCredentials = "true"
+    )
 @RestController
 @RequestMapping("/api/")
 public class ResetPasswordController {

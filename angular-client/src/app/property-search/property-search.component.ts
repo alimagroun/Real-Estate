@@ -7,6 +7,7 @@ import{PropertyFilter} from '../_models/propertyFilter';
 import {PropertyService} from '../_services/property.service';
 import { StateService } from '../_services/state.service';
 import { CityService } from '../_services/city.service';
+import { AuthService } from '../_services/auth.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
@@ -35,10 +36,15 @@ export class PropertySearchComponent {
   pageSize = 12;
   maxSize = 5;
 
-  constructor(private propertyService: PropertyService,private stateService: StateService,private cityService: CityService,private route: ActivatedRoute,private router: Router,private snackBar: MatSnackBar){}
+  constructor(private propertyService: PropertyService,private stateService: StateService,private cityService: CityService, private authService: AuthService, private route: ActivatedRoute,private router: Router,private snackBar: MatSnackBar){}
 
   ngOnInit() {
-    this.loadFavoriteProperties();
+    this.authService.isLoggedIn().subscribe(loggedIn => {
+      if (loggedIn) {
+        this.loadFavoriteProperties();
+      }
+    });
+    
     this.route.queryParams.subscribe(params => {
       this.stateId = +params['stateId'];
       if (!isNaN(this.stateId)) {

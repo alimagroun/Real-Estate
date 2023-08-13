@@ -1,4 +1,4 @@
-package com.magroun.realestate.payload.response;
+package com.magroun.realestate.dto;
 
 public class MessageResponse {
 	private String message;

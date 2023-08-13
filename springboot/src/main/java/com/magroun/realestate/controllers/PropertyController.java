@@ -1,8 +1,15 @@
 package com.magroun.realestate.controllers;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
+import org.springframework.util.StringUtils;
 
 import com.magroun.realestate.model.City;
 import com.magroun.realestate.model.Photo;
@@ -18,18 +25,10 @@ import com.magroun.realestate.services.PropertyService;
 import com.magroun.realestate.services.SavedSearchService;
 import com.magroun.realestate.services.UserPropertyService;
 import com.magroun.realestate.util.FileUploadUtil;
+import com.magroun.realestate.security.services.UserDetailsImpl;
 
 import java.io.IOException;
 import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.Authentication;
-import org.springframework.util.StringUtils;
-
-import com.magroun.realestate.security.services.UserDetailsImpl;
 
 @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
 @RestController

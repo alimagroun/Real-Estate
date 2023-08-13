@@ -1,4 +1,4 @@
-package com.magroun.realestate.payload.request;
+package com.magroun.realestate.dto;
 
 public class UpdatePasswordRequest {
     private String currentPassword;

@@ -7,7 +7,7 @@ import { HttpParams } from '@angular/common/http';
 import{Photo} from "../_models/photo";
 import{PropertyProjection} from "../_models/PropertyProjection";
 import{PropertyFilter} from "../_models/propertyFilter";
-import{SavedSearch} from "../_models/SavedSearch";
+import{SavedSearch} from "../_models/savedsearch";
 
 
 
@@ -18,6 +18,10 @@ export class PropertyService {
 
   private baseUrl = 'http://localhost:8080/api/auth/';
   private baseUrl1 = 'http://localhost:8080/api/properties';
+
+ // private baseUrl = '/api/auth/';
+ // private baseUrl1 = '/api/properties';
+
   constructor(private http: HttpClient) { }
 
   findFavoritesProperties(pageIndex: number, pageSize: number): Observable<Page<PropertyProjection>> {

@@ -1,4 +1,4 @@
-package com.magroun.realestate.payload.request;
+package com.magroun.realestate.dto;
 
 import jakarta.validation.constraints.NotBlank;
 

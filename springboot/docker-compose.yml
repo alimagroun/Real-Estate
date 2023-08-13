@@ -1,0 +1,32 @@
+version: "3"
+services:
+    mysql-container:
+      image: mysql:latest
+      container_name: mysql-container
+      restart: always
+      environment:
+        MYSQL_ROOT_PASSWORD: your_mysql_root_password
+        MYSQL_DATABASE: real_estate
+        MYSQL_USER: dockeruser
+        MYSQL_PASSWORD: dockerpassword
+      ports:
+        - "3306:3306"
+    scrum-app:
+      image: your-spring-image-name:latest
+      container_name: scrum-app
+      restart: always
+      environment:
+        SPRING_DATASOURCE_URL: jdbc:mysql://mysql-container:3306/real_estate
+        SPRING_DATASOURCE_USERNAME: dockeruser
+        SPRING_DATASOURCE_PASSWORD: dockerpassword
+      ports:
+        - "8080:8080"
+      links:
+        - mysql-container
+    scrum-ui:
+      image: your-image-name:latest
+      container_name: scrum-ui
+      ports:
+        - "4200:80"
+      links:
+        - scrum-app

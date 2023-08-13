@@ -1,11 +1,10 @@
 package com.magroun.realestate.controllers;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-import org.springframework.web.bind.annotation.RequestParam;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -16,29 +15,18 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import com.magroun.realestate.model.City;
 import com.magroun.realestate.model.ERole;
 import com.magroun.realestate.model.Property;
 import com.magroun.realestate.model.Role;
-import com.magroun.realestate.model.State;
 import com.magroun.realestate.model.User;
-import com.magroun.realestate.payload.request.LoginRequest;
-import com.magroun.realestate.payload.request.SignupRequest;
-import com.magroun.realestate.payload.request.UpdatePasswordRequest;
-import com.magroun.realestate.payload.response.MessageResponse;
-import com.magroun.realestate.payload.response.UserInfoResponse;
-import com.magroun.realestate.repository.PropertyRepository;
+import com.magroun.realestate.dto.LoginRequest;
+import com.magroun.realestate.dto.SignupRequest;
+import com.magroun.realestate.dto.UpdatePasswordRequest;
+import com.magroun.realestate.dto.MessageResponse;
+import com.magroun.realestate.dto.UserInfoResponse;
 import com.magroun.realestate.repository.RoleRepository;
-import com.magroun.realestate.repository.StateRepository;
-import com.magroun.realestate.repository.CityRepository;
-import com.magroun.realestate.repository.PhotoRepository;
 import com.magroun.realestate.repository.UserRepository;
 import com.magroun.realestate.security.jwt.JwtUtils;
 import com.magroun.realestate.security.services.UserDetailsImpl;
@@ -48,7 +36,6 @@ import com.magroun.realestate.services.UserService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
-import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
 @RestController
@@ -66,13 +53,7 @@ public class AuthController {
 
   @Autowired
   private PasswordEncoder encoder;
-  
-  @Autowired
-  private StateRepository stateRepository;
-  
-  @Autowired
-  private CityRepository cityRepository;
-   
+     
   @Autowired
   private AuthService authService;
  
@@ -84,44 +65,7 @@ public class AuthController {
 
   @Autowired
   private JwtUtils jwtUtils;
-   
-  @GetMapping("/getCitiesByState")
-  public ResponseEntity<List<City>> getCitiesByState(@RequestParam("stateId") int stateId) {
-      // Get cities from cityRepository based on stateId
-      List<City> cities = cityRepository.findByStateId(stateId);
-
-      // Log the received stateId
-      System.out.println("Received stateId: " + stateId);
-
-      // Return the cities as response with HTTP status OK
-      return new ResponseEntity<>(cities, HttpStatus.OK);
-  }
-  
-  @GetMapping("/users")
-  public ResponseEntity<List<User>> getAllUsers(){
-  try {
-	  List<User> users = new ArrayList<User>();
-	  userRepository.findAll().forEach(users::add);
-	  return new ResponseEntity<>(users, HttpStatus.OK);
-	  
-	   }
-  catch (Exception e) {
- return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-}
-  }
-    
-  @GetMapping("/states")
-  public ResponseEntity<List<State>> getAllStates(){
-  try {
-	  List<State> states = new ArrayList<State>();
-	  stateRepository.findAll().forEach(states::add);
-	  return new ResponseEntity<>(states, HttpStatus.OK);  
-	   }
-  catch (Exception e) {
- return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-}
-  }
-  
+       
   @PostMapping("/signin")
   public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
@@ -156,7 +100,6 @@ public class AuthController {
       return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already in use!"));
     }
 
-    // Create new user's account
     User user = new User(signUpRequest.getUsername(),
                          signUpRequest.getEmail(),
                          signUpRequest.getName(),
@@ -241,8 +184,7 @@ public class AuthController {
 
       if (passwordUpdated) {
     	  return ResponseEntity.ok(new MessageResponse("Password updated successfully"));
-         
-          
+            
       } else {
           return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MessageResponse("Failed to update password."));
       }
@@ -255,6 +197,5 @@ public class AuthController {
       Property existingProperty = propertyService.getPropertyById(propertyId);
       return existingProperty != null && (existingProperty.getUser().getId().equals(userId) || isAdmin);
   }
-
 
 }

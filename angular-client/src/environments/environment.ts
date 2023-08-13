@@ -6,7 +6,9 @@ export const environment = {
   production: false,
   recaptcha: {
     siteKey: '6LdYTSQnAAAAAD8wrUHfukWS1IGCk0Nrqs3tvoju'
-  }
+  },
+  baseUrl:      'http://localhost:8080/api/auth',
+  stateBaseUrl: 'http://localhost:8080/api/states'
 };
 
 

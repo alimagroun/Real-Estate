@@ -1,42 +1,42 @@
 <div class="container">
-  <div class="photo-gallery">
-    <div class="primary-photo">
-      <img [src]="primaryPhotoSrc" [alt]="primaryPhotoSrc">
-    </div>
-    <div class="thumbnail-photos">
-      <div class="thumbnail-item" *ngFor="let photo of photos; let i = index" (click)="setPrimaryPhoto(i)">
-        <img [src]="photo.filepath" [alt]="photo.filename">
+    <div class="photo-gallery">
+      <div class="primary-photo">
+        <img [src]="primaryPhotoSrc" [alt]="primaryPhotoSrc">
+      </div>
+      <div class="thumbnail-photos">
+        <div class="thumbnail-item" *ngFor="let photo of photos; let i = index" (click)="setPrimaryPhoto(i)">
+          <img [src]="photo.filepath" [alt]="photo.filename">
+        </div>
       </div>
     </div>
-  </div>
-  <div class="property-details">
-    <h2>Property Details</h2>
-    <div *ngIf="property">
-      <p>Price: {{ property.price }} DT</p>
-      <p>Bedrooms: {{ property.bedrooms }}</p>
-      <p>Bathrooms: {{ property.bathrooms }}</p>
-      <p>Size: {{ property.size }} &#13217;</p>
-      <p>Status: For {{ property.status }}</p>
-      <p>Name: {{ property.name }}</p>
-      <div class="description">
-        <p>Description:</p>
-        <p class="multiline">{{ property.description }}</p>
+    <div class="property-details">
+      <h2>Property Details</h2>
+      <div *ngIf="property">
+        <p>Price: {{ property.price }} DT</p>
+        <p>Bedrooms: {{ property.bedrooms }}</p>
+        <p>Bathrooms: {{ property.bathrooms }}</p>
+        <p>Size: {{ property.size }} &#13217;</p>
+        <p>Status: For {{ property.status }}</p>
+        <p>Name: {{ property.name }}</p>
+        <div class="description">
+          <p>Description:</p>
+          <p class="multiline">{{ property.description }}</p>
+        </div>
+        <p>City: {{ property.city.name }}</p>
+        <p>Listed by: {{ property.user.name }}</p>
+        <p>Contact number: {{ property.user.contactNumber }}</p>
       </div>
-      <p>City: {{ property.city.name }}</p>
-      <p>Listed by: {{ property.user.name }}</p>
-      <p>Contact number: {{ property.user.contactNumber }}</p>
+      <div class="favorite-icon" (click)="toggleFavorite(); $event.stopPropagation()">
+        <mat-icon>
+          {{ isFavorite ? 'favorite' : 'favorite_border' }}
+        </mat-icon>
+        <a (click)="toggleFavorite(); $event.stopPropagation()">
+          {{ isFavorite ? 'Saved' : 'Save' }}
+        </a>
+      </div>
+      
+      
+      
+      
     </div>
-    <div class="favorite-icon" (click)="toggleFavorite(); $event.stopPropagation()">
-      <mat-icon>
-        {{ isFavorite ? 'favorite' : 'favorite_border' }}
-      </mat-icon>
-      <a (click)="toggleFavorite(); $event.stopPropagation()">
-        {{ isFavorite ? 'Saved' : 'Save' }}
-      </a>
-    </div>
-    
-    
-    
-    
   </div>
-</div>

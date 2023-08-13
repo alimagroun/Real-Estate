@@ -1,4 +1,5 @@
 package com.magroun.realestate.controllers;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -6,9 +7,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
 import com.magroun.realestate.model.ContactForm;
 import com.magroun.realestate.services.ContactFormService;
+
+
 @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
 @RestController
 @RequestMapping("/api/contact-forms")
@@ -17,9 +19,7 @@ public class ContactFormController {
 	@Autowired
     private ContactFormService contactFormService;
 
-
-
-    @GetMapping("/all")
+    @GetMapping("/")
     public ResponseEntity<Page<ContactForm>> getAllContactForms(Pageable pageable) {
         Page<ContactForm> contactForms = contactFormService.getAllContactForms(pageable);
         return ResponseEntity.ok(contactForms);
